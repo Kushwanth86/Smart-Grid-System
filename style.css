@@ -1,0 +1,653 @@
+
+/* =====================================================
+   HEMS — CINEMATIC ANIMATION PACK
+   File: style.css
+   Works with the current HEMS index.html
+   ===================================================== */
+
+:root {
+  --anim-lime: #c5f783;
+  --anim-mint: #77e3bd;
+  --anim-cyan: #7bdded;
+  --anim-bg: #07110f;
+  --anim-glow: rgba(197, 247, 131, 0.22);
+}
+
+/* ---------- SMOOTH PAGE BEHAVIOUR ---------- */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 85px;
+}
+
+body {
+  background-color: var(--anim-bg);
+}
+
+a,
+button,
+input,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--anim-lime);
+  outline-offset: 4px;
+}
+
+/* ---------- CINEMATIC HERO ---------- */
+
+.hero {
+  isolation: isolate;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 72% 42%,
+      rgba(197, 247, 131, 0.09),
+      transparent 24%
+    ),
+    radial-gradient(
+      circle at 30% 75%,
+      rgba(119, 227, 189, 0.07),
+      transparent 28%
+    );
+  animation: atmosphereMove 14s ease-in-out infinite alternate;
+}
+
+.hero-grid {
+  animation: gridDrift 35s linear infinite;
+}
+
+.hero-copy > * {
+  animation: heroEntrance 0.9s cubic-bezier(.2, .75, .2, 1) both;
+}
+
+.hero-copy .eyebrow {
+  animation-delay: 0.05s;
+}
+
+.hero h1 {
+  animation-delay: 0.15s;
+}
+
+.hero-desc {
+  animation-delay: 0.3s;
+}
+
+.hero-copy .actions {
+  animation: heroEntrance 0.9s 0.4s cubic-bezier(.2, .75, .2, 1) both;
+}
+
+.hero-stats {
+  animation: heroEntrance 0.9s 0.5s cubic-bezier(.2, .75, .2, 1) both;
+}
+
+.hero h1 .accent {
+  color: var(--anim-lime);
+  text-shadow: 0 0 35px rgba(197, 247, 131, 0.13);
+}
+
+/* ---------- ENERGY PLANET ---------- */
+
+.planet {
+  animation: planetEntrance 1.2s cubic-bezier(.2, .75, .2, 1) both;
+  filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.25));
+}
+
+.planet-sphere {
+  animation: sphereBreathing 7s ease-in-out infinite;
+  will-change: filter;
+}
+
+.planet-core {
+  animation: corePulse 3.5s ease-in-out infinite;
+}
+
+.planet-core svg {
+  filter: drop-shadow(0 0 12px var(--anim-lime));
+}
+
+.orbit {
+  will-change: transform;
+}
+
+.satellite {
+  animation: satellitePulse 2.5s ease-in-out infinite;
+}
+
+.satellite.two {
+  animation-delay: 1s;
+}
+
+.float-label {
+  animation: labelFloat 5s ease-in-out infinite;
+  backdrop-filter: blur(14px);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.label-two {
+  animation-delay: -1.5s;
+}
+
+.label-three {
+  animation-delay: -3s;
+}
+
+.float-label:hover {
+  border-color: var(--anim-lime);
+  box-shadow: 0 0 26px var(--anim-glow);
+}
+
+/* ---------- NAVIGATION ---------- */
+
+.topbar {
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.topbar.scrolled {
+  box-shadow: 0 8px 35px rgba(0, 0, 0, 0.2);
+}
+
+.navlinks a {
+  position: relative;
+  transition: color 0.25s ease;
+}
+
+.navlinks a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: -7px;
+  height: 1px;
+  background: var(--anim-lime);
+  transition: right 0.25s ease;
+}
+
+.navlinks a:hover::after,
+.navlinks a.active::after {
+  right: 0;
+}
+
+/* ---------- BUTTON LIGHT SWEEP ---------- */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: -80%;
+  bottom: -80%;
+  left: -70%;
+  width: 35%;
+  transform: rotate(18deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.23),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.btn:hover::after {
+  left: 140%;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 27px rgba(197, 247, 131, 0.19);
+}
+
+/* ---------- MOVING ENERGY TICKER ---------- */
+
+.ticker {
+  position: relative;
+}
+
+.ticker-track {
+  will-change: transform;
+}
+
+.ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+.ticker span {
+  transition: color 0.25s ease;
+}
+
+.ticker span:hover {
+  color: var(--anim-lime);
+}
+
+/* ---------- KPI CARDS ---------- */
+
+.kpi {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.kpi::before {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  top: -110px;
+  right: -100px;
+  border-radius: 50%;
+  background: var(--anim-glow);
+  filter: blur(35px);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+
+.kpi:hover {
+  transform: translateY(-5px);
+  border-color: rgba(197, 247, 131, 0.55);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.13);
+}
+
+.kpi:hover::before {
+  opacity: 1;
+}
+
+.kpi-icon {
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.kpi:hover .kpi-icon {
+  color: var(--anim-bg);
+  background: var(--anim-lime);
+  transform: rotate(-5deg);
+}
+
+/* ---------- INTERACTIVE ENERGY MAP ---------- */
+
+.flow-node {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.flow-node:hover {
+  transform: translateY(-4px) scale(1.015);
+}
+
+.flow-node.selected {
+  box-shadow:
+    0 0 0 1px rgba(197, 247, 131, 0.13),
+    0 0 25px rgba(197, 247, 131, 0.10);
+}
+
+.flow-node.selected .flow-icon {
+  animation: iconPulse 2.3s ease-in-out infinite;
+}
+
+.flow-wire.active {
+  position: relative;
+  background: var(--anim-lime);
+  box-shadow: 0 0 12px rgba(197, 247, 131, 0.35);
+}
+
+.flow-wire.active::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 0;
+  height: 5px;
+  width: 17px;
+  border-radius: 5px;
+  background: #efffd9;
+  box-shadow: 0 0 10px var(--anim-lime);
+  animation: energyTravel 1.5s linear infinite;
+}
+
+.inspect-value {
+  transition: color 0.25s ease;
+}
+
+/* ---------- CHART PANEL EFFECTS ---------- */
+
+.panel {
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.chart-wrap {
+  overflow: hidden;
+}
+
+.chart {
+  transition: opacity 0.25s ease;
+}
+
+.legend i {
+  box-shadow: 0 0 9px currentColor;
+}
+
+/* ---------- SCOPE GALLERY ---------- */
+
+.scope-card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.3s cubic-bezier(.2, .75, .2, 1),
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.scope-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(197, 247, 131, 0.65);
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.18);
+}
+
+.scope-card button {
+  overflow: hidden;
+}
+
+.scope-card img {
+  transition:
+    transform 0.55s cubic-bezier(.2, .75, .2, 1),
+    filter 0.35s ease;
+}
+
+.scope-card:hover img {
+  transform: scale(1.035);
+  filter: brightness(1.08);
+}
+
+.scope-card figcaption {
+  transition: background 0.25s ease;
+}
+
+.scope-card:hover figcaption {
+  background: rgba(197, 247, 131, 0.035);
+}
+
+.scope-filter {
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.scope-filter:hover {
+  transform: translateY(-2px);
+}
+
+.scope-modal[open] {
+  animation: modalEntrance 0.25s ease both;
+}
+
+.scope-modal img {
+  animation: imageEntrance 0.35s ease both;
+}
+
+/* ---------- STORY CARDS ---------- */
+
+.story-card {
+  position: relative;
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.story-card::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    var(--anim-lime),
+    var(--anim-mint),
+    transparent
+  );
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.story-card:hover {
+  transform: translateY(-5px);
+  border-color: #597c4e;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.story-card:hover::after {
+  transform: scaleX(1);
+}
+
+.story-symbol {
+  transition:
+    transform 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+.story-card:hover .story-symbol {
+  transform: translateY(-3px);
+  text-shadow: 0 0 20px var(--anim-glow);
+}
+
+/* ---------- WHAT-IF CONTROLS ---------- */
+
+.control input[type="range"] {
+  cursor: pointer;
+  accent-color: var(--anim-lime);
+}
+
+.control output {
+  transition: color 0.2s ease;
+}
+
+.result {
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.result:hover {
+  border-color: rgba(197, 247, 131, 0.4);
+  transform: translateY(-2px);
+}
+
+.bar i {
+  transition: width 0.4s cubic-bezier(.2, .75, .2, 1);
+}
+
+/* ---------- SCROLL-REVEAL ENHANCEMENT ---------- */
+/* The current HTML already adds .in using IntersectionObserver. */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.75s cubic-bezier(.2, .75, .2, 1),
+    transform 0.75s cubic-bezier(.2, .75, .2, 1);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal.in:nth-child(2) {
+  transition-delay: 0.06s;
+}
+
+.reveal.in:nth-child(3) {
+  transition-delay: 0.12s;
+}
+
+/* ---------- MICRO ANIMATIONS ---------- */
+
+@keyframes atmosphereMove {
+  from { transform: translate3d(-1%, -1%, 0) scale(1); }
+  to   { transform: translate3d(2%, 1%, 0) scale(1.05); }
+}
+
+@keyframes gridDrift {
+  from { background-position: 0 0; }
+  to   { background-position: 58px 58px; }
+}
+
+@keyframes heroEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes planetEntrance {
+  from {
+    opacity: 0;
+    transform: scale(.88) rotate(-6deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes sphereBreathing {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.12); }
+}
+
+@keyframes corePulse {
+  0%, 100% {
+    box-shadow:
+      0 0 28px rgba(197, 247, 131, 0.12),
+      inset 0 0 20px rgba(197, 247, 131, 0.13);
+  }
+  50% {
+    box-shadow:
+      0 0 50px rgba(197, 247, 131, 0.28),
+      inset 0 0 30px rgba(197, 247, 131, 0.2);
+  }
+}
+
+@keyframes satellitePulse {
+  0%, 100% { opacity: .65; transform: scale(.85); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes labelFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+@keyframes energyTravel {
+  from { transform: translateX(-18px); }
+  to   { transform: translateX(calc(100% + 18px)); }
+}
+
+@keyframes iconPulse {
+  0%, 100% { text-shadow: 0 0 5px rgba(197, 247, 131, .15); }
+  50% { text-shadow: 0 0 17px rgba(197, 247, 131, .65); }
+}
+
+@keyframes modalEntrance {
+  from { opacity: 0; transform: scale(.97) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes imageEntrance {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---------- SMALL SCREENS ---------- */
+
+@media (max-width: 680px) {
+  .hero-copy > *,
+  .hero-copy .actions,
+  .hero-stats {
+    animation-duration: 0.65s;
+  }
+
+  .hero-grid {
+    opacity: 0.25;
+  }
+
+  .planet-core {
+    animation-duration: 4.5s;
+  }
+
+  .scope-card:hover,
+  .kpi:hover,
+  .story-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .float-label {
+    backdrop-filter: blur(8px);
+  }
+}
