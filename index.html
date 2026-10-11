@@ -1,123 +1,776 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#07110f">
-<meta name="description" content="An immersive, interactive exploration of an Intelligent Home Energy Management System powered by recorded MATLAB/Simulink simulation outputs.">
+<meta name="description" content="Intelligent Home Energy Management System — an interactive MATLAB and Simulink project.">
 <title>HEMS — Intelligence in Every Watt</title>
+
 <style>
-:root{--bg:#07110f;--bg2:#0a1715;--panel:#0d1d1a;--panel2:#10231f;--line:#27423a;--text:#eef5ee;--muted:#9ab0a4;--faint:#647e72;--lime:#c1f27b;--mint:#77e3bc;--cyan:#79d9ec;--amber:#efc778;--pink:#ef8e8e;--radius:22px;--max:1360px;--ease:cubic-bezier(.2,.75,.2,1)}
-*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:86px}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:20;opacity:.08;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E")}a{color:inherit;text-decoration:none}button,input,select{font:inherit}button{color:inherit}::selection{background:var(--lime);color:#07110f}.wrap{width:min(var(--max),calc(100% - 64px));margin-inline:auto}.eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--lime);font-size:10px;line-height:1.2;font-weight:850;letter-spacing:.2em;text-transform:uppercase}.eyebrow:before{content:"";display:inline-block;width:22px;height:1px;background:currentColor}.section{padding:124px 0;position:relative}.section-top{display:flex;align-items:end;justify-content:space-between;gap:35px;margin-bottom:42px}.section-top h2{font-size:clamp(34px,5vw,68px);letter-spacing:-.065em;line-height:.98;margin:14px 0 0;max-width:780px;font-weight:650}.section-top p{max-width:380px;color:var(--muted);font-size:13px;margin:0 0 4px}.muted{color:var(--muted)}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}.topbar{position:fixed;z-index:30;top:0;left:0;right:0;border-bottom:1px solid transparent;transition:background .35s,border-color .35s,backdrop-filter .35s}.topbar.scrolled{background:#07110fe8;backdrop-filter:blur(18px);border-color:#264238}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}.brand{display:inline-flex;align-items:center;gap:11px;min-width:200px}.brand-mark{width:35px;height:35px;border:1px solid #598168;border-radius:11px;display:grid;place-items:center;color:var(--lime);background:linear-gradient(140deg,#c1f27b20,#77e3bc08);box-shadow:inset 0 0 20px #c1f27b08}.brand-mark svg{width:20px;height:20px}.brand-text{line-height:1.1}.brand-text b{display:block;font-size:12px;letter-spacing:.12em}.brand-text small{display:block;color:var(--faint);font-size:9px;letter-spacing:.14em;margin-top:5px}.navlinks{display:flex;gap:clamp(14px,2vw,29px);align-items:center}.navlinks a{font-size:11px;color:#b3c3b8;transition:color .2s}.navlinks a:hover,.navlinks a.active{color:var(--lime)}.nav-end{display:flex;align-items:center;gap:11px}.status{display:flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid #355044;border-radius:999px;color:#c4d7c9;font-size:9px;letter-spacing:.08em;white-space:nowrap}.status-dot{width:6px;height:6px;background:var(--lime);border-radius:50%;box-shadow:0 0 12px var(--lime);animation:pulse 2s infinite}.menu-btn{display:none;width:40px;height:40px;border:1px solid var(--line);background:transparent;border-radius:12px;cursor:pointer}.hero{position:relative;min-height:850px;height:max(100svh,760px);display:flex;align-items:center;overflow:hidden;padding:125px 0 85px;background:radial-gradient(ellipse at 74% 44%,#19392f 0%,#0e241f 23%,transparent 50%),radial-gradient(ellipse at 12% 13%,#233a2633,transparent 32%),linear-gradient(180deg,#07110f,#091612 76%,#07110f)}.hero-grid{position:absolute;inset:0;background-image:linear-gradient(#aac7a408 1px,transparent 1px),linear-gradient(90deg,#aac7a408 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(180deg,black,transparent 93%);opacity:.45;transform:perspective(700px) rotateX(2deg) scale(1.05);transform-origin:center top}.orb{position:absolute;border-radius:50%;filter:blur(1px);pointer-events:none}.orb.one{width:360px;height:360px;right:6%;top:18%;background:radial-gradient(circle,#bcf67816,transparent 68%);animation:float 8s ease-in-out infinite}.orb.two{width:510px;height:510px;right:20%;bottom:-230px;background:radial-gradient(circle,#63e4c014,transparent 70%);animation:float 11s ease-in-out infinite reverse}.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:30px}.hero-copy{position:relative;z-index:3;padding-bottom:20px}.hero .eyebrow{margin-bottom:25px}.hero h1{font-size:clamp(66px,9.2vw,132px);line-height:.79;letter-spacing:-.09em;font-weight:640;margin:0 0 34px;max-width:760px}.hero h1 span{display:block}.hero h1 .accent{color:var(--lime);font-weight:500;font-style:italic;letter-spacing:-.095em;padding-left:5px}.hero-desc{max-width:460px;font-size:15px;color:#b3c7bb;line-height:1.85;margin:0 0 30px}.hero-actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.btn{display:inline-flex;justify-content:center;align-items:center;gap:11px;min-height:47px;padding:0 18px;border-radius:999px;border:1px solid #38584a;background:#11251e;font-size:11px;font-weight:800;letter-spacing:.025em;cursor:pointer;transition:transform .25s var(--ease),background .25s,border-color .25s}.btn:hover{transform:translateY(-3px);border-color:var(--lime)}.btn-primary{background:var(--lime);color:#08130d;border-color:var(--lime)}.btn-primary:hover{background:#d7ff9c}.btn svg{width:16px;height:16px}.hero-meta{display:flex;gap:28px;margin-top:49px;flex-wrap:wrap}.meta-item{border-left:1px solid #3c5a4a;padding-left:12px}.meta-item b{display:block;font-size:12px;font-weight:700}.meta-item span{display:block;color:var(--faint);font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-top:5px}.hero-art{position:relative;min-height:590px;display:grid;place-items:center;isolation:isolate}.hero-art:before{content:"";position:absolute;width:min(47vw,620px);aspect-ratio:1;border-radius:50%;border:1px solid #62846c35;box-shadow:0 0 0 35px #62846c0a,0 0 0 75px #62846c08,0 0 75px #c1f27b0b;animation:slowspin 44s linear infinite}.hero-art:after{content:"";position:absolute;left:5%;right:5%;bottom:10%;height:1px;background:linear-gradient(90deg,transparent,#8cc6a54d,transparent)}.energy-planet{width:min(37vw,470px);aspect-ratio:1;position:relative;display:grid;place-items:center;filter:drop-shadow(0 45px 50px #0008)}.planet-glow{position:absolute;inset:9%;border-radius:50%;background:radial-gradient(circle at 37% 28%,#a8e88b25,transparent 35%),radial-gradient(circle at 68% 74%,#62d8bd38,transparent 44%),linear-gradient(145deg,#163a2b,#0b1c19 72%);border:1px solid #9dcf893b;box-shadow:inset -25px -20px 70px #020906, inset 10px 4px 45px #94eaa40e,0 0 80px #8be5ab12;overflow:hidden}.planet-grid{position:absolute;inset:-10%;border-radius:50%;background:repeating-linear-gradient(0deg,transparent 0 20px,#adffc013 21px 22px),repeating-linear-gradient(90deg,transparent 0 20px,#adffc013 21px 22px);transform:perspective(380px) rotateX(15deg) rotate(-23deg);mask-image:radial-gradient(ellipse,black 20%,transparent 72%);opacity:.45}.planet-land{position:absolute;inset:0;opacity:.72;background:linear-gradient(135deg,transparent 15%,#85c87c11 15% 25%,transparent 25% 37%,#b2eb8a15 37% 47%,transparent 47%),repeating-linear-gradient(140deg,transparent 0 16px,#c1f27b16 17px 18px,transparent 19px 34px);mix-blend-mode:screen}.planet-core{position:relative;width:45%;height:45%;border-radius:50%;border:1px solid #d2ffa36c;background:radial-gradient(circle at 35% 30%,#dcffa541,#b8f2810b 35%,#142d20 75%);box-shadow:0 0 45px #c1f27b12,inset 0 0 42px #9ff29d19;display:grid;place-items:center}.planet-core svg{width:45%;height:auto;filter:drop-shadow(0 0 16px #c1f27b45)}.orbit{position:absolute;inset:2%;border:1px solid #9fd8b02e;border-radius:50%;transform:rotateX(66deg) rotate(-21deg);animation:orbit 18s linear infinite}.orbit.o2{inset:-8%;transform:rotateX(68deg) rotate(38deg);animation-duration:26s;animation-direction:reverse;border-style:dashed}.satellite{position:absolute;top:8%;right:16%;height:10px;width:10px;border-radius:50%;background:var(--lime);box-shadow:0 0 22px 4px #c1f27b70}.satellite.s2{top:auto;right:auto;bottom:13%;left:13%;background:var(--cyan);box-shadow:0 0 20px 3px #79d9ec70;width:7px;height:7px}.float-label{position:absolute;z-index:4;padding:10px 13px;background:#0b1c18d9;backdrop-filter:blur(10px);border:1px solid #3c5f4a;border-radius:13px;box-shadow:0 12px 38px #0003}.float-label small{display:block;color:#8da899;font-size:8px;letter-spacing:.14em;text-transform:uppercase}.float-label b{display:block;font-size:18px;letter-spacing:-.04em;margin-top:3px}.float-label.l1{top:19%;left:0}.float-label.l2{right:0;top:40%}.float-label.l3{bottom:15%;left:9%}.float-label .tiny-dot{display:inline-block;width:5px;height:5px;background:var(--mint);border-radius:50%;margin-right:5px}.hero-foot{position:absolute;bottom:27px;left:0;right:0;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:18px;color:#718c7d;font-size:9px;letter-spacing:.12em;text-transform:uppercase}.scroll-cue{display:flex;gap:11px;align-items:center}.scroll-cue i{width:27px;height:39px;border:1px solid #557463;border-radius:999px;position:relative;display:inline-block}.scroll-cue i:after{content:"";position:absolute;top:7px;left:50%;width:3px;height:7px;border-radius:2px;background:var(--lime);animation:scroll 1.6s infinite}
-.ticker{border-block:1px solid #294238;background:#091613;overflow:hidden}.ticker-inner{display:flex;align-items:center;gap:36px;padding:17px 0;white-space:nowrap;min-width:max-content;animation:ticker 35s linear infinite}.ticker:hover .ticker-inner{animation-play-state:paused}.ticker-item{display:flex;align-items:center;gap:13px;color:#b7cbbd;font-size:10px;letter-spacing:.11em;text-transform:uppercase}.ticker-item b{color:var(--lime);font-weight:850}.ticker-star{color:#547461;font-size:17px}
-.intro-grid{display:grid;grid-template-columns:.75fr 1.25fr;gap:90px;align-items:start}.vertical-note{display:flex;align-items:center;gap:12px;color:#668576;font-size:10px;letter-spacing:.15em;text-transform:uppercase;writing-mode:vertical-rl;transform:rotate(180deg);height:180px}.intro-title{font-size:clamp(40px,6vw,82px);letter-spacing:-.07em;line-height:.98;font-weight:580;margin:22px 0 24px;max-width:800px}.intro-title em{font-family:Georgia,serif;font-weight:400;color:var(--lime)}.intro-copy{font-size:15px;line-height:1.9;color:#a9bdb1;max-width:680px}.intro-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:54px}.mini-stat{padding:18px 18px 16px;border-top:1px solid #3a5b48}.mini-stat b{display:block;font-size:clamp(22px,3vw,34px);font-weight:550;letter-spacing:-.05em;color:var(--text)}.mini-stat span{display:block;font-size:9px;line-height:1.4;letter-spacing:.09em;text-transform:uppercase;color:#779383;margin-top:7px}
-.system-section{background:linear-gradient(180deg,#07110f,#0a1814 45%,#07110f);overflow:hidden}.system-section:before{content:"";position:absolute;width:700px;height:700px;right:-380px;top:10%;background:radial-gradient(circle,#9ee77b0b,transparent 68%);pointer-events:none}.system-shell{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(280px,.8fr);gap:18px;align-items:stretch}.flow-card,.inspect-card,.chart-card,.lab-card,.table-card,.arch-card{border:1px solid #284339;border-radius:var(--radius);background:linear-gradient(145deg,#10231e,#0b1916 76%);box-shadow:0 25px 70px #0002}.flow-card{padding:22px;position:relative;overflow:hidden;min-height:500px}.card-head{display:flex;justify-content:space-between;align-items:start;gap:14px}.card-head h3{font-size:14px;margin:0;font-weight:750;letter-spacing:-.02em}.card-head p{font-size:10px;margin:6px 0 0;color:#7f9a8a}.tiny-tag{border:1px solid #315345;border-radius:99px;padding:6px 9px;color:#9ec5aa;white-space:nowrap;font-size:9px;text-transform:uppercase;letter-spacing:.08em}.flow-svg{display:block;width:100%;height:auto;max-height:372px;margin:20px auto 8px;overflow:visible}.flow-wire{fill:none;stroke:#426a55;stroke-width:2;stroke-dasharray:5 8;opacity:.35}.flow-wire.active{stroke:var(--lime);opacity:.95;animation:wire 1.7s linear infinite;filter:drop-shadow(0 0 4px #c1f27b42)}.flow-node{cursor:pointer;outline:none;transition:transform .25s}.flow-node rect{fill:#112921;stroke:#416751;stroke-width:1.4;transition:stroke .25s,fill .25s}.flow-node:hover rect,.flow-node.selected rect,.flow-node:focus rect{stroke:var(--lime);fill:#1a3528}.flow-node text{font-family:inherit;pointer-events:none}.flow-node .node-title{font-size:12px;font-weight:800;fill:#e9f4eb}.flow-node .node-sub{font-size:9px;fill:#8da99a}.flow-node .node-glyph{font-size:20px;fill:var(--lime)}.flow-caption{display:flex;justify-content:space-between;gap:14px;border-top:1px solid #284339;padding-top:15px;color:#769283;font-size:9px}.inspect-card{padding:25px;display:flex;flex-direction:column;justify-content:space-between;min-height:500px}.inspect-card .big-number{font-size:clamp(41px,5vw,62px);line-height:1;letter-spacing:-.07em;font-weight:560;margin:27px 0 8px}.inspect-card .description{color:#9eb4a7;font-size:12px;line-height:1.8;max-width:400px}.inspect-data{margin-top:22px;border-top:1px solid #2c493c}.inspect-row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 0;border-bottom:1px solid #203a2e;font-size:11px}.inspect-row span{color:#8aa292}.inspect-row b{font-weight:650;text-align:right}.inspect-controls{display:flex;gap:8px;margin-top:20px;flex-wrap:wrap}.chip-button{border:1px solid #355747;border-radius:999px;background:#10231c;padding:8px 12px;font-size:10px;cursor:pointer;color:#9fb9a8;transition:.2s}.chip-button:hover,.chip-button.selected{color:var(--lime);border-color:var(--lime);background:#c1f27b0b}
-.telemetry-section{background:#08130f}.telemetry-topline{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:28px}.data-source{display:flex;align-items:center;gap:10px;font-size:10px;color:#93ad9c}.data-source i{width:8px;height:8px;border-radius:50%;background:var(--mint);box-shadow:0 0 12px #77e3bc77}.refresh-btn{background:transparent;border:1px solid #365545;border-radius:999px;padding:9px 13px;font-size:10px;cursor:pointer}.refresh-btn:hover{border-color:var(--lime);color:var(--lime)}.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin-bottom:15px}.kpi{position:relative;overflow:hidden;border:1px solid #2c473a;border-radius:18px;padding:20px;background:linear-gradient(145deg,#10241d,#0b1915);min-height:153px;transition:transform .25s,border-color .25s}.kpi:hover{transform:translateY(-5px);border-color:#62895f}.kpi:after{content:"";position:absolute;right:-32px;top:-52px;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 68%);pointer-events:none}.kpi-label{position:relative;z-index:1;display:flex;justify-content:space-between;gap:8px;font-size:10px;color:#9cb4a3}.kpi-label span:last-child{color:var(--accent);font-size:13px}.kpi-value{position:relative;z-index:1;font-size:clamp(24px,3vw,36px);font-weight:560;letter-spacing:-.06em;margin:25px 0 3px;line-height:1}.kpi-foot{font-size:9px;color:#789282}.kpi.lime{--accent:var(--lime);--glow:#c1f27b20}.kpi.mint{--accent:var(--mint);--glow:#77e3bc1c}.kpi.cyan{--accent:var(--cyan);--glow:#79d9ec1c}.kpi.amber{--accent:var(--amber);--glow:#efc7781c}.chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.chart-card{padding:21px;min-width:0;transition:border-color .3s}.chart-card:hover{border-color:#42634f}.chart-title{display:flex;align-items:start;justify-content:space-between;gap:14px}.chart-title h3{font-size:13px;margin:0;font-weight:750}.chart-title p{margin:6px 0 0;font-size:10px;color:#809a8b}.chart-value{color:var(--lime);font-size:10px;white-space:nowrap;text-align:right}.chart-wrap{height:220px;position:relative;margin-top:17px}.chart-wrap canvas{display:block;width:100%;height:100%;touch-action:pan-y}.chart-legend{display:flex;gap:15px;flex-wrap:wrap;color:#9ab0a2;font-size:9px;margin-top:5px}.legend-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:6px}.scrubber{margin-top:18px;padding:20px 22px;border:1px solid #2b4539;border-radius:18px;background:#0c1a15}.scrub-top{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:13px}.scrub-top b{font-size:11px}.scrub-top span{font-size:10px;color:var(--lime)}.scrubber input{width:100%;accent-color:var(--lime);cursor:pointer}.scrub-foot{display:flex;justify-content:space-between;gap:12px;font-size:9px;color:#779183;margin-top:4px}.sample-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:19px}.sample-box{border-left:1px solid #3c5a49;padding:2px 10px}.sample-box span{display:block;color:#7f9989;font-size:9px}.sample-box b{display:block;font-size:15px;margin-top:5px;font-weight:700;letter-spacing:-.03em}
-.lab-section{background:radial-gradient(ellipse at 10% 40%,#18332670,transparent 43%),linear-gradient(180deg,#091510,#07110f)}.lab-layout{display:grid;grid-template-columns:1fr .88fr;gap:16px;align-items:stretch}.lab-card{padding:25px}.lab-warning{display:flex;gap:10px;align-items:flex-start;padding:11px 13px;border:1px solid #685736;border-radius:12px;background:#efc7780a;color:#d9c398;font-size:10px;line-height:1.6;margin:20px 0 22px}.lab-warning b{color:#ffe3a3}.controls-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:25px 18px}.control label{display:flex;justify-content:space-between;gap:10px;font-size:11px;color:#adc1b3;margin-bottom:12px}.control output{font-weight:800;color:var(--lime);white-space:nowrap}.control input[type=range]{width:100%;accent-color:var(--lime)}.range-limits{display:flex;justify-content:space-between;margin-top:5px;color:#6d8979;font-size:9px}.toggle-line{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-top:1px solid #2b4538;margin-top:22px;font-size:11px;color:#a7bdad}.switch{appearance:none;width:42px;height:24px;background:#2d4539;border:1px solid #43604d;border-radius:99px;position:relative;cursor:pointer;transition:.2s}.switch:after{content:"";position:absolute;left:3px;top:3px;width:16px;height:16px;border-radius:50%;background:#b3c3b8;transition:.2s}.switch:checked{background:#5d9a48;border-color:#7bbf65}.switch:checked:after{left:21px;background:#f3ffe9}.lab-actions{display:flex;gap:9px;margin-top:21px;flex-wrap:wrap}.lab-result{display:flex;flex-direction:column;gap:14px}.result-hero{padding:25px;border:1px solid #3a5846;border-radius:var(--radius);background:radial-gradient(circle at 90% 10%,#c1f27b16,transparent 45%),linear-gradient(145deg,#132b20,#0b1915);flex:1}.result-hero .mode{font-size:10px;color:var(--lime);letter-spacing:.14em;text-transform:uppercase}.result-hero h3{font-size:clamp(26px,3vw,38px);letter-spacing:-.055em;line-height:1.06;margin:17px 0 12px}.result-hero p{color:#a1b8a7;font-size:11px;line-height:1.75;margin:0}.result-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.result-metric{border:1px solid #2d483a;border-radius:15px;background:#0b1a14;padding:15px}.result-metric span{display:block;color:#8ca595;font-size:9px}.result-metric b{display:block;font-size:22px;letter-spacing:-.04em;margin:8px 0 3px}.result-metric small{font-size:9px;color:#6f8b79}.compare{border:1px solid #2e4839;border-radius:16px;padding:18px;background:#0c1b15}.compare h4{font-size:11px;margin:0 0 15px}.bar-line{display:grid;grid-template-columns:100px 1fr 60px;gap:9px;align-items:center;margin:11px 0;font-size:9px;color:#92ab9b}.bar-track{height:7px;background:#1a3025;border-radius:99px;overflow:hidden}.bar-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,#7ad9c4,#c1f27b);transition:width .5s var(--ease)}.bar-val{text-align:right;font-variant-numeric:tabular-nums;color:#dcebdd}.compare-note{font-size:9px;color:#789281;line-height:1.7;margin:14px 0 0}
-.results-section{overflow:hidden}.results-section:after{content:"05";position:absolute;right:-20px;top:80px;font-size:clamp(150px,28vw,370px);letter-spacing:-.1em;line-height:1;font-weight:900;color:#c1f27b05;pointer-events:none}.table-card{position:relative;z-index:1;padding:23px;overflow:hidden}.table-head{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:18px}.table-head h3{margin:0;font-size:14px}.table-head p{margin:5px 0 0;color:#8aa394;font-size:10px}.table-wrap{overflow:auto;border:1px solid #2a4538;border-radius:13px}table{border-collapse:collapse;width:100%;min-width:830px;background:#0a1914}th,td{padding:14px 13px;border-bottom:1px solid #203b2e;text-align:left;white-space:nowrap;font-size:10px}th{background:#102219;color:#819b8a;font-size:9px;letter-spacing:.1em;text-transform:uppercase}td{color:#d0e0d3}td:first-child{font-weight:750;color:var(--text)}tbody tr{transition:background .2s}tbody tr:hover{background:#183124}tbody tr:last-child td{border-bottom:0}.best-tag{display:inline-block;border:1px solid #557542;background:#c1f27b12;border-radius:999px;padding:4px 7px;font-size:8px;color:var(--lime);margin-left:5px}.bar-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:18px}.scenario-mini{padding:12px;border:1px solid #2a4337;border-radius:12px;background:#0b1914;min-width:0}.scenario-mini span{display:block;font-size:9px;color:#91a899;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.scenario-mini b{display:block;font-size:17px;margin-top:5px}.scenario-mini small{color:#6e8979;font-size:9px}
-.story-section{background:linear-gradient(180deg,#0a1712,#091510)}.story-lead{display:grid;grid-template-columns:.85fr 1.15fr;gap:70px;margin-bottom:45px}.story-lead .section-top{display:block;margin:0}.story-lead .section-top h2{font-size:clamp(36px,5vw,64px)}.story-lead .right-copy{color:#a3b8aa;font-size:13px;line-height:1.9;max-width:560px;padding-top:40px}.steps-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.story-step{padding:21px 18px;border:1px solid #294438;border-radius:17px;background:linear-gradient(145deg,#10231a,#0b1914);min-height:220px;transition:transform .3s var(--ease),border-color .3s}.story-step:hover{transform:translateY(-6px);border-color:#648658}.step-num{color:var(--lime);font-size:10px;letter-spacing:.14em}.step-icon{width:40px;height:40px;display:grid;place-items:center;border:1px solid #3e5a47;border-radius:13px;margin:24px 0 17px;color:var(--lime);font-size:18px}.story-step h3{font-size:14px;margin:0 0 8px}.story-step p{font-size:10px;line-height:1.75;color:#8da494;margin:0}
-.integrity{display:grid;grid-template-columns:1fr 1fr;gap:16px}.integrity-card{padding:24px;border:1px solid #294539;border-radius:var(--radius);background:#0d1c16}.integrity-card h3{font-size:14px;margin:0 0 9px}.integrity-card p{font-size:11px;color:#92a999;line-height:1.8;margin:0}.integrity-list{display:grid;gap:10px;margin-top:18px}.integrity-item{display:flex;gap:10px;align-items:start;font-size:10px;color:#aac0b0;line-height:1.6}.checkmark{display:grid;place-items:center;flex:0 0 18px;height:18px;border:1px solid #5a7b58;border-radius:50%;color:var(--lime);font-size:10px;margin-top:1px}.status-list{display:grid;gap:0;margin-top:10px}.status-line{padding:12px 0;border-bottom:1px solid #233e30;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:10px}.status-line:last-child{border-bottom:0}.status-line span{color:#91a696}.data-pill{border:1px solid #53614a;border-radius:999px;padding:4px 8px;color:#c5d2a9;font-size:9px;white-space:nowrap}.data-pill.unknown{border-color:#645b41;color:#d5bf8f;background:#efc77808}.footer{padding:45px 0 30px;border-top:1px solid #294438;background:#07110f}.footer-top{display:flex;align-items:center;justify-content:space-between;gap:22px;padding-bottom:35px}.footer-title{font-size:clamp(25px,4vw,47px);line-height:.95;letter-spacing:-.06em;margin:15px 0 0;max-width:590px}.footer-title em{color:var(--lime);font-family:Georgia,serif;font-weight:400}.footer-meta{display:grid;gap:7px;text-align:right;color:#718b7c;font-size:9px;letter-spacing:.1em;text-transform:uppercase}.footer-bottom{border-top:1px solid #233d30;padding-top:20px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:#6a8474;font-size:9px}.footer-bottom a:hover{color:var(--lime)}
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}.reveal.in{opacity:1;transform:translateY(0)}.reveal[data-delay="1"]{transition-delay:.08s}.reveal[data-delay="2"]{transition-delay:.16s}.reveal[data-delay="3"]{transition-delay:.24s}.progress{height:2px;width:0;background:var(--lime);position:fixed;left:0;top:0;z-index:50;box-shadow:0 0 10px #c1f27b80}.toast{position:fixed;z-index:60;bottom:25px;right:25px;background:#14271d;border:1px solid #52704b;color:#e7f5e1;border-radius:12px;padding:12px 16px;font-size:11px;box-shadow:0 20px 55px #0008;opacity:0;transform:translateY(8px);pointer-events:none;transition:.3s}.toast.show{opacity:1;transform:translateY(0)}.empty{color:#8fa797;padding:14px;font-size:11px}
-@keyframes pulse{50%{opacity:.35;box-shadow:0 0 2px var(--lime)}}@keyframes float{50%{transform:translateY(-16px) scale(1.04)}}@keyframes slowspin{to{transform:rotate(360deg)}}@keyframes orbit{to{transform:rotateX(66deg) rotate(339deg)}}@keyframes scroll{0%{transform:translate(-50%,0);opacity:0}30%{opacity:1}100%{transform:translate(-50%,12px);opacity:0}}@keyframes wire{to{stroke-dashoffset:-26}}@keyframes ticker{to{transform:translateX(-45%)}}
-@media(max-width:1050px){.wrap{width:min(var(--max),calc(100% - 40px))}.hero-inner{grid-template-columns:1fr .85fr;gap:5px}.hero h1{font-size:clamp(62px,8.7vw,105px)}.hero-art{min-height:500px}.float-label.l1{left:-5%}.float-label.l2{right:-3%}.section{padding:95px 0}.system-shell{grid-template-columns:1fr}.flow-card{min-height:0}.inspect-card{min-height:0}.inspect-card .big-number{margin:18px 0 7px}.story-lead{gap:30px}.steps-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:760px){.wrap{width:calc(100% - 34px)}.nav{height:68px}.brand{min-width:unset}.brand-text b{font-size:11px}.status{display:none}.menu-btn{display:grid;place-items:center}.navlinks{display:none;position:absolute;top:68px;left:0;right:0;padding:14px 20px 20px;background:#07110ff7;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0}.navlinks.open{display:flex}.navlinks a{padding:12px 4px;border-bottom:1px solid #20392d}.hero{height:auto;min-height:0;padding:125px 0 95px}.hero-inner{grid-template-columns:1fr}.hero-copy{padding:0}.hero h1{font-size:clamp(64px,15vw,104px);margin-bottom:25px}.hero-desc{font-size:13px;max-width:450px}.hero-meta{margin-top:32px;gap:20px}.hero-art{min-height:min(88vw,510px);margin-top:15px}.energy-planet{width:min(76vw,440px)}.hero-art:before{width:min(92vw,570px)}.float-label.l1{top:11%;left:0}.float-label.l2{top:37%;right:0}.float-label.l3{bottom:8%;left:3%}.float-label b{font-size:15px}.hero-foot{bottom:22px;font-size:8px}.section{padding:78px 0}.section-top{display:block;margin-bottom:30px}.section-top h2{font-size:clamp(38px,10vw,62px)}.section-top p{margin-top:16px;max-width:520px}.intro-grid{grid-template-columns:1fr;gap:18px}.vertical-note{writing-mode:horizontal-tb;transform:none;height:auto}.intro-title{font-size:clamp(42px,11vw,68px);margin-top:19px}.intro-bottom{gap:8px;margin-top:35px}.mini-stat{padding:14px 10px}.mini-stat span{font-size:8px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.kpi{min-height:130px;padding:16px}.kpi-value{margin-top:24px}.chart-grid{grid-template-columns:1fr}.chart-card{padding:17px}.chart-wrap{height:210px}.telemetry-topline{align-items:flex-start}.scrubber{padding:16px}.sample-grid{grid-template-columns:repeat(2,1fr);gap:14px}.lab-layout{grid-template-columns:1fr}.lab-card{padding:19px}.controls-grid{gap:22px 13px}.result-metric b{font-size:21px}.bar-summary{grid-template-columns:repeat(2,1fr)}.bar-summary .scenario-mini:last-child{grid-column:span 2}.story-lead{grid-template-columns:1fr;gap:12px}.story-lead .right-copy{padding-top:0}.steps-grid{grid-template-columns:repeat(2,1fr)}.story-step{min-height:205px}.integrity{grid-template-columns:1fr}.footer-top{align-items:flex-start;flex-direction:column}.footer-meta{text-align:left}.flow-card{padding:16px}.flow-svg{margin-block:18px}.flow-caption{font-size:8px}.inspect-card{padding:19px}.footer-bottom{font-size:8px}}
-@media(max-width:430px){.hero h1{font-size:17vw}.hero-meta{gap:13px}.meta-item{padding-left:9px}.meta-item b{font-size:11px}.meta-item span{font-size:8px}.hero-foot .foot-right{display:none}.controls-grid{grid-template-columns:1fr;gap:18px}.steps-grid{grid-template-columns:1fr}.story-step{min-height:0}.intro-bottom{grid-template-columns:1fr 1fr}.mini-stat:last-child{grid-column:span 2}.flow-node .node-title{font-size:14px}.flow-node .node-sub{font-size:11px}.chart-value{max-width:110px;white-space:normal}.table-card{padding:15px}.lab-actions .btn{flex:1}.result-hero{padding:20px}.compare{padding:14px}.bar-line{grid-template-columns:90px 1fr 54px}}
-@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.reveal{opacity:1;transform:none}}
+:root{
+ --bg:#07110f;--panel:#0d1d19;--panel2:#112720;
+ --line:#28453a;--text:#edf5ec;--muted:#9bb0a4;
+ --lime:#c5f783;--mint:#77e3bd;--cyan:#7bdded;
+ --amber:#f3c879;--red:#f18e91;
+ --radius:22px;--ease:cubic-bezier(.2,.75,.2,1)
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:85px}
+body{margin:0;background:var(--bg);color:var(--text);
+ font:15px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+ overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;
+ z-index:20;opacity:.035;
+ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:inherit;text-decoration:none}
+button,input,select{font:inherit}
+button{color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--lime);outline-offset:4px}
+::selection{background:var(--lime);color:#07110f}
+.wrap{width:min(1280px,calc(100% - 48px));margin:auto}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.eyebrow{display:flex;align-items:center;gap:10px;color:var(--lime);
+ font-size:10px;font-weight:850;letter-spacing:.2em;text-transform:uppercase}
+.eyebrow:before{content:"";width:22px;height:1px;background:currentColor}
+.section{padding:110px 0;position:relative}
+.section-head{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:36px}
+.section-head h2{font-size:clamp(35px,5.5vw,68px);letter-spacing:-.065em;line-height:1;margin:12px 0 0;font-weight:650}
+.section-head p{max-width:390px;color:var(--muted);font-size:13px;margin:0}
+.topbar{position:fixed;z-index:30;top:0;left:0;right:0;border-bottom:1px solid transparent;transition:.3s}
+.topbar.scrolled{background:#07110feF;border-color:var(--line);backdrop-filter:blur(18px)}
+.progress{height:2px;position:absolute;bottom:-1px;left:0;width:0;background:var(--lime)}
+.nav{height:74px;display:flex;justify-content:space-between;align-items:center;gap:25px}
+.brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.brand-mark{width:36px;height:36px;border:1px solid #61846c;border-radius:12px;
+ display:grid;place-items:center;color:var(--lime);font-size:19px;
+ background:linear-gradient(135deg,#c5f78322,#77e3bd08)}
+.brand b{display:block;font-size:12px;letter-spacing:.12em}
+.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.15em;margin-top:3px}
+.navlinks{display:flex;align-items:center;gap:25px}
+.navlinks a{font-size:11px;color:#b3c6ba;transition:color .2s}
+.navlinks a:hover,.navlinks a.active{color:var(--lime)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.status{display:flex;align-items:center;gap:8px;border:1px solid var(--line);
+ border-radius:30px;padding:7px 10px;font-size:9px;color:#c9dccd;white-space:nowrap}
+.dot{height:7px;width:7px;display:inline-block;background:var(--lime);
+ border-radius:50%;box-shadow:0 0 12px #c5f78388}
+.menu-btn{display:none;background:transparent;border:1px solid var(--line);
+ border-radius:10px;padding:8px;cursor:pointer}
+
+.hero{position:relative;min-height:770px;min-height:max(760px,100svh);
+ display:flex;align-items:center;overflow:hidden;padding:125px 0 90px;
+ background:radial-gradient(ellipse at 76% 48%,#1b3b2c 0%,#0e241c 23%,transparent 53%),
+ radial-gradient(ellipse at 15% 5%,#b8eb7810,transparent 33%),
+ linear-gradient(180deg,#07110f,#0a1712 75%,#07110f)}
+.hero-grid{position:absolute;inset:0;opacity:.42;
+ background-image:linear-gradient(#b5dbb009 1px,transparent 1px),
+ linear-gradient(90deg,#b5dbb009 1px,transparent 1px);
+ background-size:58px 58px;mask-image:linear-gradient(black,transparent 90%)}
+.hero-inner{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:20px;position:relative;z-index:2}
+.hero-copy{padding:25px 0}
+.hero-copy .eyebrow{margin-bottom:28px}
+.hero h1{font-size:clamp(65px,9vw,126px);font-weight:650;letter-spacing:-.09em;line-height:.8;margin:0 0 30px}
+.hero h1 span{display:block}
+.hero h1 .accent{font-style:italic;color:var(--lime);font-weight:500;padding-left:5px}
+.hero-desc{max-width:460px;color:#b4c8bb;font-size:14px;line-height:1.9;margin-bottom:28px}
+.actions{display:flex;flex-wrap:wrap;gap:11px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;
+ min-height:45px;padding:0 18px;border:1px solid #41624f;background:#13281f;
+ border-radius:50px;font-size:11px;font-weight:800;cursor:pointer;transition:.25s}
+.btn:hover{transform:translateY(-3px);border-color:var(--lime)}
+.btn-primary{background:var(--lime);color:#08130d;border-color:var(--lime)}
+.btn-primary:hover{background:#dcffa7}
+.hero-stats{display:flex;flex-wrap:wrap;gap:26px;margin-top:45px}
+.hero-stat{border-left:1px solid #45624d;padding-left:12px}
+.hero-stat strong{display:block;font-size:15px}
+.hero-stat small{display:block;color:var(--muted);font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+
+.hero-art{min-height:500px;display:grid;place-items:center;position:relative}
+.planet{width:min(36vw,425px);aspect-ratio:1;position:relative;
+ display:grid;place-items:center;filter:drop-shadow(0 40px 38px #0007)}
+.planet:before{content:"";position:absolute;inset:-14%;border:1px solid #b2e7a02c;border-radius:50%;
+ box-shadow:0 0 0 30px #b2e7a009,0 0 0 70px #b2e7a006;
+ animation:spin 60s linear infinite}
+.planet-sphere{position:absolute;inset:9%;border-radius:50%;overflow:hidden;
+ border:1px solid #b6ecab4b;
+ background:radial-gradient(circle at 35% 26%,#a9e99629,transparent 29%),
+ radial-gradient(circle at 72% 71%,#62e5ba24,transparent 42%),
+ linear-gradient(145deg,#244c35,#0a1a15 68%);
+ box-shadow:inset -35px -25px 65px #020805,inset 8px 0 35px #a8eaa40c}
+.planet-sphere:before{content:"";position:absolute;inset:-15%;opacity:.65;
+ background:repeating-linear-gradient(0deg,transparent 0 20px,#d0ffa016 21px 22px),
+ repeating-linear-gradient(90deg,transparent 0 20px,#d0ffa016 21px 22px);
+ transform:rotate(-20deg);mask-image:radial-gradient(circle,black,transparent 72%)}
+.planet-sphere:after{content:"";position:absolute;inset:22%;border:1px solid #b8f58e35;border-radius:50%;
+ box-shadow:0 0 50px #c5f78315,inset 0 0 35px #c5f7830c}
+.planet-core{position:relative;width:34%;aspect-ratio:1;border:1px solid #d7ff9b80;
+ border-radius:50%;display:grid;place-items:center;
+ background:radial-gradient(circle at 36% 27%,#d5ff9b55,#26482d 65%,#101e16);
+ box-shadow:0 0 45px #c5f78323,inset 0 0 27px #c5f78324}
+.planet-core svg{width:44%;color:var(--lime)}
+.orbit{position:absolute;inset:-1%;border:1px solid #a5dbb52c;border-radius:50%;
+ transform:rotateX(65deg) rotate(-25deg);animation:orbit 19s linear infinite}
+.orbit.two{inset:-10%;transform:rotateX(66deg) rotate(35deg);animation-direction:reverse;animation-duration:27s;border-style:dashed}
+.satellite{position:absolute;top:9%;right:14%;width:10px;height:10px;border-radius:50%;
+ background:var(--lime);box-shadow:0 0 22px 5px #c5f78375}
+.satellite.two{top:auto;right:auto;bottom:13%;left:12%;width:7px;height:7px;background:var(--cyan);box-shadow:0 0 20px #7bdded90}
+.float-label{position:absolute;padding:10px 13px;z-index:4;background:#0a1d17db;
+ backdrop-filter:blur(12px);border:1px solid #365947;border-radius:13px;box-shadow:0 10px 34px #0003}
+.float-label small{display:block;font-size:8px;color:#9bb2a3;letter-spacing:.14em;text-transform:uppercase}
+.float-label strong{display:block;font-size:17px;margin-top:2px}
+.label-one{left:0;top:16%}.label-two{right:-2%;top:44%}.label-three{left:7%;bottom:12%}
+.hero-bottom{position:absolute;bottom:25px;left:0;right:0;display:flex;justify-content:space-between;
+ color:#769084;font-size:9px;letter-spacing:.13em;text-transform:uppercase}
+.scroll-cue{display:flex;align-items:center;gap:9px}
+.scroll-cue i{width:20px;height:30px;border:1px solid #597765;border-radius:50px;position:relative}
+.scroll-cue i:after{content:"";position:absolute;left:8px;top:6px;width:2px;height:6px;background:var(--lime);animation:scroll 1.5s infinite}
+
+.ticker{overflow:hidden;border-block:1px solid var(--line);background:#0a1713}
+.ticker-track{display:flex;width:max-content;animation:marquee 32s linear infinite}
+.ticker span{padding:17px 28px;color:#adc5b3;font-size:10px;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
+.ticker b{color:var(--lime);margin-right:12px}
+
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.kpi{background:linear-gradient(145deg,#12261f,#0b1915);
+ border:1px solid var(--line);border-radius:19px;padding:23px;min-width:0;transition:.3s}
+.kpi:hover{border-color:#67885d;transform:translateY(-4px)}
+.kpi-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.kpi-value{font-size:clamp(23px,3vw,38px);font-weight:650;letter-spacing:-.055em;margin:10px 0 4px;overflow-wrap:anywhere}
+.kpi-note{font-size:10px;color:#91a99a}
+.kpi-top{display:flex;justify-content:space-between;gap:12px}
+.kpi-icon{display:grid;place-items:center;width:34px;height:34px;border:1px solid #3a5d46;border-radius:11px;color:var(--lime);flex-shrink:0}
+
+.panel{background:linear-gradient(145deg,#10231d,#0b1915);
+ border:1px solid var(--line);border-radius:var(--radius);padding:24px;min-width:0}
+.panel-head{display:flex;justify-content:space-between;align-items:start;gap:12px;margin-bottom:20px}
+.panel h3{font-size:14px;margin:0;letter-spacing:-.02em}
+.panel-head p{font-size:10px;color:var(--muted);margin:5px 0 0}
+.tag{border:1px solid #385445;border-radius:50px;padding:5px 9px;color:#c1d6c5;font-size:9px;white-space:nowrap}
+.charts-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+.chart-wrap{height:235px;position:relative;width:100%}
+canvas.chart{display:block;width:100%;height:100%}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:10px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:7px}
+.legend i{width:7px;height:7px;border-radius:50%;display:inline-block}
+
+.flow-layout{display:grid;grid-template-columns:1.35fr .65fr;gap:16px}
+.flow-panel{padding:28px}
+.flow-scene{position:relative;min-height:370px;overflow:hidden;border-radius:17px;
+ border:1px solid #284a3c;background:radial-gradient(ellipse at 50% 50%,#1b382a 0,transparent 65%),#0a1713}
+.flow-scene:before{content:"";position:absolute;inset:0;opacity:.35;background-image:linear-gradient(#a8d5a207 1px,transparent 1px),linear-gradient(90deg,#a8d5a207 1px,transparent 1px);background-size:35px 35px}
+.flow-grid{display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;justify-items:center;gap:10px;position:relative;z-index:2;padding:34px 15px;min-height:370px}
+.flow-node{width:100%;max-width:145px;min-height:95px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;
+ background:#12271f;border:1px solid #385b46;border-radius:15px;cursor:pointer;transition:.25s;padding:10px}
+.flow-node:hover,.flow-node.selected{border-color:var(--lime);background:#1b3626;box-shadow:0 0 25px #c5f78312;transform:translateY(-3px)}
+.flow-icon{font-size:23px;color:var(--lime)}
+.flow-node strong{font-size:11px}
+.flow-node small{font-size:9px;color:var(--muted);text-align:center}
+.flow-node.center{border-color:#658954;background:#1a3626}
+.flow-wire{height:2px;width:calc(100% + 8px);background:#48674f;position:relative;opacity:.85}
+.flow-wire:after{content:"";position:absolute;right:0;top:-3px;width:7px;height:7px;border-top:2px solid var(--lime);border-right:2px solid var(--lime);transform:rotate(45deg)}
+.flow-wire.active{background:var(--lime);box-shadow:0 0 10px #c5f78375}
+.flow-caption{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:15px;font-size:10px;color:var(--muted)}
+.inspect-panel{display:flex;flex-direction:column;gap:16px}
+.inspect-value{font-size:38px;font-weight:650;letter-spacing:-.06em;margin:8px 0}
+.inspect-rows{border-top:1px solid var(--line);margin-top:18px}
+.inspect-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:11px 0;border-bottom:1px solid #20372e;font-size:11px}
+.inspect-row span{color:var(--muted)}
+.inspect-row b{text-align:right;font-weight:600}
+.sample-control{padding:15px 0 0;margin-top:auto;border-top:1px solid var(--line)}
+.sample-control label{display:flex;justify-content:space-between;gap:12px;color:var(--muted);font-size:10px;margin-bottom:9px}
+input[type=range]{width:100%;accent-color:var(--lime);cursor:pointer}
+
+.lab-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:16px}
+.controls{display:grid;gap:18px}
+.control label{display:flex;justify-content:space-between;gap:12px;font-size:11px;margin-bottom:8px}
+.control output{color:var(--lime);font-weight:750}
+.control input[type=range]{display:block;width:100%}
+.select-control{width:100%;background:#0b1a14;color:var(--text);border:1px solid #355343;border-radius:10px;padding:10px}
+.checkbox-line{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted)}
+.checkbox-line input{accent-color:var(--lime)}
+.lab-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.result{padding:17px;background:#0a1913;border:1px solid #274338;border-radius:15px}
+.result small{display:block;font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.result strong{display:block;font-size:clamp(21px,3vw,33px);letter-spacing:-.055em;margin-top:7px;overflow-wrap:anywhere}
+.recommendation{grid-column:1/-1;border:1px solid #435c3b;background:#c5f7830a;border-radius:15px;padding:19px}
+.recommendation h4{font-size:13px;color:var(--lime);margin:0 0 7px}
+.recommendation p{font-size:11px;color:#b0c3b6;margin:0}
+.bar-compare{grid-column:1/-1;padding:8px 0}
+.bar-item{display:grid;grid-template-columns:125px 1fr 68px;align-items:center;gap:12px;margin:14px 0;font-size:10px;color:var(--muted)}
+.bar{height:8px;background:#1e3329;border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;width:30%;background:var(--mint);border-radius:9px;transition:width .4s}
+.bar-item:last-of-type .bar i{background:var(--lime)}
+.disclaimer{font-size:10px;color:#9eb3a4;line-height:1.7;padding:12px 14px;border-left:2px solid var(--amber);background:#f3c87908;border-radius:0 10px 10px 0;margin-top:15px}
+
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:17px}
+table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:11px}
+th,td{text-align:right;padding:15px 17px;border-bottom:1px solid #233b30}
+th{background:#12271f;color:#afc7b4;font-size:9px;letter-spacing:.08em;text-transform:uppercase}
+th:first-child,td:first-child{text-align:left}
+tbody tr{transition:background .2s}
+tbody tr:hover{background:#1a3025}
+tbody tr:last-child td{border-bottom:0}
+.table-note{font-size:10px;color:var(--muted);margin-top:12px}
+
+.story-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.story-card{min-height:235px;position:relative;overflow:hidden;border:1px solid var(--line);border-radius:20px;
+ padding:25px;background:linear-gradient(145deg,#14271f,#0a1712);transition:.3s}
+.story-card:hover{transform:translateY(-5px);border-color:#597c4e}
+.story-number{color:var(--lime);font-size:10px;letter-spacing:.12em}
+.story-symbol{font-size:29px;margin:22px 0 13px;filter:drop-shadow(0 0 18px #c5f78330)}
+.story-card h3{font-size:18px;letter-spacing:-.04em;margin:0 0 8px}
+.story-card p{font-size:11px;color:var(--muted);margin:0;max-width:300px}
+.arch{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:30px}
+.arch-node{padding:14px 17px;border:1px solid #385745;background:#10241b;border-radius:12px;text-align:center}
+.arch-node b{display:block;font-size:11px}
+.arch-node small{display:block;color:var(--muted);font-size:9px;margin-top:3px}
+.arch-arrow{color:var(--lime);font-size:17px}
+
+.footer{padding:35px 0;border-top:1px solid var(--line);color:var(--muted);font-size:10px}
+.footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.toast{position:fixed;z-index:60;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;
+ pointer-events:none;background:#d5ff9e;color:#08140e;padding:11px 17px;border-radius:30px;font-size:11px;font-weight:800;transition:.3s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes orbit{to{transform:rotateX(65deg) rotate(335deg)}}
+@keyframes scroll{0%{transform:translateY(0);opacity:1}80%,100%{transform:translateY(10px);opacity:0}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+@media(max-width:950px){
+ .hero-inner{grid-template-columns:1fr 1fr}.hero h1{font-size:clamp(62px,9vw,94px)}
+ .hero-art{min-height:420px}.float-label{padding:8px 10px}.float-label strong{font-size:14px}
+ .navlinks{gap:13px}.status{display:none}
+ .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .charts-grid{grid-template-columns:1fr 1fr}.flow-layout{grid-template-columns:1fr}
+ .lab-layout{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+ .wrap{width:calc(100% - 30px)}
+ .section{padding:76px 0}
+ .section-head{display:block;margin-bottom:25px}
+ .section-head p{margin-top:14px}
+ .nav{height:64px}.brand{min-width:0}.brand-text b{font-size:11px}
+ .menu-btn{display:block}.navlinks{display:none;position:absolute;top:64px;left:0;right:0;padding:20px 24px 25px;background:#091711f7;border-bottom:1px solid var(--line);flex-direction:column;align-items:flex-start}
+ .navlinks.open{display:flex}
+ .hero{min-height:auto;padding:115px 0 68px}
+ .hero-inner{grid-template-columns:1fr;gap:0}
+ .hero-copy{padding:15px 0 0}
+ .hero h1{font-size:clamp(66px,16vw,104px);margin-bottom:24px}
+ .hero-desc{font-size:13px}
+ .hero-stats{gap:18px;margin-top:30px}
+ .hero-art{min-height:350px;margin-top:5px}
+ .planet{width:min(72vw,325px)}
+ .float-label{padding:8px 9px}.float-label strong{font-size:13px}
+ .label-one{left:0;top:10%}.label-two{right:0;top:39%}.label-three{left:1%;bottom:8%}
+ .hero-bottom{position:relative;bottom:auto;margin-top:10px;font-size:8px}
+ .cards{gap:9px}.kpi{padding:16px}.kpi-value{font-size:27px}
+ .charts-grid{grid-template-columns:1fr}
+ .chart-wrap{height:220px}
+ .panel{padding:18px}.flow-panel{padding:14px}
+ .flow-grid{padding:24px 7px;gap:6px;min-height:330px}
+ .flow-node{min-height:85px;padding:6px 3px;border-radius:11px}
+ .flow-node strong{font-size:10px}.flow-node small{font-size:8px}
+ .flow-icon{font-size:19px}
+ .flow-scene{min-height:330px}
+ .inspect-value{font-size:32px}
+ .lab-results{gap:8px}.result{padding:13px}
+ .bar-item{grid-template-columns:95px 1fr 58px;gap:7px;font-size:9px}
+ .story-grid{grid-template-columns:1fr}
+ .story-card{min-height:190px}
+ .arch{gap:7px}.arch-node{padding:11px 10px}.arch-arrow{font-size:13px}
+ .hero-bottom .right{display:none}
+}
 </style>
 </head>
+
 <body>
-<div class="progress" id="progress"></div>
-<header class="topbar" id="topbar"><div class="wrap nav">
-<a class="brand" href="#top" aria-label="HEMS home"><span class="brand-mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2 4 13h6l-1 9 11-13h-7l-1-7Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span><span class="brand-text"><b>HEMS / INTELLIGENCE</b><small>HOME ENERGY SYSTEMS</small></span></a>
-<nav class="navlinks" id="navlinks" aria-label="Main navigation"><a href="#vision">Vision</a><a href="#system">Energy flow</a><a href="#telemetry">Telemetry</a><a href="#lab">What-if lab</a><a href="#results">Scenarios</a></nav>
-<div class="nav-end"><span class="status"><i class="status-dot"></i><span id="navStatus">RECORDED RUN · SCENARIO 05</span></span><button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>
-</div></header>
+<header class="topbar" id="topbar">
+ <div class="wrap nav">
+  <a class="brand" href="#home" aria-label="HEMS home">
+   <span class="brand-mark">ϟ</span>
+   <span class="brand-text"><b>H E M S</b><small>ENERGY INTELLIGENCE</small></span>
+  </a>
+  <nav class="navlinks" id="navlinks">
+   <a href="#vision">Vision</a>
+   <a href="#system">Energy system</a>
+   <a href="#telemetry">Telemetry</a>
+   <a href="#lab">What-if lab</a>
+   <a href="#scenarios">Scenarios</a>
+  </nav>
+  <div class="nav-right">
+   <div class="status"><span class="dot"></span><span id="headerStatus">LOADING DATA</span></div>
+   <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+  </div>
+ </div>
+ <div class="progress" id="progress"></div>
+</header>
+
 <main>
-<section class="hero" id="top"><div class="hero-grid"></div><div class="orb one"></div><div class="orb two"></div>
-<div class="wrap hero-inner"><div class="hero-copy">
-<div class="eyebrow">Intelligent home energy management</div>
-<h1><span>Energy,</span><span class="accent">in motion.</span></h1>
-<p class="hero-desc">A home that learns to balance the sun, the grid, the battery and the drive ahead. Explore the recorded MATLAB/Simulink run behind an intelligent energy system.</p>
-<div class="hero-actions"><a class="btn btn-primary" href="#telemetry">Explore the system <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h13m-5-5 5 5-5 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="btn" href="#system">Follow the energy ↘</a></div>
-<div class="hero-meta"><div class="meta-item"><b id="heroSoc">43%</b><span>Home battery SOC</span></div><div class="meta-item"><b id="heroSolar">2.00 kW</b><span>Recorded solar sample</span></div><div class="meta-item"><b id="heroSamples">3,608</b><span>Recorded time points</span></div></div>
-</div>
-<div class="hero-art" aria-label="Abstract animated visualisation of an energy system"><div class="energy-planet"><div class="planet-glow"></div><div class="planet-grid"></div><div class="planet-land"></div><div class="orbit"><i class="satellite"></i></div><div class="orbit o2"><i class="satellite s2"></i></div><div class="planet-core"><svg viewBox="0 0 100 100" fill="none"><path d="M14 46 50 17l36 29v36H58V59H42v23H14V46Z" stroke="#c1f27b" stroke-width="2.8" stroke-linejoin="round"/><path d="m53 36-13 19h12l-6 17 18-24H53l7-12Z" fill="#c1f27b"/></svg></div></div><div class="float-label l1"><small><i class="tiny-dot"></i>Energy stored</small><b id="heroBattery">0.70 <small style="font-size:10px;font-weight:500">kWh throughput</small></b></div><div class="float-label l2"><small>Grid command · sample</small><b id="heroGrid">1.00 kW</b></div><div class="float-label l3"><small>Carbon recorded</small><b id="heroCO2">0.35 kg</b></div></div>
-</div><div class="wrap hero-foot"><div class="scroll-cue"><i></i><span>Scroll to explore the system</span></div><span class="foot-right">SIMULATED DATA · NOT LIVE HARDWARE CONTROL</span></div>
+<section class="hero" id="home">
+ <div class="hero-grid"></div>
+ <div class="wrap hero-inner">
+  <div class="hero-copy">
+   <div class="eyebrow">Intelligent home energy management</div>
+   <h1><span>Energy.</span><span class="accent">Reimagined.</span></h1>
+   <p class="hero-desc">A smarter relationship between your home, solar generation, battery storage, the utility grid and electric mobility. Explore the recorded MATLAB/Simulink results through an interactive energy experience.</p>
+   <div class="actions">
+    <a class="btn btn-primary" href="#system">Explore the system <span>↘</span></a>
+    <a class="btn" href="#telemetry">View recorded data <span>→</span></a>
+   </div>
+   <div class="hero-stats">
+    <div class="hero-stat"><strong id="heroSamples">—</strong><small>Recorded samples</small></div>
+    <div class="hero-stat"><strong id="heroScenarios">—</strong><small>Saved scenarios</small></div>
+    <div class="hero-stat"><strong>MATLAB / Simulink</strong><small>Simulation platform</small></div>
+   </div>
+  </div>
+  <div class="hero-art" aria-label="Animated energy planet illustration">
+   <div class="planet">
+    <div class="planet-sphere"></div>
+    <div class="planet-core">
+     <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
+      <path d="M54 7 24 53h22l-5 39 35-53H53z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+     </svg>
+    </div>
+    <div class="orbit"></div><div class="orbit two"></div>
+    <div class="satellite"></div><div class="satellite two"></div>
+   </div>
+   <div class="float-label label-one"><small>Battery SOC</small><strong id="heroSoc">—</strong></div>
+   <div class="float-label label-two"><small>Grid energy</small><strong id="heroGrid">—</strong></div>
+   <div class="float-label label-three"><small>Solar signal</small><strong id="heroSolar">—</strong></div>
+  </div>
+ </div>
+ <div class="wrap hero-bottom">
+  <div>ENGINEERED FOR A SMARTER HOME</div>
+  <div class="scroll-cue"><span>SCROLL TO EXPLORE</span><i></i></div>
+  <div class="right">RECORDED SIMULATION · NOT LIVE HARDWARE</div>
+ </div>
 </section>
-<div class="ticker" aria-label="System capabilities"><div class="ticker-inner"><div class="ticker-item"><b>01</b> Solar-aware scheduling <span class="ticker-star">✳</span></div><div class="ticker-item"><b>02</b> Battery state monitoring <span class="ticker-star">✳</span></div><div class="ticker-item"><b>03</b> Grid power analysis <span class="ticker-star">✳</span></div><div class="ticker-item"><b>04</b> EV energy signals <span class="ticker-star">✳</span></div><div class="ticker-item"><b>05</b> Scenario comparison <span class="ticker-star">✳</span></div><div class="ticker-item"><b>06</b> Decision telemetry <span class="ticker-star">✳</span></div><div class="ticker-item"><b>01</b> Solar-aware scheduling <span class="ticker-star">✳</span></div><div class="ticker-item"><b>02</b> Battery state monitoring <span class="ticker-star">✳</span></div><div class="ticker-item"><b>03</b> Grid power analysis <span class="ticker-star">✳</span></div><div class="ticker-item"><b>04</b> EV energy signals <span class="ticker-star">✳</span></div><div class="ticker-item"><b>05</b> Scenario comparison <span class="ticker-star">✳</span></div></div></div>
-<section class="section" id="vision"><div class="wrap intro-grid"><div class="reveal"><div class="vertical-note"><span>01 / The idea</span><span>·</span><span>One connected home</span></div><div class="eyebrow">More than a dashboard</div></div><div class="reveal" data-delay="1"><h2 class="intro-title">Every watt has a story.<br>Every choice has a <em>cost.</em></h2><p class="intro-copy">HEMS brings the home’s energy signals into one place: battery charge, rooftop solar, grid exchange, EV power and system-level indicators. Instead of treating every chart as a separate island, this experience connects the data into a single system story.</p><p class="intro-copy">The values shown here are from the saved simulation output. Explore the system, move through individual samples, and test hypothetical operating conditions in a separate rule-based lab.</p><div class="intro-bottom"><div class="mini-stat"><b id="visionSoc">43%</b><span>Final home battery SOC</span></div><div class="mini-stat"><b id="visionGrid">0.71 kWh</b><span>Recorded grid energy KPI</span></div><div class="mini-stat"><b id="visionCost">0.1387</b><span>Cost · model source units</span></div></div></div></div></section>
-<section class="section system-section" id="system"><div class="wrap"><div class="section-top reveal"><div><div class="eyebrow">02 / Follow the signal</div><h2>One home.<br>Many energy paths.</h2></div><p>Select a component in the energy map. The details on the right update from the recorded simulation values where available. Animated lines are an illustrative visual aid, not a live power-flow measurement.</p></div>
-<div class="system-shell"><div class="flow-card reveal"><div class="card-head"><div><h3>Energy system map</h3><p>Choose a node to inspect its signal</p></div><span class="tiny-tag">Interactive schematic</span></div>
-<svg class="flow-svg" viewBox="0 0 700 360" role="img" aria-label="Illustrative flow map linking solar, home load, battery, grid and electric vehicle">
-<defs><linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#77e3bc"/><stop offset="1" stop-color="#c1f27b"/></linearGradient><filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-<path class="flow-wire active" id="wireSolarHome" d="M155 95 C240 95 245 158 300 158"/><path class="flow-wire active" id="wireGridHome" d="M545 95 C460 95 455 158 400 158"/><path class="flow-wire active" id="wireBatteryHome" d="M155 265 C235 265 245 205 300 190"/><path class="flow-wire" id="wireEvHome" d="M545 265 C462 265 452 208 400 190"/><path class="flow-wire active" id="wireSolarBattery" d="M100 132 L100 229"/>
-<g class="flow-node" data-node="solar" tabindex="0" role="button" aria-label="Inspect solar generation"><rect x="32" y="43" width="145" height="90" rx="15"/><text class="node-glyph" x="51" y="75">☼</text><text class="node-title" x="51" y="98">SOLAR ARRAY</text><text class="node-sub" x="51" y="116" id="mapSolar">2.00 kW sample</text></g>
-<g class="flow-node selected" data-node="home" tabindex="0" role="button" aria-label="Inspect home load"><rect x="277" y="125" width="146" height="91" rx="17"/><text class="node-glyph" x="299" y="158">⌂</text><text class="node-title" x="299" y="181">HOME LOAD</text><text class="node-sub" x="299" y="199">Demand + comfort</text></g>
-<g class="flow-node" data-node="grid" tabindex="0" role="button" aria-label="Inspect grid exchange"><rect x="523" y="43" width="145" height="90" rx="15"/><text class="node-glyph" x="542" y="75">⌁</text><text class="node-title" x="542" y="98">UTILITY GRID</text><text class="node-sub" x="542" y="116" id="mapGrid">1.00 kW sample</text></g>
-<g class="flow-node" data-node="battery" tabindex="0" role="button" aria-label="Inspect home battery"><rect x="32" y="229" width="145" height="90" rx="15"/><text class="node-glyph" x="51" y="260">▣</text><text class="node-title" x="51" y="284">HOME BATTERY</text><text class="node-sub" x="51" y="301" id="mapBattery">SOC 43%</text></g>
-<g class="flow-node" data-node="ev" tabindex="0" role="button" aria-label="Inspect electric vehicle signal"><rect x="523" y="229" width="145" height="90" rx="15"/><text class="node-glyph" x="542" y="260">ϟ</text><text class="node-title" x="542" y="284">EV SIGNAL</text><text class="node-sub" x="542" y="301" id="mapEv">Range -3 to 0 kW</text></g>
-<circle cx="350" cy="170" r="2.8" fill="#c1f27b" filter="url(#glow)"/><circle cx="350" cy="170" r="22" fill="none" stroke="#c1f27b" stroke-opacity=".25"/><circle cx="350" cy="170" r="35" fill="none" stroke="#c1f27b" stroke-opacity=".12"/>
-</svg><div class="flow-caption"><span>Dashed paths show conceptual connections</span><span class="mono">SELECT A NODE ↗</span></div></div>
-<aside class="inspect-card reveal" data-delay="1"><div><div class="card-head"><div><div class="eyebrow" id="inspectEyebrow">System component</div><h3 id="inspectTitle" style="font-size:23px;margin-top:11px">Home load</h3></div><span class="tiny-tag" id="inspectTag">OVERVIEW</span></div><div class="big-number" id="inspectValue">—</div><p class="description" id="inspectDescription">Home demand is the load that the controller aims to serve using available solar, battery and grid resources.</p><div class="inspect-data" id="inspectRows"><div class="inspect-row"><span>Recorded signal</span><b>Load not directly exported</b></div><div class="inspect-row"><span>Mode</span><b>Simulation data</b></div></div></div><div class="inspect-controls"><button class="chip-button selected" data-inspect="home">Home</button><button class="chip-button" data-inspect="solar">Solar</button><button class="chip-button" data-inspect="battery">Battery</button><button class="chip-button" data-inspect="grid">Grid</button><button class="chip-button" data-inspect="ev">EV</button></div></aside></div></div></section>
-<section class="section telemetry-section" id="telemetry"><div class="wrap"><div class="section-top reveal"><div><div class="eyebrow">03 / Recorded simulation</div><h2>See the system<br>over time.</h2></div><p>Explore the exported MATLAB/Simulink traces. Drag the sample control to inspect point-in-time values. Units are shown only where supported by the exported fields or KPI definitions.</p></div>
-<div class="telemetry-topline reveal"><div class="data-source"><i></i><span id="dataStatus">Loading dashboard_data.json…</span></div><button class="refresh-btn" id="refreshBtn">↻ Refresh recorded data</button></div>
-<div class="kpis"><article class="kpi lime reveal"><div class="kpi-label"><span>Final battery SOC</span><span>↗</span></div><div class="kpi-value" id="kpiSoc">—</div><div class="kpi-foot">Recorded simulation KPI</div></article><article class="kpi mint reveal" data-delay="1"><div class="kpi-label"><span>Grid energy</span><span>⌁</span></div><div class="kpi-value" id="kpiGrid">—</div><div class="kpi-foot">Recorded simulation KPI</div></article><article class="kpi cyan reveal" data-delay="2"><div class="kpi-label"><span>Intelligent cost</span><span>◇</span></div><div class="kpi-value" id="kpiCost">—</div><div class="kpi-foot">Model source units</div></article><article class="kpi amber reveal" data-delay="3"><div class="kpi-label"><span>CO₂ emissions</span><span>⌁</span></div><div class="kpi-value" id="kpiCo2">—</div><div class="kpi-foot">Recorded simulation KPI</div></article></div>
-<div class="chart-grid"><article class="chart-card reveal"><div class="chart-title"><div><h3>Battery & EV state of charge</h3><p>Fractional SOC converted to percentage</p></div><div class="chart-value" id="socChartValue">—</div></div><div class="chart-wrap"><canvas id="socChart" aria-label="Battery and EV state of charge chart" role="img"></canvas></div><div class="chart-legend"><span><i class="legend-dot" style="background:#c1f27b"></i>Home battery</span><span><i class="legend-dot" style="background:#79d9ec"></i>EV</span></div></article>
-<article class="chart-card reveal" data-delay="1"><div class="chart-title"><div><h3>Grid power signals</h3><p>Recorded values · model power units</p></div><div class="chart-value" id="gridChartValue">—</div></div><div class="chart-wrap"><canvas id="gridChart" aria-label="Grid actual and command line chart" role="img"></canvas></div><div class="chart-legend"><span><i class="legend-dot" style="background:#79d9ec"></i>Grid actual</span><span><i class="legend-dot" style="background:#efc778"></i>Grid command</span></div></article>
-<article class="chart-card reveal"><div class="chart-title"><div><h3>Solar generation</h3><p>Recorded solar signal</p></div><div class="chart-value" id="solarChartValue">—</div></div><div class="chart-wrap"><canvas id="solarChart" aria-label="Solar generation chart" role="img"></canvas></div><div class="chart-legend"><span><i class="legend-dot" style="background:#c1f27b"></i>Solar</span></div></article>
-<article class="chart-card reveal" data-delay="1"><div class="chart-title"><div><h3>Accumulated cost & CO₂</h3><p>Recorded series · source units and kilograms</p></div><div class="chart-value" id="costChartValue">—</div></div><div class="chart-wrap"><canvas id="costChart" aria-label="Cost and CO2 series chart" role="img"></canvas></div><div class="chart-legend"><span><i class="legend-dot" style="background:#79d9ec"></i>Cost</span><span><i class="legend-dot" style="background:#ef8e8e"></i>CO₂</span></div></article></div>
-<div class="scrubber reveal"><div class="scrub-top"><b>Time-point explorer</b><span class="mono" id="sampleReadout">Sample 1 / 3608 · t = 0 s</span></div><input type="range" id="sampleSlider" min="0" max="3607" value="0" aria-label="Select recorded time sample"><div class="scrub-foot"><span>Start of recorded run</span><span>Move the slider to inspect traces</span><span>End of run</span></div><div class="sample-grid"><div class="sample-box"><span>Battery SOC</span><b id="sampleSoc">—</b></div><div class="sample-box"><span>Grid actual</span><b id="sampleGrid">—</b></div><div class="sample-box"><span>Solar signal</span><b id="sampleSolar">—</b></div><div class="sample-box"><span>EV power</span><b id="sampleEv">—</b></div></div></div>
-</div></section>
-<section class="section lab-section" id="lab"><div class="wrap"><div class="section-top reveal"><div><div class="eyebrow">04 / Explore a possibility</div><h2>What if the<br>conditions changed?</h2></div><p>Adjust assumed operating conditions and see how a simple illustrative rule responds. This lab is a browser-side demonstration, not a rerun of the MATLAB/Simulink model.</p></div>
-<div class="lab-layout"><section class="lab-card reveal"><div class="card-head"><div><h3>Scenario controls</h3><p>Set conditions for a hypothetical one-hour snapshot</p></div><span class="tiny-tag">What-if lab</span></div><div class="lab-warning"><span>ⓘ</span><div><b>Illustrative results only.</b> The values below are computed from the assumptions you choose. They are not recorded simulation outputs, forecasts, or physical control commands.</div></div>
-<div class="controls-grid"><div class="control"><label for="solarIn"><span>Solar availability</span><output id="solarOut">3.0 kW</output></label><input type="range" id="solarIn" min="0" max="6" step="0.1" value="3"><div class="range-limits"><span>0 kW</span><span>6 kW</span></div></div><div class="control"><label for="loadIn"><span>Home demand</span><output id="loadOut">4.0 kW</output></label><input type="range" id="loadIn" min="0.5" max="8" step="0.1" value="4"><div class="range-limits"><span>0.5 kW</span><span>8 kW</span></div></div><div class="control"><label for="priceIn"><span>Price signal</span><output id="priceOut">0.40 index</output></label><input type="range" id="priceIn" min="0" max="1" step="0.01" value="0.4"><div class="range-limits"><span>Low · 0</span><span>High · 1</span></div></div><div class="control"><label for="tariffIn"><span>Illustrative tariff</span><output id="tariffOut">₹8/kWh</output></label><input type="range" id="tariffIn" min="2" max="20" step="0.5" value="8"><div class="range-limits"><span>₹2/kWh</span><span>₹20/kWh</span></div></div><div class="control"><label for="evSocIn"><span>EV state of charge</span><output id="evSocOut">60%</output></label><input type="range" id="evSocIn" min="0" max="100" step="1" value="60"><div class="range-limits"><span>0%</span><span>100%</span></div></div><div class="control"><label for="gridIn"><span>Grid availability</span><output id="gridOut">Available</output></label><select id="gridIn" style="width:100%;padding:12px;border-radius:11px;background:#0b1b14;border:1px solid #355343;color:#ecf5ec"><option value="available">Available</option><option value="outage">Outage</option></select><div class="range-limits"><span>Switch to test a grid outage</span></div></div></div>
-<div class="toggle-line"><span>EV connected to the system</span><input class="switch" type="checkbox" id="evConnected" checked aria-label="EV connected"></div><div class="lab-actions"><button class="btn btn-primary" id="runLab">Update scenario <span>↗</span></button><button class="btn" id="resetLab">Reset controls ↺</button></div></section>
-<div class="lab-result reveal" data-delay="1"><section class="result-hero"><div class="mode" id="labMode">ILLUSTRATIVE RULE · READY</div><h3 id="recTitle">Energy flow responds to your assumptions.</h3><p id="recText">Choose the assumptions at left. The rule will explain how it arrived at the illustrative result.</p></section><div class="result-metrics"><div class="result-metric"><span>Illustrative EV power command</span><b id="labCmd">—</b><small>Positive = discharge, negative = charge (lab convention)</small></div><div class="result-metric"><span>Illustrative grid import</span><b id="labGrid">—</b><small>Assumed operating snapshot</small></div><div class="result-metric"><span>Estimated energy cost</span><b id="labCost">—</b><small>Using your tariff · one hour</small></div><div class="result-metric"><span>Unserved load in outage</span><b id="labUnserved">—</b><small>Simple balance estimate</small></div></div><section class="compare"><h4>Baseline vs. illustrative rule</h4><div class="bar-line"><span id="baseLabel">Baseline</span><div class="bar-track"><div class="bar-fill" id="baseBar"></div></div><span class="bar-val" id="baseVal">—</span></div><div class="bar-line"><span id="managedLabel">With EV rule</span><div class="bar-track"><div class="bar-fill" id="managedBar"></div></div><span class="bar-val" id="managedVal">—</span></div><p class="compare-note" id="comparisonNote">All results are illustrative and depend on the assumptions you selected.</p></section></div></div></div></section>
-<section class="section results-section" id="results"><div class="wrap"><div class="section-top reveal"><div><div class="eyebrow">05 / Compare recorded runs</div><h2>Different days.<br>Different trade-offs.</h2></div><p>These rows are read from the saved scenario comparison in dashboard_data.json. Comparing outcomes helps reveal the trade-offs between grid energy, cost, peak demand and battery use.</p></div><div class="table-card reveal"><div class="table-head"><div><h3>Scenario comparison</h3><p id="scenarioMeta">Waiting for saved scenario data…</p></div><span class="tiny-tag">Recorded results</span></div><div class="table-wrap"><table><thead><tr><th>Scenario</th><th>Final SOC</th><th>Grid energy</th><th>Cost · source units</th><th>Peak demand</th><th>CO₂</th><th>Battery throughput</th><th>Equivalent cycles</th><th>Load shed</th></tr></thead><tbody id="scenarioRows"><tr><td colspan="9" class="empty">Loading saved scenario results…</td></tr></tbody></table></div><div class="bar-summary" id="scenarioSummary"></div></div></div></section>
-<section class="section story-section" id="architecture"><div class="wrap"><div class="story-lead"><div class="reveal"><div class="eyebrow">06 / Behind the interface</div><div class="section-top"><h2>From model signals<br>to meaningful decisions.</h2></div></div><div class="right-copy reveal" data-delay="1">The website is the presentation layer. MATLAB/Simulink remains the simulation environment; its exported JSON provides the recorded traces and KPIs displayed here. The What-if lab is intentionally separated so demo interactions do not get mistaken for a new simulation run.</div></div><div class="steps-grid"><article class="story-step reveal"><div class="step-num">STEP / 01</div><div class="step-icon">⌘</div><h3>Model the home</h3><p>Represent home demand, solar generation, battery behavior, grid exchange and EV signals in the simulation workflow.</p></article><article class="story-step reveal" data-delay="1"><div class="step-num">STEP / 02</div><div class="step-icon">⌁</div><h3>Record telemetry</h3><p>Export key time-series signals and run-level KPIs into a JSON data file for consistent inspection.</p></article><article class="story-step reveal" data-delay="2"><div class="step-num">STEP / 03</div><div class="step-icon">◌</div><h3>Interpret the run</h3><p>Use charts, a time-point explorer and a scenario table to examine how recorded values change over the run.</p></article><article class="story-step reveal" data-delay="3"><div class="step-num">STEP / 04</div><div class="step-icon">↗</div><h3>Explore the trade-offs</h3><p>Change hypothetical conditions in a separate browser-side lab without altering the underlying model or exported data.</p></article></div></div></section>
-<section class="section" id="integrity"><div class="wrap"><div class="section-top reveal"><div><div class="eyebrow">07 / Data integrity</div><h2>Clarity before claims.</h2></div><p>Simulation dashboards are useful only when a visitor can tell what is measured, what is inferred and what is unavailable.</p></div><div class="integrity"><article class="integrity-card reveal"><h3>How to read this dashboard</h3><p>The page shows the values available in the supplied simulation JSON. Missing security and anomaly outputs are not guessed or replaced with status claims.</p><div class="integrity-list"><div class="integrity-item"><span class="checkmark">✓</span><span><b>Recorded simulation:</b> KPI values, time series and scenario comparisons loaded from dashboard_data.json.</span></div><div class="integrity-item"><span class="checkmark">✓</span><span><b>Illustrative interaction:</b> the What-if lab runs in the browser and is labeled separately.</span></div><div class="integrity-item"><span class="checkmark">✓</span><span><b>Signal signs preserved:</b> EV power values retain their recorded negative and positive signs.</span></div><div class="integrity-item"><span class="checkmark">✓</span><span><b>No fabricated security result:</b> unavailable cyber status is displayed as unavailable.</span></div></div></article><article class="integrity-card reveal" data-delay="1"><h3>Run monitor</h3><p>Signals below reflect fields exposed by the saved file. A value of “Data unavailable” means the supplied JSON did not contain a usable value for that field.</p><div class="status-list"><div class="status-line"><span>Active scenario</span><b class="data-pill" id="recScenario">—</b></div><div class="status-line"><span>Decision label</span><b class="data-pill" id="recDecision">Data unavailable</b></div><div class="status-line"><span>Decision severity</span><b class="data-pill" id="recSeverity">Data unavailable</b></div><div class="status-line"><span>Cyber anomaly status</span><b class="data-pill unknown" id="cyberStatus">Data unavailable</b></div><div class="status-line"><span>Anomaly score</span><b class="data-pill unknown" id="cyberScore">Data unavailable</b></div><div class="status-line"><span>Secure grid status</span><b class="data-pill unknown" id="cyberGrid">Data unavailable</b></div><div class="status-line"><span>Recorded EV power range</span><b class="data-pill" id="evRange">Data unavailable</b></div></div></article></div></div></section>
+
+<div class="ticker" aria-hidden="true">
+ <div class="ticker-track">
+  <span><b>✳</b> Solar generation</span><span><b>✳</b> Intelligent control</span>
+  <span><b>✳</b> Battery storage</span><span><b>✳</b> Grid optimisation</span>
+  <span><b>✳</b> EV integration</span><span><b>✳</b> Data-driven decisions</span>
+  <span><b>✳</b> Solar generation</span><span><b>✳</b> Intelligent control</span>
+  <span><b>✳</b> Battery storage</span><span><b>✳</b> Grid optimisation</span>
+  <span><b>✳</b> EV integration</span><span><b>✳</b> Data-driven decisions</span>
+ </div>
+</div>
+
+<section class="section" id="vision">
+ <div class="wrap">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">Simulation overview</div><h2>Every watt<br>has a purpose.</h2></div>
+   <p>Key results from the exported simulation summary. These are recorded values—not a live connection to physical equipment.</p>
+  </div>
+  <div class="cards">
+   <article class="kpi reveal"><div class="kpi-top"><span class="kpi-label">Final battery SOC</span><span class="kpi-icon">ϟ</span></div><div class="kpi-value" id="kpiSoc">—</div><div class="kpi-note">Recorded simulation KPI</div></article>
+   <article class="kpi reveal"><div class="kpi-top"><span class="kpi-label">Grid energy</span><span class="kpi-icon">⌁</span></div><div class="kpi-value" id="kpiGrid">—</div><div class="kpi-note">Reported energy KPI</div></article>
+   <article class="kpi reveal"><div class="kpi-top"><span class="kpi-label">Intelligent cost</span><span class="kpi-icon">₹</span></div><div class="kpi-value" id="kpiCost">—</div><div class="kpi-note">Source value and units</div></article>
+   <article class="kpi reveal"><div class="kpi-top"><span class="kpi-label">CO₂ emissions</span><span class="kpi-icon">◌</span></div><div class="kpi-value" id="kpiCo2">—</div><div class="kpi-note">Reported emissions KPI</div></article>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="system">
+ <div class="wrap">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">Explore the architecture</div><h2>One home.<br>Connected intelligence.</h2></div>
+   <p>Select any component to inspect its recorded signals and available summary values. The lines illustrate system relationships rather than measured real-time power flow.</p>
+  </div>
+  <div class="flow-layout reveal">
+   <div class="panel flow-panel">
+    <div class="panel-head"><div><h3>Interactive energy map</h3><p>Select a component below</p></div><span class="tag">EXPLORE</span></div>
+    <div class="flow-scene">
+     <div class="flow-grid">
+      <button class="flow-node" data-node="solar"><span class="flow-icon">☀</span><strong>Solar</strong><small>PV generation</small></button>
+      <div class="flow-wire" id="wireSolarHome"></div>
+      <button class="flow-node" data-node="grid"><span class="flow-icon">ϟ</span><strong>Utility grid</strong><small>Grid exchange</small></button>
+      <div class="flow-wire" id="wireSolarBattery"></div>
+      <button class="flow-node center" data-node="battery"><span class="flow-icon">▰</span><strong>Battery</strong><small>Energy storage</small></button>
+      <div class="flow-wire" id="wireBatteryHome"></div>
+      <button class="flow-node center selected" data-node="home"><span class="flow-icon">⌂</span><strong>Smart home</strong><small>Load management</small></button>
+      <div class="flow-wire" id="wireEvHome"></div>
+      <button class="flow-node" data-node="ev"><span class="flow-icon">↯</span><strong>EV</strong><small>Vehicle signal</small></button>
+     </div>
+    </div>
+    <div class="flow-caption"><span>Conceptual system relationships</span><span class="mono" id="flowSample">SAMPLE 1</span></div>
+   </div>
+   <aside class="panel inspect-panel">
+    <div><div class="eyebrow" id="inspectEyebrow">System component</div><h3 id="inspectTitle" style="font-size:25px;margin-top:12px">Smart home</h3><span class="tag" id="inspectTag">OVERVIEW</span></div>
+    <div><div class="inspect-value mono" id="inspectValue">—</div><p class="muted" style="font-size:11px;margin:0" id="inspectDescription">Select a component to inspect its available values.</p></div>
+    <div class="inspect-rows" id="inspectRows"></div>
+    <div class="sample-control">
+     <label for="sampleSlider"><span>Recorded time point</span><b class="mono" id="sampleLabel">1 / —</b></label>
+     <input id="sampleSlider" type="range" min="0" max="1" value="0">
+     <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted);margin-top:5px"><span>Start</span><span>End</span></div>
+    </div>
+   </aside>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="telemetry">
+ <div class="wrap">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">Recorded telemetry</div><h2>Inside the signal.</h2></div>
+   <p>Explore the exported time series. Chart units follow the source arrays; no missing signals are manufactured to fill gaps.</p>
+  </div>
+  <div class="charts-grid">
+   <article class="panel reveal"><div class="panel-head"><div><h3>Battery & EV state of charge</h3><p>Recorded time series</p></div><span class="tag">SOC</span></div><div class="chart-wrap"><canvas class="chart" id="chartSoc"></canvas></div><div class="legend" id="legendSoc"></div></article>
+   <article class="panel reveal"><div class="panel-head"><div><h3>Grid power</h3><p>Command and actual signals</p></div><span class="tag">GRID</span></div><div class="chart-wrap"><canvas class="chart" id="chartGrid"></canvas></div><div class="legend" id="legendGrid"></div></article>
+   <article class="panel reveal"><div class="panel-head"><div><h3>Solar generation</h3><p>Recorded generation signal</p></div><span class="tag">SOLAR</span></div><div class="chart-wrap"><canvas class="chart" id="chartSolar"></canvas></div><div class="legend" id="legendSolar"></div></article>
+   <article class="panel reveal"><div class="panel-head"><div><h3>Cost & emissions</h3><p>Cumulative or reported traces as exported</p></div><span class="tag">IMPACT</span></div><div class="chart-wrap"><canvas class="chart" id="chartCost"></canvas></div><div class="legend" id="legendCost"></div></article>
+  </div>
+  <p class="muted" style="font-size:10px;margin-top:17px" id="dataStatus" role="status">Loading dashboard_data.json…</p>
+ </div>
+</section>
+
+<section class="section" id="lab">
+ <div class="wrap">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">Explore alternative conditions</div><h2>What if you<br>changed the rules?</h2></div>
+   <p>Adjust assumed conditions and explore a simple illustrative control rule. This lab is separate from the recorded MATLAB/Simulink results.</p>
+  </div>
+  <div class="lab-layout reveal">
+   <div class="panel">
+    <div class="panel-head"><div><h3>Scenario controls</h3><p>Change the assumptions</p></div><span class="tag">WHAT-IF</span></div>
+    <div class="controls">
+     <div class="control"><label for="solarIn"><span>Solar availability</span><output id="solarOut">3.0 kW</output></label><input id="solarIn" type="range" min="0" max="8" step=".5" value="3"></div>
+     <div class="control"><label for="loadIn"><span>Home demand</span><output id="loadOut">4.0 kW</output></label><input id="loadIn" type="range" min=".5" max="10" step=".5" value="4"></div>
+     <div class="control"><label for="priceIn"><span>Electricity price index</span><output id="priceOut">0.40</output></label><input id="priceIn" type="range" min=".05" max=".8" step=".05" value=".4"></div>
+     <div class="control"><label for="tariffIn"><span>Illustrative tariff</span><output id="tariffOut">₹8.00/kWh</output></label><input id="tariffIn" type="range" min="2" max="20" step=".5" value="8"></div>
+     <div class="control"><label for="evSocIn"><span>EV state of charge</span><output id="evSocOut">60%</output></label><input id="evSocIn" type="range" min="10" max="100" step="5" value="60"></div>
+     <div class="control"><label for="gridIn"><span>Grid availability</span></label><select id="gridIn" class="select-control"><option value="available">Grid available</option><option value="outage">Grid outage</option></select></div>
+     <label class="checkbox-line"><input type="checkbox" id="evConnected" checked> EV connected and available to the illustrative rule</label>
+     <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-primary" id="runLab">Apply scenario ↗</button><button class="btn" id="resetLab">Reset values</button></div>
+    </div>
+   </div>
+   <div class="panel">
+    <div class="panel-head"><div><h3>Scenario output</h3><p>Calculated from your selected assumptions</p></div><span class="tag">ILLUSTRATIVE ONLY</span></div>
+    <div class="lab-results">
+     <div class="result"><small>EV power request</small><strong id="labCmd">—</strong></div>
+     <div class="result"><small>Estimated grid import</small><strong id="labGrid">—</strong></div>
+     <div class="result"><small>Illustrative energy cost</small><strong id="labCost">—</strong></div>
+     <div class="result"><small>Unserved load</small><strong id="labUnserved">—</strong></div>
+     <div class="recommendation"><h4 id="recTitle">Evaluating assumptions</h4><p id="recText">Adjust the controls to see how the illustrative rule responds.</p></div>
+     <div class="bar-compare">
+      <div class="bar-item"><span id="baseLabel">Baseline</span><div class="bar"><i id="baseBar"></i></div><b class="mono" id="baseVal">—</b></div>
+      <div class="bar-item"><span id="managedLabel">Scenario</span><div class="bar"><i id="managedBar"></i></div><b class="mono" id="managedVal">—</b></div>
+      <p class="muted" style="font-size:10px;margin-top:18px" id="comparisonNote"></p>
+     </div>
+    </div>
+    <div class="disclaimer">This is a simplified, assumed one-hour scenario—not a Simulink rerun, forecast, hardware control command, or validated optimisation result. EV power convention, efficiency, battery limits and cost structure would need to be verified for a real controller.</div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="scenarios">
+ <div class="wrap">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">Compare the saved runs</div><h2>Different conditions.<br>Different outcomes.</h2></div>
+   <p>These results are read from your saved scenario comparison data, without recalculating or altering the source values.</p>
+  </div>
+  <div class="panel reveal">
+   <div class="panel-head"><div><h3>Simulation scenario comparison</h3><p>Recorded summary values</p></div><button class="btn" id="refreshBtn">↻ Reload data</button></div>
+   <div class="table-wrap">
+    <table>
+     <thead><tr><th>Scenario</th><th>Final SOC</th><th>Grid energy</th><th>Cost</th><th>Peak demand</th><th>CO₂</th><th>Battery throughput</th><th>Load shed</th></tr></thead>
+     <tbody id="scenarioRows"><tr><td colspan="8">Loading scenario data…</td></tr></tbody>
+    </table>
+   </div>
+   <div class="table-note" id="scenarioMeta">Values are presented from the supplied JSON.</div>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="architecture">
+ <div class="wrap">
+  <div class="section-head reveal">
+   <div><div class="eyebrow">How the project fits together</div><h2>From model<br>to insight.</h2></div>
+   <p>The website is a visual layer over exported simulation data. It does not replace the MATLAB/Simulink model or the controller implementation.</p>
+  </div>
+  <div class="story-grid">
+   <article class="story-card reveal"><div class="story-number">01 / MODEL</div><div class="story-symbol">⌘</div><h3>Simulate</h3><p>Represent household energy components and controller signals in MATLAB/Simulink.</p></article>
+   <article class="story-card reveal"><div class="story-number">02 / EXPORT</div><div class="story-symbol">↗</div><h3>Capture signals</h3><p>Export selected timeseries and summary metrics into dashboard_data.json.</p></article>
+   <article class="story-card reveal"><div class="story-number">03 / EXPLORE</div><div class="story-symbol">ϟ</div><h3>Understand results</h3><p>Browse recorded telemetry, compare scenarios, and explore separate what-if assumptions.</p></article>
+  </div>
+  <div class="arch reveal">
+   <div class="arch-node"><b>MATLAB / Simulink</b><small>Simulation model</small></div><span class="arch-arrow">→</span>
+   <div class="arch-node"><b>JSON export</b><small>Recorded signals + KPIs</small></div><span class="arch-arrow">→</span>
+   <div class="arch-node"><b>HEMS website</b><small>Visualisation layer</small></div>
+  </div>
+ </div>
+</section>
 </main>
-<footer class="footer"><div class="wrap"><div class="footer-top"><div><div class="eyebrow">Intelligent Home Energy Management</div><h2 class="footer-title">The best energy<br>is energy <em>understood.</em></h2></div><div class="footer-meta"><span>MATLAB / Simulink data explorer</span><span>Built for a student engineering showcase</span><a href="#top" style="color:var(--lime);margin-top:9px">Back to the beginning ↑</a></div></div><div class="footer-bottom"><span>HEMS / Interactive simulation dashboard</span><span>Recorded data is not a live connection to electrical hardware.</span><span><a href="#telemetry">Explore telemetry</a> · <a href="#lab">Try the scenario lab</a></span></div></div></footer>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<footer class="footer">
+ <div class="wrap footer-inner">
+  <div>HEMS · INTELLIGENCE IN EVERY WATT</div>
+  <div>Student engineering project · MATLAB / Simulink</div>
+  <div id="footerData">Waiting for recorded data</div>
+ </div>
+</footer>
+<div class="toast" id="toast" role="status"></div>
+
 <script>
-(function(){'use strict';
-const $=id=>document.getElementById(id);let data=null,charts={},activeNode='home',toastTimer=null;
-const colors={lime:'#c1f27b',mint:'#77e3bc',cyan:'#79d9ec',amber:'#efc778',pink:'#ef8e8e',grid:'#284337',text:'#789382'};
-function num(v){if(v===null||v===undefined||v===''||!Number.isFinite(Number(v)))return null;return Number(v)}
-function fmt(v,d=2){const n=num(v);return n===null?'—':n.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d})}
-function pct(v,d=0){const n=num(v);return n===null?'—':fmt(n*100,d)+'%'}
-function put(id,value){const el=$(id);if(el)el.textContent=value}
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function showToast(s){put('toast',s);$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2400)}
-function series(k){return data&&Array.isArray(data[k])?data[k]:[]}
-function at(k,i){const a=series(k);return i>=0&&i<a.length?a[i]:null}
-function dataRange(k){const a=series(k).map(num).filter(v=>v!==null);return a.length?{min:Math.min(...a),max:Math.max(...a)}:null}
-function initKpis(){if(!data)return;const k=data.kpi||{};put('kpiSoc',pct(k.final_soc));put('kpiGrid',num(k.grid_energy_kwh)===null?'—':fmt(k.grid_energy_kwh,2)+' kWh');put('kpiCost',fmt(k.cost,4));put('kpiCo2',num(k.co2_kg)===null?'—':fmt(k.co2_kg,2)+' kg');put('heroSoc',pct(k.final_soc));put('heroSolar',fmt(at('solar',0),2)+' kW');put('heroSamples',fmt(series('time').length,0));put('heroBattery',fmt(k.battery_throughput_kwh,2)+' kWh');put('heroGrid',fmt(at('grid_command',0),2)+' kW');put('heroCO2',fmt(k.co2_kg,2)+' kg');put('visionSoc',pct(k.final_soc));put('visionGrid',num(k.grid_energy_kwh)===null?'—':fmt(k.grid_energy_kwh,2)+' kWh');put('visionCost',fmt(k.cost,4));put('mapSolar',fmt(at('solar',0),2)+' kW sample');put('mapGrid',fmt(at('grid_actual',0),2)+' kW sample');put('mapBattery','SOC '+pct(at('soc',0)));const evr=dataRange('ev_power');put('mapEv',evr?fmt(evr.min,2)+' to '+fmt(evr.max,2)+' kW':'Data unavailable');put('evRange',evr?fmt(evr.min,2)+' to '+fmt(evr.max,2)+' kW':'Data unavailable');put('recScenario',data.scenario===undefined?'Data unavailable':'Scenario '+data.scenario);put('recDecision',data.decision_label||'Data unavailable');put('recSeverity',data.severity_label||'Data unavailable');const cy=data.cyber||{};put('cyberStatus',cy.anomaly_status===null||cy.anomaly_status===undefined?'Data unavailable':String(cy.anomaly_status));put('cyberScore',num(cy.anomaly_score)===null?'Data unavailable':fmt(cy.anomaly_score,3));put('cyberGrid',cy.secure_grid_status===null||cy.secure_grid_status===undefined?'Data unavailable':String(cy.secure_grid_status));if(cy.anomaly_status!==null&&cy.anomaly_status!==undefined)$('cyberStatus').classList.remove('unknown');if(cy.secure_grid_status!==null&&cy.secure_grid_status!==undefined)$('cyberGrid').classList.remove('unknown');const count=series('time').length||series('soc').length||1;$('sampleSlider').max=Math.max(0,count-1);put('navStatus','RECORDED RUN · SCENARIO '+String(data.scenario??'—').padStart(2,'0'));put('dataStatus','Saved JSON loaded · '+count.toLocaleString()+' time points');put('scenarioMeta',(data.scenario_comparison||[]).length+' scenario runs · loaded from dashboard_data.json');renderCharts();renderScenarios();selectSample(0);selectNode(activeNode)}
-function chartSeries(){return {
- soc:[{key:'soc',name:'Home battery',color:colors.lime,scale:100},{key:'ev_soc',name:'EV',color:colors.cyan,scale:100}],
- grid:[{key:'grid_actual',name:'Grid actual',color:colors.cyan,scale:1},{key:'grid_command',name:'Grid command',color:colors.amber,scale:1}],
- solar:[{key:'solar',name:'Solar',color:colors.lime,scale:1}],
- cost:[{key:'cost',name:'Cost',color:colors.cyan,scale:1},{key:'co2',name:'CO₂',color:colors.pink,scale:1}]
-}}
-function buildCharts(){const defs=chartSeries();charts={};Object.keys(defs).forEach(key=>{const canvas=$(key==='soc'?'socChart':key==='grid'?'gridChart':key==='solar'?'solarChart':'costChart');charts[key]={canvas,series:defs[key],hover:null};canvas.addEventListener('pointermove',e=>{const r=canvas.getBoundingClientRect();charts[key].hover={x:e.clientX-r.left,y:e.clientY-r.top};drawChart(key);showHoverText(key,e)});canvas.addEventListener('pointerleave',()=>{charts[key].hover=null;drawChart(key)});canvas.addEventListener('click',e=>{const c=charts[key],r=canvas.getBoundingClientRect(),plot=plotBounds(c);const fraction=Math.max(0,Math.min(1,(e.clientX-r.left-plot.l)/plot.w));$('sampleSlider').value=Math.round(fraction*(Math.max(1,series('time').length)-1));selectSample(+$('sampleSlider').value)})})}
-function plotBounds(c){const rect=c.canvas.getBoundingClientRect();const w=rect.width||300,h=rect.height||220;return {w,h,l:39,r:13,t:16,b:26,pw:w-52,ph:h-42}}
-function drawChart(key){const c=charts[key];if(!c||!data)return;const canvas=c.canvas,rect=canvas.getBoundingClientRect(),w=Math.max(260,rect.width||300),h=Math.max(160,rect.height||220),dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.floor(w*dpr);canvas.height=Math.floor(h*dpr);const ctx=canvas.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);const b={l:39,r:13,t:18,b:27,pw:w-52,ph:h-45};const all=[];for(const s of c.series){const vals=series(s.key).map(v=>num(v)===null?null:num(v)*s.scale);for(const v of vals)if(v!==null)all.push(v)}if(!all.length){ctx.fillStyle=colors.text;ctx.fillText('No recorded series available',b.l,b.t+18);return}let lo=Math.min(...all),hi=Math.max(...all);if(Math.abs(hi-lo)<1e-8){const d=Math.abs(hi||1)*.1;lo-=d;hi+=d}const pad=(hi-lo)*.12;lo-=pad;hi+=pad;ctx.font='9px system-ui';ctx.textBaseline='middle';for(let j=0;j<5;j++){const y=b.t+b.ph*j/4,val=hi-(hi-lo)*j/4;ctx.strokeStyle='#203a2e';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(b.l,y);ctx.lineTo(w-b.r,y);ctx.stroke();ctx.fillStyle='#779181';ctx.textAlign='right';ctx.fillText(fmt(val,Math.abs(hi-lo)<2?2:1),b.l-8,y)}ctx.textAlign='left';ctx.textBaseline='alphabetic';ctx.fillStyle='#718b7b';ctx.fillText('START',b.l,h-7);ctx.textAlign='right';ctx.fillText('END',w-b.r,h-7);for(const s of c.series){const vals=series(s.key),n=vals.length;if(!n)continue;const points=Math.min(n,270);ctx.beginPath();ctx.strokeStyle=s.color;ctx.lineWidth=2;ctx.lineJoin='round';ctx.lineCap='round';let started=false;for(let j=0;j<points;j++){const i=Math.round(j*(n-1)/Math.max(1,points-1)),v=num(vals[i]);if(v===null)continue;const x=b.l+b.pw*j/Math.max(1,points-1),y=b.t+b.ph-(v*s.scale-lo)/(hi-lo)*b.ph;if(!started){ctx.moveTo(x,y);started=true}else ctx.lineTo(x,y)}ctx.stroke()}
-const hover=c.hover;if(hover){const ix=Math.max(0,Math.min(series('time').length-1,Math.round((hover.x-b.l)/b.pw*Math.max(1,series('time').length-1)))),x=b.l+b.pw*ix/Math.max(1,series('time').length-1);ctx.strokeStyle='#d3e9d0a8';ctx.setLineDash([3,4]);ctx.beginPath();ctx.moveTo(x,b.t);ctx.lineTo(x,b.t+b.ph);ctx.stroke();ctx.setLineDash([]);c.series.forEach(s=>{const v=num(at(s.key,ix));if(v===null)return;const y=b.t+b.ph-(v*s.scale-lo)/(hi-lo)*b.ph;ctx.beginPath();ctx.fillStyle=s.color;ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#0b1915';ctx.lineWidth=1.3;ctx.stroke()})}}
-function showHoverText(key,e){if(!data)return;const c=charts[key],r=c.canvas.getBoundingClientRect(),b=plotBounds(c),ix=Math.max(0,Math.min(series('time').length-1,Math.round((e.clientX-r.left-b.l)/b.pw*Math.max(1,series('time').length-1)))),t=at('time',ix);if(key==='soc')put('socChartValue','t '+fmt(t,1)+' s · '+pct(at('soc',ix)));if(key==='grid')put('gridChartValue','t '+fmt(t,1)+' s · '+fmt(at('grid_actual',ix),2));if(key==='solar')put('solarChartValue','t '+fmt(t,1)+' s · '+fmt(at('solar',ix),2)+' kW');if(key==='cost')put('costChartValue','t '+fmt(t,1)+' s · CO₂ '+fmt(at('co2',ix),3))}
-function renderCharts(){if(!data)return;if(!Object.keys(charts).length)buildCharts();Object.keys(charts).forEach(drawChart);const i=+$('sampleSlider').value||0;put('socChartValue',pct(at('soc',i))+' battery');put('gridChartValue',fmt(at('grid_actual',i),2)+' grid');put('solarChartValue',fmt(at('solar',i),2)+' kW');put('costChartValue',fmt(at('cost',i),4)+' source units')}
-function selectSample(i){if(!data)return;const a=series('time');i=Math.max(0,Math.min((a.length||1)-1,i));put('sampleReadout','Sample '+(i+1).toLocaleString()+' / '+(a.length||1).toLocaleString()+' · t = '+fmt(at('time',i),2)+' s');put('sampleSoc',pct(at('soc',i),2));put('sampleGrid',fmt(at('grid_actual',i),3));put('sampleSolar',fmt(at('solar',i),3));put('sampleEv',fmt(at('ev_power',i),3)+' kW');put('socChartValue',pct(at('soc',i),1)+' battery');put('gridChartValue',fmt(at('grid_actual',i),2)+' grid');put('solarChartValue',fmt(at('solar',i),2)+' kW');put('costChartValue',fmt(at('cost',i),4)+' source units');Object.values(charts).forEach(c=>{c.hover=null});drawAllPointMarkers(i)}
-function drawAllPointMarkers(i){if(!data)return;Object.keys(charts).forEach(k=>{const c=charts[k];drawChart(k);const vals=c.series;const canvas=c.canvas,rect=canvas.getBoundingClientRect(),w=rect.width||300,h=rect.height||220,b={l:39,r:13,t:18,b:27,pw:w-52,ph:h-45};const n=series('time').length;if(!n)return;const x=b.l+b.pw*i/Math.max(1,n-1);const ctx=canvas.getContext('2d');const dpr=Math.min(window.devicePixelRatio||1,2);ctx.setTransform(dpr,0,0,dpr,0,0);ctx.strokeStyle='#d3e9d06b';ctx.setLineDash([2,5]);ctx.beginPath();ctx.moveTo(x,b.t);ctx.lineTo(x,b.t+b.ph);ctx.stroke();ctx.setLineDash([])})}
-function renderScenarios(){const rows=Array.isArray(data.scenario_comparison)?data.scenario_comparison:[];const body=$('scenarioRows');if(!rows.length){body.innerHTML='<tr><td colspan="9" class="empty">No saved scenario comparison data found.</td></tr>';return}const bestCost=Math.min(...rows.map(r=>num(r.Intelligent_Cost)).filter(v=>v!==null));body.innerHTML=rows.map(r=>{const v=(k,d=2)=>num(r[k])===null?'—':fmt(r[k],d);const isBest=num(r.Intelligent_Cost)===bestCost;return `<tr><td>${esc(r.Scenario_Name||('Scenario '+r.Scenario))}${isBest?'<span class="best-tag">LOWEST COST</span>':''}</td><td>${v('Final_SOC_Percent')}%</td><td>${v('Grid_Energy_kWh',3)} kWh</td><td>${v('Intelligent_Cost',4)}</td><td>${v('Peak_Demand_kW')} kW</td><td>${v('CO2_kg',3)} kg</td><td>${v('Battery_Throughput_kWh',3)} kWh</td><td>${v('Equivalent_Battery_Cycles',4)}</td><td>${v('Load_Shed_Duration_s',1)} s</td></tr>`}).join('');const summary=$('scenarioSummary');summary.innerHTML=rows.map(r=>`<div class="scenario-mini"><span>${esc(r.Scenario_Name||('Scenario '+r.Scenario))}</span><b>${fmt(r.Grid_Energy_kWh,2)} <small style="font-size:9px;font-weight:500">kWh</small></b><small>Grid energy</small></div>`).join('')}
-const nodeInfo={solar:{eyebrow:'Generation signal',title:'Solar array',tag:'SOLAR',value:i=>fmt(at('solar',i),2)+' kW',desc:'The solar array signal is read directly from the recorded solar series. Solar data has 3,601 points, which is slightly shorter than some other exported traces.',rows:()=>[['First sample',fmt(at('solar',0),3)+' kW'],['Recorded range',(()=>{const r=dataRange('solar');return r?fmt(r.min,2)+' to '+fmt(r.max,2)+' kW':'Unavailable'})()],['Data source','solar[]']]},battery:{eyebrow:'Storage signal',title:'Home battery',tag:'SOC',value:i=>pct(at('soc',i),2),desc:'Battery state of charge is recorded over the simulation. The final KPI summarizes the saved run; the time-point explorer can be used to inspect its trajectory.',rows:()=>[['Final SOC',pct(data.kpi&&data.kpi.final_soc,2)],['Throughput',fmt(data.kpi&&data.kpi.battery_throughput_kwh,3)+' kWh'],['State of health',pct(data.kpi&&data.kpi.advanced_soh,3)]]},grid:{eyebrow:'Grid exchange',title:'Utility grid',tag:'GRID',value:i=>fmt(at('grid_actual',i),2),desc:'Grid actual and grid command are plotted as distinct recorded signals. The exported KPI reports grid energy; power series are preserved in their original model units.',rows:()=>[['Grid energy KPI',fmt(data.kpi&&data.kpi.grid_energy_kwh,3)+' kWh'],['Peak demand KPI',fmt(data.kpi&&data.kpi.peak_kw,2)+' kW'],['Max command KPI',fmt(data.kpi&&data.kpi.max_grid_command_kw,2)+' kW']]},ev:{eyebrow:'Vehicle signal',title:'EV power & SOC',tag:'EV',value:i=>fmt(at('ev_power',i),2)+' kW',desc:'EV power is shown with its original sign. A negative recorded value is not reinterpreted here as discharge or charge without the model sign convention; the what-if lab uses a separately stated assumption.',rows:()=>[['EV SOC at sample',pct(at('ev_soc',sampleIndex()),2)],['Power range',(()=>{const r=dataRange('ev_power');return r?fmt(r.min,2)+' to '+fmt(r.max,2)+' kW':'Unavailable'})()],['Max power KPI',fmt(data.kpi&&data.kpi.max_ev_power_kw,2)+' kW']]},home:{eyebrow:'System component',title:'Home load',tag:'OVERVIEW',value:i=>'Not exported',desc:'Home demand is the load the controller aims to serve using available resources. No dedicated home-load array is exposed in this JSON, so this panel avoids inventing a direct load measurement.',rows:()=>[['Direct load series','Not exported in this JSON'],['Grid energy KPI',fmt(data.kpi&&data.kpi.grid_energy_kwh,3)+' kWh'],['Load-shed duration',fmt(data.kpi&&data.kpi.load_shedding_seconds,2)+' s']]}};
-function sampleIndex(){return +$('sampleSlider').value||0}
-function selectNode(key){if(!data)return;activeNode=key;document.querySelectorAll('.flow-node').forEach(n=>n.classList.toggle('selected',n.dataset.node===key));document.querySelectorAll('[data-inspect]').forEach(n=>n.classList.toggle('selected',n.dataset.inspect===key));const o=nodeInfo[key]||nodeInfo.home,i=sampleIndex();put('inspectEyebrow',o.eyebrow);put('inspectTitle',o.title);put('inspectTag',o.tag);put('inspectValue',o.value(i));put('inspectDescription',o.desc);$('inspectRows').innerHTML=o.rows().map(r=>`<div class="inspect-row"><span>${esc(r[0])}</span><b>${esc(r[1])}</b></div>`).join('');const wireFor={solar:['wireSolarHome','wireSolarBattery'],home:['wireSolarHome','wireGridHome','wireBatteryHome','wireEvHome'],grid:['wireGridHome'],battery:['wireBatteryHome','wireSolarBattery'],ev:['wireEvHome']};document.querySelectorAll('.flow-wire').forEach(w=>w.classList.toggle('active',(wireFor[key]||[]).includes(w.id)))}
-function calcLab(){const solar=+$('solarIn').value,load=+$('loadIn').value,price=+$('priceIn').value,tariff=+$('tariffIn').value,soc=+$('evSocIn').value/100,grid=$('gridIn').value==='available',connected=$('evConnected').checked,net=load-solar;let cmd=0,mode='Idle',reason='';if(!connected){mode='EV disconnected';reason='The vehicle is disconnected, so this illustrative rule leaves EV power at zero.'}else if(!grid){if(net>0&&soc>.2){cmd=Math.min(net,7);mode='Illustrative EV support';reason='Grid outage and a home-load deficit are present. Under the lab convention, the rule requests EV discharge up to the 7 kW cap while SOC is above 20%.'}else if(net>0){mode='SOC guardrail';reason='There is a load deficit, but the selected EV SOC is at or below the lab’s 20% lower threshold.'}else{mode='No discharge requested';reason='Solar meets or exceeds demand, so this rule does not request EV discharge.'}}else if(net<0){if(soc<.9){cmd=-Math.min(-net,7);mode='Illustrative solar charging';reason='Solar exceeds the home load. Under the lab convention, the rule requests EV charging from surplus up to the 7 kW cap.'}else{mode='SOC upper limit';reason='The selected EV SOC is at or above the lab’s 90% upper threshold, so charging is blocked.'}}else if(net>0&&price>=.35){if(soc>.2){cmd=Math.min(net,7);mode='Illustrative peak support';reason='The price index is at least 0.35 and home demand exceeds solar. The rule requests EV discharge, capped at 7 kW.'}else{mode='SOC guardrail';reason='A price signal and load deficit exist, but selected EV SOC is at or below the 20% lower threshold.'}}else if(net>0){mode='Grid supplies deficit';reason='Demand exceeds solar, but the price index is below 0.35; this simple rule does not request EV discharge while the grid is available.'}else{mode='Balanced';reason='Solar and demand are balanced, so no EV power command is required.'}const charge=Math.max(0,-cmd),discharge=Math.max(0,cmd),netGrid=load+charge-solar-discharge,gridImport=grid?Math.max(0,netGrid):0,unserved=grid?0:Math.max(0,netGrid),baseline=grid?Math.max(0,load-solar):0,baselineUnserved=grid?0:Math.max(0,load-solar),cost=gridImport*tariff,baseCost=baseline*tariff;return {solar,load,price,tariff,soc,grid,connected,net,cmd,mode,reason,gridImport,unserved,cost,baseline,baselineUnserved,baseCost,co2:gridImport*.5}}
-function updateLab(){const s=calcLab();put('solarOut',fmt(s.solar,1)+' kW');put('loadOut',fmt(s.load,1)+' kW');put('priceOut',fmt(s.price,2)+' index');put('tariffOut','₹'+fmt(s.tariff,2)+'/kWh');put('evSocOut',Math.round(s.soc*100)+'%');put('gridOut',s.grid?'Available':'Outage');put('labMode','ILLUSTRATIVE RULE · '+s.mode.toUpperCase());put('labCmd',(s.cmd>0?'+':'')+fmt(s.cmd,2)+' kW');put('labGrid',fmt(s.gridImport,2)+' kW');put('labCost','₹'+fmt(s.cost,2));put('labUnserved',fmt(s.unserved,2)+' kW');put('recTitle',s.cmd>0?'EV supports the home':s.cmd<0?'Charge EV from solar surplus':!s.connected?'EV disconnected':s.grid?'Use the grid to balance the gap':'Outage: demand not fully served');put('recText',s.reason);const metricBase=s.grid?s.baseline:s.baselineUnserved,metricManaged=s.grid?s.gridImport:s.unserved,mx=Math.max(metricBase,metricManaged,.1);$('baseBar').style.width=(metricBase/mx*100)+'%';$('managedBar').style.width=(metricManaged/mx*100)+'%';put('baseLabel',s.grid?'Grid-only baseline':'Baseline unserved load');put('managedLabel',s.grid?'With EV rule':'With EV rule · unserved');put('baseVal',fmt(metricBase,2)+' kW');put('managedVal',fmt(metricManaged,2)+' kW');put('comparisonNote',s.grid?'Illustrative one-hour comparison: grid-only baseline ₹'+fmt(s.baseCost,2)+' vs rule scenario ₹'+fmt(s.cost,2)+'. Difference ₹'+fmt(s.baseCost-s.cost,2)+(s.baseCost>=s.cost?' lower':' higher')+' under these assumptions. CO₂ estimate: '+fmt(s.co2,2)+' kg using an assumed factor of 0.5 kg/kWh.':'Grid unavailable: grid import and cost are set to zero by assumption. Compare baseline unserved load ('+fmt(s.baselineUnserved,2)+' kW) with rule scenario unserved load ('+fmt(s.unserved,2)+' kW).');}
-function bind(){const navlinks=$('navlinks');$('menuBtn').addEventListener('click',()=>{const open=navlinks.classList.toggle('open');$('menuBtn').setAttribute('aria-expanded',String(open))});navlinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navlinks.classList.remove('open');$('menuBtn').setAttribute('aria-expanded','false')}));document.querySelectorAll('.flow-node').forEach(n=>{n.addEventListener('click',()=>selectNode(n.dataset.node));n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();selectNode(n.dataset.node)}})});document.querySelectorAll('[data-inspect]').forEach(n=>n.addEventListener('click',()=>selectNode(n.dataset.inspect)));$('sampleSlider').addEventListener('input',()=>{const i=+$('sampleSlider').value;selectSample(i);selectNode(activeNode)});['solarIn','loadIn','priceIn','tariffIn','evSocIn','gridIn','evConnected'].forEach(id=>{const el=$(id);el.addEventListener('input',updateLab);el.addEventListener('change',updateLab)});$('runLab').addEventListener('click',()=>{updateLab();showToast('Illustrative scenario updated')});$('resetLab').addEventListener('click',()=>{$('solarIn').value=3;$('loadIn').value=4;$('priceIn').value=.4;$('tariffIn').value=8;$('evSocIn').value=60;$('gridIn').value='available';$('evConnected').checked=true;updateLab();showToast('What-if controls reset')});$('refreshBtn').addEventListener('click',loadData);let resizeT;window.addEventListener('resize',()=>{clearTimeout(resizeT);resizeT=setTimeout(()=>{renderCharts();selectSample(sampleIndex())},120)});window.addEventListener('scroll',()=>{const y=window.scrollY,total=document.documentElement.scrollHeight-window.innerHeight;$('progress').style.width=(total>0?y/total*100:0)+'%';$('topbar').classList.toggle('scrolled',y>25);let active='vision';document.querySelectorAll('main section[id]').forEach(sec=>{if(sec.getBoundingClientRect().top<150)active=sec.id});document.querySelectorAll('.navlinks a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+active))},{passive:true});}
-async function loadData(){put('dataStatus','Loading dashboard_data.json…');try{const resp=await fetch('./dashboard_data.json?cb='+Date.now(),{cache:'no-store'});if(!resp.ok)throw new Error('HTTP '+resp.status);data=await resp.json();initKpis();updateLab()}catch(e){console.error(e);put('dataStatus','Recorded data unavailable · '+e.message);put('scenarioMeta','The JSON file could not be fetched.');$('scenarioRows').innerHTML='<tr><td colspan="9" class="empty">Could not load dashboard_data.json. Keep the file beside index.html and open the page through GitHub Pages or a local HTTP server (not file://).</td></tr>';showToast('Could not load dashboard_data.json — check file path and hosting') }}
-function setupReveal(){if(!('IntersectionObserver'in window)){document.querySelectorAll('.reveal').forEach(e=>e.classList.add('in'));return}const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}}),{threshold:.12,rootMargin:'0px 0px -30px 0px'});document.querySelectorAll('.reveal').forEach(e=>obs.observe(e))}
-// Keep the illustrative lab usable even if recorded JSON has not loaded yet.
-bind();setupReveal();updateLab();loadData();
+(function(){
+"use strict";
+const $=id=>document.getElementById(id);
+let data=null,activeNode="home",toastTimer=null;
+const palette={lime:"#c5f783",mint:"#77e3bd",cyan:"#7bdded",amber:"#f3c879",red:"#f18e91",blue:"#88aafa"};
+const fmt=(v,d=2)=>Number.isFinite(Number(v))?Number(v).toLocaleString("en-IN",{maximumFractionDigits:d,minimumFractionDigits:0}):"Unavailable";
+const pct=(v,d=1)=>Number.isFinite(Number(v))?fmt(v,d)+"%":"Unavailable";
+const arr=k=>data&&Array.isArray(data[k])?data[k]:[];
+const at=(k,i)=>{const a=arr(k);return i<a.length&&Number.isFinite(Number(a[i]))?Number(a[i]):null};
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const put=(id,v)=>{if($(id))$(id).textContent=v};
+const range=k=>{const a=arr(k).map(Number).filter(Number.isFinite);return a.length?{min:Math.min(...a),max:Math.max(...a)}:null};
+const last=k=>{const a=arr(k);return a.length?a[a.length-1]:null};
+const sampleIndex=()=>Number($("sampleSlider").value)||0;
+const sampleCount=()=>Math.max(0,...["time","soc","grid_actual","grid_command","solar","cost","co2","ev_soc","ev_power"].map(k=>arr(k).length));
+function toast(m){put("toast",m);$("toast").classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2400)}
+
+function showKpis(){
+ const k=data.kpi||{};
+ put("kpiSoc",pct(k.final_soc));
+ put("kpiGrid",k.grid_energy_kwh==null?"Unavailable":fmt(k.grid_energy_kwh,3)+" kWh");
+ put("kpiCost",k.cost==null?"Unavailable":fmt(k.cost,3));
+ put("kpiCo2",k.co2_kg==null?"Unavailable":fmt(k.co2_kg,3)+" kg");
+ put("heroSoc",pct(k.final_soc));
+ put("heroGrid",k.grid_energy_kwh==null?"Unavailable":fmt(k.grid_energy_kwh,2)+" kWh");
+ put("heroSolar",range("solar")?fmt(range("solar").max,2)+" max":"Unavailable");
+ put("heroSamples",sampleCount().toLocaleString("en-IN"));
+ const scenarios=Array.isArray(data.scenario_comparison)?data.scenario_comparison:[];
+ put("heroScenarios",String(scenarios.length||0).padStart(2,"0"));
+ put("headerStatus","RECORDED DATA LOADED");
+ put("footerData",sampleCount().toLocaleString("en-IN")+" recorded samples");
+ $("sampleSlider").max=Math.max(sampleCount()-1,0);
+ $("sampleSlider").value=0;
+ put("sampleLabel","1 / "+sampleCount().toLocaleString("en-IN"));
+ put("dataStatus","Loaded dashboard_data.json · "+sampleCount().toLocaleString("en-IN")+" recorded time points.");
+ put("scenarioMeta","Loaded "+scenarios.length+" saved scenario rows from dashboard_data.json.");
+}
+
+const nodeInfo={
+ solar:{eyebrow:"Renewable generation",title:"Solar generation",tag:"SOLAR",value:i=>fmt(at("solar",i),2),desc:"The exported solar signal at the selected sample. Units are preserved from the model export.",rows:()=>[["Maximum recorded",range("solar")?fmt(range("solar").max,2):"Unavailable"],["Minimum recorded",range("solar")?fmt(range("solar").min,2):"Unavailable"],["Available samples",arr("solar").length.toLocaleString("en-IN")]]},
+ battery:{eyebrow:"Energy storage",title:"Home battery",tag:"BATTERY",value:i=>pct(at("soc",i)),desc:"Recorded battery state of charge at the selected sample.",rows:()=>[["Final SOC KPI",pct(data.kpi&&data.kpi.final_soc)],["Battery throughput",data.kpi&&data.kpi.battery_throughput_kwh!=null?fmt(data.kpi.battery_throughput_kwh,3)+" kWh":"Unavailable"],["State of health",data.kpi&&data.kpi.advanced_soh!=null?pct(data.kpi.advanced_soh):"Unavailable"]]},
+ grid:{eyebrow:"Utility exchange",title:"Utility grid",tag:"GRID",value:i=>fmt(at("grid_actual",i),3),desc:"The selected point from the actual grid signal. The command signal is shown separately.",rows:()=>[["Grid energy KPI",data.kpi&&data.kpi.grid_energy_kwh!=null?fmt(data.kpi.grid_energy_kwh,3)+" kWh":"Unavailable"],["Peak demand KPI",data.kpi&&data.kpi.peak_kw!=null?fmt(data.kpi.peak_kw,3)+" kW":"Unavailable"],["Command at sample",fmt(at("grid_command",sampleIndex()),3)]]},
+ ev:{eyebrow:"Electric mobility",title:"EV signals",tag:"EV",value:i=>fmt(at("ev_power",i),3),desc:"Recorded EV power at the selected sample. The sign is preserved; interpretation depends on the model's sign convention.",rows:()=>[["EV SOC",pct(at("ev_soc",sampleIndex()))],["Recorded power range",range("ev_power")?fmt(range("ev_power").min,3)+" to "+fmt(range("ev_power").max,3):"Unavailable"],["Max EV power KPI",data.kpi&&data.kpi.max_ev_power_kw!=null?fmt(data.kpi.max_ev_power_kw,3)+" kW":"Unavailable"]]},
+ home:{eyebrow:"System overview",title:"Smart home",tag:"OVERVIEW",value:()=>"Load not exported",desc:"The exported JSON does not provide a dedicated home-load timeseries. This view does not invent a direct load measurement.",rows:()=>[["Direct load series","Not exported"],["Grid energy KPI",data.kpi&&data.kpi.grid_energy_kwh!=null?fmt(data.kpi.grid_energy_kwh,3)+" kWh":"Unavailable"],["Load-shed duration",data.kpi&&data.kpi.load_shedding_seconds!=null?fmt(data.kpi.load_shedding_seconds,2)+" s":"Unavailable"]]}
+};
+function selectNode(key){
+ if(!data)return;
+ activeNode=key;
+ document.querySelectorAll(".flow-node").forEach(n=>n.classList.toggle("selected",n.dataset.node===key));
+ const o=nodeInfo[key]||nodeInfo.home,i=sampleIndex();
+ put("inspectEyebrow",o.eyebrow);put("inspectTitle",o.title);put("inspectTag",o.tag);
+ put("inspectValue",typeof o.value==="function"?o.value(i):o.value);
+ put("inspectDescription",o.desc);
+ $("inspectRows").innerHTML=o.rows().map(r=>'<div class="inspect-row"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>').join("");
+ const wires={solar:["wireSolarHome","wireSolarBattery"],grid:[],battery:["wireSolarBattery","wireBatteryHome"],home:["wireSolarHome","wireBatteryHome","wireEvHome"],ev:["wireEvHome"]};
+ document.querySelectorAll(".flow-wire").forEach(w=>w.classList.toggle("active",(wires[key]||[]).includes(w.id)));
+}
+function selectSample(i){
+ const count=sampleCount();
+ put("sampleLabel",(i+1).toLocaleString("en-IN")+" / "+count.toLocaleString("en-IN"));
+ put("flowSample","SAMPLE "+(i+1).toLocaleString("en-IN"));
+ selectNode(activeNode);
+}
+
+function drawChart(id,legendId,series){
+ const canvas=$(id);if(!canvas)return;
+ const rect=canvas.getBoundingClientRect();if(rect.width<1)return;
+ const ctx=canvas.getContext("2d"),dpr=window.devicePixelRatio||1;
+ canvas.width=Math.round(rect.width*dpr);canvas.height=Math.round(rect.height*dpr);
+ ctx.setTransform(dpr,0,0,dpr,0,0);
+ const w=rect.width,h=rect.height,left=36,right=8,top=12,bottom=26;
+ const pw=w-left-right,ph=h-top-bottom;
+ ctx.clearRect(0,0,w,h);
+ const valid=series.map(s=>({...s,values:s.values.map(v=>v==null||!Number.isFinite(Number(v))?null:Number(v))}));
+ const all=valid.flatMap(s=>s.values.filter(v=>v!=null));
+ if(!all.length){ctx.fillStyle="#9bb0a4";ctx.font="12px system-ui";ctx.fillText("Data unavailable",left,top+25);$(legendId).innerHTML="";return}
+ let min=Math.min(...all),max=Math.max(...all);
+ if(min===max){min-=1;max+=1}
+ const pad=(max-min)*.09;min-=pad;max+=pad;
+ ctx.font="10px system-ui";ctx.lineWidth=1;
+ for(let g=0;g<=4;g++){
+  const y=top+ph*g/4,val=max-(max-min)*g/4;
+  ctx.strokeStyle="#294237";ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke();
+  ctx.fillStyle="#91a99a";ctx.textAlign="left";ctx.fillText(fmt(val,2),2,y+3);
+ }
+ ctx.fillStyle="#91a99a";ctx.textAlign="left";ctx.fillText("Start",left, h-6);
+ ctx.textAlign="right";ctx.fillText("End",w-right,h-6);
+ valid.forEach(s=>{
+  const n=s.values.length;if(!n)return;
+  ctx.beginPath();ctx.strokeStyle=s.color;ctx.lineWidth=2;ctx.lineJoin="round";ctx.lineCap="round";
+  let started=false;
+  for(let i=0;i<n;i++){
+   const v=s.values[i];if(v==null){started=false;continue}
+   const x=left+(n===1?0:i/(n-1))*pw;
+   const y=top+(max-v)/(max-min)*ph;
+   if(!started){ctx.moveTo(x,y);started=true}else ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+ });
+ $(legendId).innerHTML=valid.map(s=>'<span><i style="background:'+s.color+'"></i>'+esc(s.label)+'</span>').join("");
+}
+function renderCharts(){
+ if(!data)return;
+ drawChart("chartSoc","legendSoc",[
+  {label:"Battery SOC",values:arr("soc"),color:palette.cyan},
+  {label:"EV SOC",values:arr("ev_soc"),color:palette.mint}
+ ]);
+ drawChart("chartGrid","legendGrid",[
+  {label:"Grid command",values:arr("grid_command"),color:palette.blue},
+  {label:"Grid actual",values:arr("grid_actual"),color:palette.amber}
+ ]);
+ drawChart("chartSolar","legendSolar",[
+  {label:"Solar",values:arr("solar"),color:palette.amber}
+ ]);
+ drawChart("chartCost","legendCost",[
+  {label:"Cost",values:arr("cost"),color:palette.cyan},
+  {label:"CO₂",values:arr("co2"),color:palette.red}
+ ]);
+}
+
+function scenarioRows(){
+ const rows=Array.isArray(data.scenario_comparison)?data.scenario_comparison:[];
+ if(!rows.length){
+  $("scenarioRows").innerHTML='<tr><td colspan="8">No scenario_comparison rows found in dashboard_data.json.</td></tr>';return;
+ }
+ const fields=[
+  ["Scenario_Name","Scenario"],["Final_SOC_Percent","Final SOC"],
+  ["Grid_Energy_kWh","Grid energy"],["Intelligent_Cost","Cost"],
+  ["Peak_Demand_kW","Peak demand"],["CO2_kg","CO₂"],
+  ["Battery_Throughput_kWh","Battery throughput"],["Load_Shed_Duration_s","Load shed"]
+ ];
+ $("scenarioRows").innerHTML=rows.map((r,idx)=>{
+  const cells=fields.map((f,j)=>{
+   let v=r[f[0]];
+   if(v==null&&f[0]==="Scenario_Name")v=r.Scenario??("Scenario "+(idx+1));
+   if(v==null)return "<td>Unavailable</td>";
+   if(j===0)return "<td>"+esc(v)+"</td>";
+   const n=Number(v);return "<td>"+(Number.isFinite(n)?fmt(n,3):esc(v))+"</td>";
+  });
+  return "<tr>"+cells.join("")+"</tr>";
+ }).join("");
+}
+
+function calcLab(){
+ const solar=+$("solarIn").value,load=+$("loadIn").value,price=+$("priceIn").value;
+ const tariff=+$("tariffIn").value,soc=+$("evSocIn").value/100;
+ const grid=$("gridIn").value==="available",connected=$("evConnected").checked;
+ const net=load-solar;let cmd=0,mode="",reason="";
+ if(!connected){mode="EV disconnected";reason="The EV is unavailable, so the illustrative rule leaves EV power at zero."}
+ else if(!grid){
+  if(net>0&&soc>.2){cmd=Math.min(net,7);mode="Illustrative EV support";reason="Grid outage and a load deficit are present. Under this lab's assumed convention, the rule requests EV support up to 7 kW while SOC is above 20%."}
+  else if(net>0){mode="SOC guardrail";reason="There is a deficit, but the selected EV SOC is at or below the assumed 20% lower threshold."}
+  else{mode="No discharge requested";reason="Solar meets or exceeds demand, so this rule does not request EV discharge."}
+ }else if(net<0){
+  if(soc<.9){cmd=-Math.min(-net,7);mode="Illustrative solar charging";reason="Solar exceeds demand. Under this assumed convention, the rule requests EV charging from surplus, up to 7 kW."}
+  else{mode="SOC upper limit";reason="EV SOC is at or above the assumed 90% upper threshold, so charging is blocked."}
+ }else if(net>0&&price>=.35){
+  if(soc>.2){cmd=Math.min(net,7);mode="Illustrative peak support";reason="The price index is at least 0.35 and demand exceeds solar. The rule requests EV support, capped at 7 kW."}
+  else{mode="SOC guardrail";reason="Demand exceeds solar, but the selected EV SOC is too low for this illustrative support rule."}
+ }else if(net>0){mode="Grid supplies deficit";reason="Demand exceeds solar, but the price index is below 0.35. This rule does not request EV support while grid power is available."}
+ else{mode="Balanced";reason="Solar and demand are balanced; no EV power command is required."}
+ const charge=Math.max(0,-cmd),discharge=Math.max(0,cmd);
+ const netGrid=load+charge-solar-discharge;
+ const gridImport=grid?Math.max(0,netGrid):0;
+ const unserved=grid?0:Math.max(0,netGrid);
+ const baseline=grid?Math.max(0,load-solar):0;
+ const baseUnserved=grid?0:Math.max(0,load-solar);
+ return {solar,load,price,tariff,soc,grid,connected,cmd,mode,reason,gridImport,unserved,
+ cost:gridImport*tariff,baseline,baseUnserved,baseCost:baseline*tariff,co2:gridImport*.5};
+}
+function updateLab(){
+ const s=calcLab();
+ put("solarOut",fmt(s.solar,1)+" kW");put("loadOut",fmt(s.load,1)+" kW");
+ put("priceOut",fmt(s.price,2));put("tariffOut","₹"+fmt(s.tariff,2)+"/kWh");
+ put("evSocOut",Math.round(s.soc*100)+"%");
+ put("labCmd",(s.cmd>0?"+":"")+fmt(s.cmd,2)+" kW");
+ put("labGrid",fmt(s.gridImport,2)+" kW");
+ put("labCost","₹"+fmt(s.cost,2));
+ put("labUnserved",fmt(s.unserved,2)+" kW");
+ put("recTitle",s.cmd>0?"EV supports the home":s.cmd<0?"Charge EV from solar surplus":!s.connected?"EV disconnected":s.grid?"Use the grid to balance demand":"Outage: unmet demand remains");
+ put("recText",s.reason);
+ put("baseLabel",s.grid?"Grid-only baseline":"Baseline unserved load");
+ put("managedLabel",s.grid?"With illustrative EV rule":"With illustrative rule");
+ const b=s.grid?s.baseline:s.baseUnserved,m=s.grid?s.gridImport:s.unserved,mx=Math.max(b,m,.1);
+ $("baseBar").style.width=(b/mx*100)+"%";
+ $("managedBar").style.width=(m/mx*100)+"%";
+ put("baseVal",fmt(b,2)+" kW");put("managedVal",fmt(m,2)+" kW");
+ put("comparisonNote",s.grid?
+  "Illustrative one-hour estimate: baseline cost ₹"+fmt(s.baseCost,2)+"; scenario cost ₹"+fmt(s.cost,2)+". Assumed CO₂ factor: 0.5 kg/kWh. These are lab assumptions, not recorded simulation KPIs.":
+  "Grid import and cost are zero by assumption during an outage. Baseline unserved load: "+fmt(s.baseUnserved,2)+" kW; illustrative scenario unserved load: "+fmt(s.unserved,2)+" kW.");
+}
+
+async function loadData(){
+ put("dataStatus","Loading dashboard_data.json…");
+ try{
+  const resp=await fetch("./dashboard_data.json",{cache:"no-store"});
+  if(!resp.ok)throw new Error("HTTP "+resp.status);
+  data=await resp.json();
+  showKpis();scenarioRows();renderCharts();selectSample(0);updateLab();
+ }catch(err){
+  console.error(err);put("headerStatus","DATA UNAVAILABLE");
+  put("dataStatus","Could not load dashboard_data.json. Check that the file is beside index.html and is committed to GitHub.");
+  put("scenarioMeta","Data unavailable — "+err.message);
+  $("scenarioRows").innerHTML='<tr><td colspan="8">Could not load dashboard_data.json. Keep it beside index.html and open the site through GitHub Pages or a local web server.</td></tr>';
+  toast("Recorded data could not be loaded");
+ }
+}
+
+function bind(){
+ $("menuBtn").addEventListener("click",()=>{
+  const open=$("navlinks").classList.toggle("open");
+  $("menuBtn").setAttribute("aria-expanded",String(open));
+ });
+ document.querySelectorAll(".navlinks a").forEach(a=>a.addEventListener("click",()=>{
+  $("navlinks").classList.remove("open");$("menuBtn").setAttribute("aria-expanded","false");
+ }));
+ document.querySelectorAll(".flow-node").forEach(n=>n.addEventListener("click",()=>selectNode(n.dataset.node)));
+ $("sampleSlider").addEventListener("input",()=>selectSample(sampleIndex()));
+ ["solarIn","loadIn","priceIn","tariffIn","evSocIn","gridIn","evConnected"].forEach(id=>{
+  $(id).addEventListener("input",updateLab);$(id).addEventListener("change",updateLab);
+ });
+ $("runLab").addEventListener("click",()=>{updateLab();toast("Illustrative scenario recalculated")});
+ $("resetLab").addEventListener("click",()=>{
+  $("solarIn").value=3;$("loadIn").value=4;$("priceIn").value=.4;
+  $("tariffIn").value=8;$("evSocIn").value=60;$("gridIn").value="available";$("evConnected").checked=true;
+  updateLab();toast("Controls reset");
+ });
+ $("refreshBtn").addEventListener("click",loadData);
+ window.addEventListener("resize",()=>{
+  clearTimeout(window._chartResize);window._chartResize=setTimeout(renderCharts,150);
+ });
+ window.addEventListener("scroll",()=>{
+  const max=document.documentElement.scrollHeight-innerHeight;
+  $("progress").style.width=(max>0?scrollY/max*100:0)+"%";
+  $("topbar").classList.toggle("scrolled",scrollY>20);
+  let active="vision";
+  document.querySelectorAll("main section[id]").forEach(s=>{if(s.getBoundingClientRect().top<160)active=s.id});
+  document.querySelectorAll(".navlinks a").forEach(a=>a.classList.toggle("active",a.getAttribute("href")==="#"+active));
+ },{passive:true});
+}
+function revealOnScroll(){
+ if(!("IntersectionObserver" in window)){
+  document.querySelectorAll(".reveal").forEach(e=>e.classList.add("in"));return;
+ }
+ const observer=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add("in");observer.unobserve(e.target)}
+ }),{threshold:.1});
+ document.querySelectorAll(".reveal").forEach(e=>observer.observe(e));
+}
+bind();revealOnScroll();updateLab();loadData();
 })();
 </script>
 </body>
