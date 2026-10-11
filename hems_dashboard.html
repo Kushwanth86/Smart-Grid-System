@@ -1,367 +1,535 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Intelligent Home Energy Management System</title>
 
-    <meta charset="UTF-8">
+<style>
+*{
+    box-sizing:border-box;
+}
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+:root{
+    --bg:#08111f;
+    --panel:#111c2e;
+    --panel2:#172337;
+    --border:#2b3a52;
+    --text:#eef4fb;
+    --muted:#8fa3bd;
+    --cyan:#38bdf8;
+    --green:#22c55e;
+    --amber:#f59e0b;
+    --red:#ef4444;
+    --purple:#a78bfa;
+    --blue:#60a5fa;
+    --shadow:0 12px 30px rgba(0,0,0,.20);
+}
 
-    <title>
-        AI Intelligent Home Energy Management System
-    </title>
+body{
+    margin:0;
+    font-family:Inter,Segoe UI,Arial,sans-serif;
+    background:
+        radial-gradient(circle at top right,rgba(56,189,248,.08),transparent 30%),
+        radial-gradient(circle at top left,rgba(167,139,250,.05),transparent 25%),
+        var(--bg);
+    color:var(--text);
+}
 
-    <style>
+header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(8,17,31,.94);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+}
 
-        * {
-            box-sizing: border-box;
-        }
+.header-inner{
+    max-width:1700px;
+    margin:auto;
+    padding:18px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:18px;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #0b1120;
-            color: #e2e8f0;
-        }
+.brand h1{
+    margin:0;
+    font-size:28px;
+    letter-spacing:.2px;
+}
 
-        header {
-            padding: 24px 32px;
-            background: #111827;
-            border-bottom: 1px solid #334155;
-        }
+.brand p{
+    margin:6px 0 0;
+    color:var(--muted);
+    font-size:14px;
+}
 
-        header h1 {
-            margin: 0;
-            font-size: 30px;
-            font-weight: 700;
-        }
+.header-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+}
 
-        header p {
-            margin: 8px 0 0;
-            color: #94a3b8;
-            font-size: 15px;
-        }
+.pill{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 12px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:700;
+    border:1px solid transparent;
+    white-space:nowrap;
+}
 
-        .container {
-            width: 100%;
-            max-width: 1600px;
-            margin: auto;
-            padding: 24px;
-        }
+.pill.normal{
+    background:rgba(34,197,94,.14);
+    color:#86efac;
+    border-color:rgba(34,197,94,.28);
+}
 
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 22px;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
+.pill.info{
+    background:rgba(56,189,248,.12);
+    color:#7dd3fc;
+    border-color:rgba(56,189,248,.25);
+}
 
-        .topbar-title {
-            font-size: 20px;
-            font-weight: 600;
-        }
+.pill.warning{
+    background:rgba(245,158,11,.13);
+    color:#fcd34d;
+    border-color:rgba(245,158,11,.28);
+}
 
-        .button-group {
-            display: flex;
-            gap: 10px;
-        }
+.pill.critical{
+    background:rgba(239,68,68,.13);
+    color:#fca5a5;
+    border-color:rgba(239,68,68,.28);
+}
 
-        button {
-            border: 1px solid #475569;
-            background: #1e293b;
-            color: #e2e8f0;
-            padding: 10px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-        }
+button{
+    border:1px solid #41536f;
+    background:#142035;
+    color:var(--text);
+    padding:9px 14px;
+    border-radius:9px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:600;
+}
 
-        button:hover {
-            background: #334155;
-        }
+button:hover{
+    background:#1a2942;
+}
 
-        .kpi-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(auto-fit, minmax(190px, 1fr));
-            gap: 16px;
-            margin-bottom: 28px;
-        }
+.container{
+    max-width:1700px;
+    margin:auto;
+    padding:24px 28px 40px;
+}
 
-        .card {
-            background: #172033;
-            border: 1px solid #334155;
-            border-radius: 14px;
-            padding: 18px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.18);
-        }
+.section{
+    margin-top:28px;
+}
 
-        .kpi-card {
-            min-height: 120px;
-        }
+.section-head{
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:14px;
+    margin-bottom:13px;
+}
 
-        .card-title {
-            color: #94a3b8;
-            font-size: 13px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+.section-title{
+    margin:0;
+    font-size:21px;
+}
 
-        .card-value {
-            font-size: 27px;
-            font-weight: 700;
-            color: #f8fafc;
-        }
+.section-subtitle{
+    color:var(--muted);
+    font-size:12px;
+}
 
-        .card-subtitle {
-            margin-top: 7px;
-            color: #64748b;
-            font-size: 12px;
-        }
+.kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(8,minmax(0,1fr));
+    gap:13px;
+}
 
-        .section {
-            margin-top: 28px;
-        }
+.card{
+    background:linear-gradient(145deg,var(--panel),var(--panel2));
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+}
 
-        .section-title {
-            margin: 0 0 14px;
-            font-size: 22px;
-            color: #f8fafc;
-        }
+.kpi{
+    min-height:118px;
+    padding:16px;
+}
 
-        .status-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(auto-fit, minmax(260px, 1fr));
-            gap: 16px;
-        }
+.kpi-label{
+    color:var(--muted);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+}
 
-        .status-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            padding: 9px 0;
-            border-bottom: 1px solid #273449;
-        }
+.kpi-value{
+    margin-top:11px;
+    font-size:25px;
+    font-weight:800;
+}
 
-        .status-row:last-child {
-            border-bottom: none;
-        }
+.kpi-sub{
+    margin-top:5px;
+    color:#647994;
+    font-size:11px;
+}
 
-        .status-label {
-            color: #94a3b8;
-        }
+.status-grid{
+    display:grid;
+    grid-template-columns:1.1fr 1.1fr 1fr;
+    gap:14px;
+}
 
-        .status-value {
-            color: #f8fafc;
-            font-weight: 600;
-            text-align: right;
-        }
+.status-card{
+    padding:16px;
+}
 
-        .pill {
-            display: inline-block;
-            padding: 7px 12px;
-            border-radius: 999px;
-            font-size: 13px;
-            background: #334155;
-            color: #e2e8f0;
-        }
+.status-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:14px;
+    padding:11px 0;
+    border-bottom:1px solid rgba(72,92,122,.34);
+}
 
-        .normal {
-            background: #14532d;
-        }
+.status-row:last-child{
+    border-bottom:0;
+}
 
-        .warning {
-            background: #854d0e;
-        }
+.status-label{
+    color:var(--muted);
+    font-size:13px;
+}
 
-        .critical {
-            background: #7f1d1d;
-        }
+.status-value{
+    font-weight:700;
+    font-size:13px;
+    text-align:right;
+}
 
-        .info {
-            background: #1e3a8a;
-        }
+.asset-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+}
 
-        .chart-card {
-            background: #172033;
-            border: 1px solid #334155;
-            border-radius: 14px;
-            padding: 16px;
-        }
+.asset{
+    padding:17px;
+    min-height:110px;
+}
 
-        .chart-wrapper {
-            width: 100%;
-            overflow-x: auto;
-        }
+.asset-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+}
 
-        canvas {
-            display: block;
-            width: 100%;
-            min-width: 700px;
-            height: 340px;
-            background: #111827;
-            border-radius: 9px;
-        }
+.asset-name{
+    font-weight:700;
+}
 
-        .two-column {
-            display: grid;
-            grid-template-columns:
-                repeat(auto-fit, minmax(420px, 1fr));
-            gap: 18px;
-        }
+.asset-value{
+    margin-top:15px;
+    font-size:23px;
+    font-weight:800;
+}
 
-        .three-column {
-            display: grid;
-            grid-template-columns:
-                repeat(auto-fit, minmax(300px, 1fr));
-            gap: 18px;
-        }
+.asset-note{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:11px;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #172033;
-            border: 1px solid #334155;
-            border-radius: 14px;
-            overflow: hidden;
-        }
+.flow{
+    display:grid;
+    grid-template-columns:1fr 60px 1fr 60px 1fr 60px 1fr;
+    gap:10px;
+    align-items:center;
+}
 
-        th,
-        td {
-            padding: 12px 10px;
-            border-bottom: 1px solid #273449;
-            text-align: left;
-            white-space: nowrap;
-        }
+.flow-node{
+    min-height:120px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:14px;
+}
 
-        th {
-            color: #94a3b8;
-            font-size: 13px;
-            font-weight: 600;
-            background: #111827;
-        }
+.flow-icon{
+    font-size:28px;
+}
 
-        td {
-            color: #e2e8f0;
-            font-size: 13px;
-        }
+.flow-title{
+    margin-top:7px;
+    font-weight:700;
+}
 
-        tr:last-child td {
-            border-bottom: none;
-        }
+.flow-power{
+    margin-top:5px;
+    color:#7dd3fc;
+    font-weight:700;
+    font-size:13px;
+}
 
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 14px;
-        }
+.arrow{
+    text-align:center;
+    color:#6682a5;
+    font-size:28px;
+}
 
-        .metric-list {
-            display: grid;
-            gap: 8px;
-        }
+.chart-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
 
-        .metric-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 9px 0;
-            border-bottom: 1px solid #273449;
-        }
+.chart-card{
+    padding:12px;
+}
 
-        .metric-item:last-child {
-            border-bottom: none;
-        }
+.chart-wrap{
+    width:100%;
+    overflow:auto;
+}
 
-        .metric-name {
-            color: #94a3b8;
-        }
+canvas{
+    display:block;
+    width:100%;
+    min-width:780px;
+    height:360px;
+    background:#0b1422;
+    border-radius:10px;
+}
 
-        .metric-value {
-            font-weight: 700;
-            color: #f8fafc;
-        }
+.chart-title{
+    padding:8px 8px 11px;
+    font-size:13px;
+    color:#cbd5e1;
+    font-weight:700;
+}
 
-        .footer {
-            margin-top: 35px;
-            padding: 18px 0 10px;
-            text-align: center;
-            color: #64748b;
-            font-size: 12px;
-        }
+.ai-grid{
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:14px;
+}
 
-        .loading {
-            padding: 20px;
-            text-align: center;
-            color: #94a3b8;
-        }
+.metric-list{
+    display:grid;
+    gap:0;
+}
 
-        .error-box {
-            margin-top: 20px;
-            padding: 14px 16px;
-            border-radius: 10px;
-            background: #451a03;
-            border: 1px solid #92400e;
-            color: #fde68a;
-            display: none;
-        }
+.metric-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
+    padding:11px 0;
+    border-bottom:1px solid rgba(72,92,122,.34);
+}
 
-        @media (max-width: 700px) {
+.metric-item:last-child{
+    border-bottom:0;
+}
 
-            header {
-                padding: 20px;
-            }
+.metric-name{
+    color:var(--muted);
+    font-size:13px;
+}
 
-            header h1 {
-                font-size: 23px;
-            }
+.metric-value{
+    color:var(--text);
+    font-weight:700;
+    text-align:right;
+}
 
-            .container {
-                padding: 15px;
-            }
+.decision-box{
+    padding:18px;
+    display:grid;
+    grid-template-columns:1.4fr .8fr .8fr;
+    gap:14px;
+}
 
-            .two-column {
-                grid-template-columns: 1fr;
-            }
+.decision-main{
+    min-height:115px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
 
-            .three-column {
-                grid-template-columns: 1fr;
-            }
+.decision-main .label{
+    color:var(--muted);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.8px;
+}
 
-        }
+.decision-main .big{
+    margin-top:8px;
+    font-size:24px;
+    font-weight:800;
+}
 
-    </style>
+.mini-stat{
+    padding:14px;
+}
 
+.mini-label{
+    color:var(--muted);
+    font-size:11px;
+}
+
+.mini-value{
+    margin-top:9px;
+    font-size:20px;
+    font-weight:800;
+}
+
+.table-wrap{
+    overflow:auto;
+}
+
+table{
+    width:100%;
+    min-width:1100px;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:11px 10px;
+    border-bottom:1px solid rgba(72,92,122,.34);
+    text-align:left;
+    font-size:12px;
+}
+
+th{
+    color:var(--muted);
+    background:#0d1727;
+    text-transform:uppercase;
+    letter-spacing:.4px;
+}
+
+tr:last-child td{
+    border-bottom:0;
+}
+
+tr.active{
+    background:rgba(56,189,248,.07);
+}
+
+.error{
+    display:none;
+    margin-bottom:18px;
+    padding:14px 16px;
+    border-radius:12px;
+    border:1px solid #92400e;
+    background:#31190b;
+    color:#fde68a;
+}
+
+.footer{
+    text-align:center;
+    color:#637895;
+    font-size:11px;
+    padding-top:30px;
+}
+
+.small-note{
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.5;
+}
+
+@media(max-width:1400px){
+    .kpi-grid{
+        grid-template-columns:repeat(4,1fr);
+    }
+}
+
+@media(max-width:1000px){
+    .status-grid,
+    .chart-grid,
+    .ai-grid,
+    .decision-box{
+        grid-template-columns:1fr;
+    }
+
+    .flow{
+        grid-template-columns:1fr;
+    }
+
+    .arrow{
+        transform:rotate(90deg);
+    }
+
+    .asset-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:620px){
+    .container,
+    .header-inner{
+        padding-left:14px;
+        padding-right:14px;
+    }
+
+    .kpi-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .asset-grid{
+        grid-template-columns:1fr;
+    }
+
+    .brand h1{
+        font-size:22px;
+    }
+}
+</style>
 </head>
 
 <body>
 
 <header>
+    <div class="header-inner">
 
-    <h1>
-        AI Intelligent Home Energy Management System
-    </h1>
-
-    <p>
-        Solar + ML Forecasting + Battery + EV/V2H
-        + Multi-Objective Optimization
-    </p>
-
-</header>
-
-<div class="container">
-
-    <div class="topbar">
-
-        <div class="topbar-title">
-            Real-Time Simulation Dashboard
+        <div class="brand">
+            <h1>AI Intelligent Home Energy Management System</h1>
+            <p>
+                Solar + ML Forecasting + Battery + EV/V2H + Multi-Objective Optimization
+            </p>
         </div>
 
-        <div class="button-group">
+        <div class="header-actions">
+
+            <span class="pill normal" id="systemStatus">
+                ● SYSTEM ONLINE
+            </span>
+
+            <span class="pill info" id="scenarioBadge">
+                Scenario 5
+            </span>
 
             <button onclick="loadDashboard()">
                 Refresh Data
@@ -370,240 +538,153 @@
         </div>
 
     </div>
+</header>
 
-    <div id="errorBox"
-         class="error-box">
-    </div>
+<div class="container">
 
-    <!-- ================================================= -->
-    <!-- KPI CARDS -->
-    <!-- ================================================= -->
-
-    <div class="kpi-grid">
-
-        <div class="card kpi-card">
-            <div class="card-title">
-                Battery SOC
-            </div>
-            <div class="card-value"
-                 id="soc">
-                --
-            </div>
-            <div class="card-subtitle">
-                Home battery
-            </div>
-        </div>
-
-        <div class="card kpi-card">
-            <div class="card-title">
-                Battery SOH
-            </div>
-            <div class="card-value"
-                 id="soh">
-                --
-            </div>
-            <div class="card-subtitle">
-                Advanced health model
-            </div>
-        </div>
-
-        <div class="card kpi-card">
-            <div class="card-title">
-                EV SOC
-            </div>
-            <div class="card-value"
-                 id="evSoc">
-                --
-            </div>
-            <div class="card-subtitle">
-                Vehicle battery
-            </div>
-        </div>
-
-        <div class="card kpi-card">
-            <div class="card-title">
-                Grid Energy
-            </div>
-            <div class="card-value"
-                 id="gridEnergy">
-                --
-            </div>
-            <div class="card-subtitle">
-                Imported energy
-            </div>
-        </div>
-
-        <div class="card kpi-card">
-            <div class="card-title">
-                Energy Cost
-            </div>
-            <div class="card-value"
-                 id="cost">
-                --
-            </div>
-            <div class="card-subtitle">
-                Intelligent operation
-            </div>
-        </div>
-
-        <div class="card kpi-card">
-            <div class="card-title">
-                CO₂
-            </div>
-            <div class="card-value"
-                 id="co2">
-                --
-            </div>
-            <div class="card-subtitle">
-                kg CO₂
-            </div>
-        </div>
-
-        <div class="card kpi-card">
-            <div class="card-title">
-                Peak Demand
-            </div>
-            <div class="card-value"
-                 id="peak">
-                --
-            </div>
-            <div class="card-subtitle">
-                Maximum grid demand
-            </div>
-        </div>
-
-        <div class="card kpi-card">
-            <div class="card-title">
-                Load Shedding
-            </div>
-            <div class="card-value"
-                 id="shedding">
-                --
-            </div>
-            <div class="card-subtitle">
-                Duration
-            </div>
-        </div>
-
-    </div>
+    <div id="errorBox" class="error"></div>
 
     <!-- ================================================= -->
-    <!-- STATUS -->
+    <!-- EXECUTIVE KPIs -->
     <!-- ================================================= -->
 
     <div class="section">
 
-        <h2 class="section-title">
-            System Status
-        </h2>
+        <div class="section-head">
+            <h2 class="section-title">Executive KPIs</h2>
+            <span class="section-subtitle">
+                Latest simulation results
+            </span>
+        </div>
+
+        <div class="kpi-grid">
+
+            <div class="card kpi">
+                <div class="kpi-label">Battery SOC</div>
+                <div class="kpi-value" id="soc">--</div>
+                <div class="kpi-sub">Home battery</div>
+            </div>
+
+            <div class="card kpi">
+                <div class="kpi-label">Battery SOH</div>
+                <div class="kpi-value" id="soh">--</div>
+                <div class="kpi-sub">Advanced health model</div>
+            </div>
+
+            <div class="card kpi">
+                <div class="kpi-label">EV SOC</div>
+                <div class="kpi-value" id="evSoc">--</div>
+                <div class="kpi-sub">Vehicle battery</div>
+            </div>
+
+            <div class="card kpi">
+                <div class="kpi-label">Grid Energy</div>
+                <div class="kpi-value" id="gridEnergy">--</div>
+                <div class="kpi-sub">Imported energy</div>
+            </div>
+
+            <div class="card kpi">
+                <div class="kpi-label">Energy Cost</div>
+                <div class="kpi-value" id="cost">--</div>
+                <div class="kpi-sub">Intelligent operation</div>
+            </div>
+
+            <div class="card kpi">
+                <div class="kpi-label">CO₂</div>
+                <div class="kpi-value" id="co2">--</div>
+                <div class="kpi-sub">Estimated emissions</div>
+            </div>
+
+            <div class="card kpi">
+                <div class="kpi-label">Peak Demand</div>
+                <div class="kpi-value" id="peak">--</div>
+                <div class="kpi-sub">Maximum grid demand</div>
+            </div>
+
+            <div class="card kpi">
+                <div class="kpi-label">Load Shedding</div>
+                <div class="kpi-value" id="shedding">--</div>
+                <div class="kpi-sub">Duration</div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- SYSTEM STATUS -->
+    <!-- ================================================= -->
+
+    <div class="section">
+
+        <div class="section-head">
+            <h2 class="section-title">System Status</h2>
+            <span class="section-subtitle">
+                AI decision, optimization and cyber state
+            </span>
+        </div>
 
         <div class="status-grid">
 
-            <div class="card">
+            <div class="card status-card">
 
                 <div class="status-row">
-                    <span class="status-label">
-                        Scenario
-                    </span>
-
-                    <span class="status-value"
-                          id="scenario">
-                        --
-                    </span>
+                    <span class="status-label">Scenario</span>
+                    <span class="status-value" id="scenario">--</span>
                 </div>
 
                 <div class="status-row">
-                    <span class="status-label">
-                        Decision
-                    </span>
-
-                    <span class="pill normal"
-                          id="decision">
-                        --
-                    </span>
+                    <span class="status-label">Decision</span>
+                    <span class="pill normal" id="decision">--</span>
                 </div>
 
                 <div class="status-row">
-                    <span class="status-label">
-                        Severity
-                    </span>
-
-                    <span class="pill normal"
-                          id="severity">
-                        --
-                    </span>
+                    <span class="status-label">Severity</span>
+                    <span class="pill normal" id="severity">--</span>
                 </div>
 
             </div>
 
-            <div class="card">
+
+            <div class="card status-card">
 
                 <div class="status-row">
-                    <span class="status-label">
-                        Objective Score
-                    </span>
-
-                    <span class="status-value"
-                          id="objectiveScore">
-                        --
-                    </span>
+                    <span class="status-label">Objective Score</span>
+                    <span class="status-value" id="objectiveScore">--</span>
                 </div>
 
                 <div class="status-row">
-                    <span class="status-label">
-                        Grid Command
-                    </span>
-
-                    <span class="status-value"
-                          id="gridCommand">
-                        --
-                    </span>
+                    <span class="status-label">Maximum Grid Command</span>
+                    <span class="status-value" id="gridCommand">--</span>
                 </div>
 
                 <div class="status-row">
-                    <span class="status-label">
-                        EV Power
-                    </span>
-
-                    <span class="status-value"
-                          id="evPower">
-                        --
-                    </span>
+                    <span class="status-label">Maximum EV Power</span>
+                    <span class="status-value" id="evPower">--</span>
                 </div>
 
             </div>
 
-            <div class="card">
+
+            <div class="card status-card">
 
                 <div class="status-row">
-                    <span class="status-label">
-                        Cybersecurity
+                    <span class="status-label">Cybersecurity</span>
+                    <span class="pill normal" id="cyberStatus">
+                        Secure
                     </span>
+                </div>
 
-                    <span class="pill normal"
-                          id="cyberStatus">
+                <div class="status-row">
+                    <span class="status-label">Anomaly Score</span>
+                    <span class="status-value" id="anomalyScore">
                         --
                     </span>
                 </div>
 
                 <div class="status-row">
-                    <span class="status-label">
-                        Anomaly Score
-                    </span>
-
-                    <span class="status-value"
-                          id="anomalyScore">
-                        --
-                    </span>
-                </div>
-
-                <div class="status-row">
-                    <span class="status-label">
-                        Protected Grid
-                    </span>
-
-                    <span class="status-value"
-                          id="protectedGrid">
+                    <span class="status-label">Protected Grid</span>
+                    <span class="status-value" id="protectedGrid">
                         --
                     </span>
                 </div>
@@ -611,69 +692,255 @@
             </div>
 
         </div>
-
     </div>
 
+
     <!-- ================================================= -->
-    <!-- POWER FLOW -->
+    <!-- ENERGY ASSETS -->
     <!-- ================================================= -->
 
     <div class="section">
 
-        <h2 class="section-title">
-            Power Flow
-        </h2>
+        <div class="section-head">
+            <h2 class="section-title">Energy Assets</h2>
+            <span class="section-subtitle">
+                Current endpoint values
+            </span>
+        </div>
 
-        <div class="chart-card">
+        <div class="asset-grid">
 
-            <div class="chart-wrapper">
+            <div class="card asset">
+                <div class="asset-top">
+                    <span class="asset-name">☀ Solar PV</span>
+                    <span class="pill info">Renewable</span>
+                </div>
 
-                <canvas id="powerChart">
-                </canvas>
+                <div class="asset-value" id="solarCurrent">
+                    --
+                </div>
 
+                <div class="asset-note">
+                    Latest solar generation
+                </div>
+            </div>
+
+
+            <div class="card asset">
+                <div class="asset-top">
+                    <span class="asset-name">⚡ Grid</span>
+                    <span class="pill info">Utility</span>
+                </div>
+
+                <div class="asset-value" id="gridCurrent">
+                    --
+                </div>
+
+                <div class="asset-note">
+                    Latest grid import
+                </div>
+            </div>
+
+
+            <div class="card asset">
+                <div class="asset-top">
+                    <span class="asset-name">🔋 Battery</span>
+                    <span class="pill info">Storage</span>
+                </div>
+
+                <div class="asset-value" id="batteryCurrent">
+                    --
+                </div>
+
+                <div class="asset-note">
+                    Latest battery SOC
+                </div>
+            </div>
+
+
+            <div class="card asset">
+                <div class="asset-top">
+                    <span class="asset-name">🚗 EV / V2H</span>
+                    <span class="pill info">Bidirectional</span>
+                </div>
+
+                <div class="asset-value" id="evCurrent">
+                    --
+                </div>
+
+                <div class="asset-note">
+                    Latest EV power
+                </div>
             </div>
 
         </div>
-
     </div>
 
+
     <!-- ================================================= -->
-    <!-- BATTERY / EV -->
+    <!-- AI ENERGY CONTROL FLOW -->
     <!-- ================================================= -->
 
     <div class="section">
 
-        <h2 class="section-title">
-            Battery and EV
-        </h2>
+        <div class="section-head">
+            <h2 class="section-title">AI Energy Control Flow</h2>
+            <span class="section-subtitle">
+                Real-time cyber-physical energy coordination
+            </span>
+        </div>
 
-        <div class="two-column">
+        <div class="card" style="padding:14px">
 
-            <div class="chart-card">
+            <div class="flow">
 
-                <div class="chart-wrapper">
+                <div class="card flow-node">
+                    <div class="flow-icon">☀</div>
+                    <div class="flow-title">Solar PV</div>
+                    <div class="flow-power" id="flowSolar">
+                        --
+                    </div>
+                </div>
 
-                    <canvas id="batteryChart">
-                    </canvas>
+                <div class="arrow">→</div>
 
+                <div class="card flow-node">
+                    <div class="flow-icon">🤖</div>
+                    <div class="flow-title">AI Controller</div>
+                    <div class="flow-power" id="flowDecision">
+                        --
+                    </div>
+                </div>
+
+                <div class="arrow">→</div>
+
+                <div class="card flow-node">
+                    <div class="flow-icon">🏠</div>
+                    <div class="flow-title">Home Load</div>
+                    <div class="flow-power" id="flowLoad">
+                        --
+                    </div>
+                </div>
+
+                <div class="arrow">↔</div>
+
+                <div class="card flow-node">
+                    <div class="flow-icon">🔋</div>
+                    <div class="flow-title">Battery</div>
+                    <div class="flow-power" id="flowBattery">
+                        --
+                    </div>
+                </div>
+
+                <div class="arrow">↔</div>
+
+                <div class="card flow-node">
+                    <div class="flow-icon">🚗</div>
+                    <div class="flow-title">EV / V2H</div>
+                    <div class="flow-power" id="flowEV">
+                        --
+                    </div>
                 </div>
 
             </div>
 
-            <div class="chart-card">
-
-                <div class="chart-wrapper">
-
-                    <canvas id="evPowerChart">
-                    </canvas>
-
-                </div>
-
+            <div class="small-note" style="text-align:center;margin-top:13px;">
+                Grid support is dynamically limited by the Energy Management Controller.
             </div>
 
         </div>
-
     </div>
+
+
+    <!-- ================================================= -->
+    <!-- POWER AND STORAGE -->
+    <!-- ================================================= -->
+
+    <div class="section">
+
+        <div class="section-head">
+            <h2 class="section-title">Power and Storage Trends</h2>
+            <span class="section-subtitle">
+                Simulation traces
+            </span>
+        </div>
+
+        <div class="chart-grid">
+
+            <div class="card chart-card">
+                <div class="chart-title">Power Flow</div>
+                <div class="chart-wrap">
+                    <canvas id="powerChart"></canvas>
+                </div>
+            </div>
+
+
+            <div class="card chart-card">
+                <div class="chart-title">Battery and EV SOC</div>
+                <div class="chart-wrap">
+                    <canvas id="batteryChart"></canvas>
+                </div>
+            </div>
+
+
+            <div class="card chart-card">
+                <div class="chart-title">EV Power / V2H</div>
+                <div class="chart-wrap">
+                    <canvas id="evPowerChart"></canvas>
+                </div>
+            </div>
+
+
+            <div class="card chart-card">
+                <div class="chart-title">Multi-Objective Score</div>
+                <div class="chart-wrap">
+                    <canvas id="objectiveChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- ML FORECASTING -->
+    <!-- ================================================= -->
+
+    <div class="section">
+
+        <div class="section-head">
+            <h2 class="section-title">ML Forecasting</h2>
+            <span class="section-subtitle">
+                Predicted vs measured energy behavior
+            </span>
+        </div>
+
+        <div class="chart-grid">
+
+            <div class="card chart-card">
+                <div class="chart-title">
+                    Solar ML Forecast vs Actual
+                </div>
+
+                <div class="chart-wrap">
+                    <canvas id="solarForecastChart"></canvas>
+                </div>
+            </div>
+
+
+            <div class="card chart-card">
+                <div class="chart-title">
+                    Load ML Forecast vs Actual
+                </div>
+
+                <div class="chart-wrap">
+                    <canvas id="loadForecastChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
 
     <!-- ================================================= -->
     <!-- AI OPTIMIZATION -->
@@ -681,78 +948,113 @@
 
     <div class="section">
 
-        <h2 class="section-title">
-            AI Optimization
-        </h2>
+        <div class="section-head">
+            <h2 class="section-title">AI Optimization</h2>
+            <span class="section-subtitle">
+                Multi-objective energy scheduling
+            </span>
+        </div>
 
-        <div class="two-column">
+        <div class="ai-grid">
 
-            <div class="chart-card">
-
-                <div class="chart-wrapper">
-
-                    <canvas id="objectiveChart">
-                    </canvas>
-
+            <div class="card chart-card">
+                <div class="chart-title">
+                    Optimization Objective Score
                 </div>
 
+                <div class="chart-wrap">
+                    <canvas id="objectiveChart2"></canvas>
+                </div>
             </div>
 
-            <div class="card">
+
+            <div class="card" style="padding:18px">
 
                 <div class="metric-list">
 
                     <div class="metric-item">
                         <span class="metric-name">
-                            Multi-Objective Score
+                            Objective Score
                         </span>
-
                         <span class="metric-value"
                               id="objectiveScore2">
                             --
                         </span>
                     </div>
 
+
                     <div class="metric-item">
                         <span class="metric-name">
                             Battery Throughput
                         </span>
-
                         <span class="metric-value"
                               id="throughput">
                             --
                         </span>
                     </div>
 
+
                     <div class="metric-item">
                         <span class="metric-name">
                             Equivalent Cycles
                         </span>
-
                         <span class="metric-value"
                               id="cycles">
                             --
                         </span>
                     </div>
 
+
                     <div class="metric-item">
                         <span class="metric-name">
                             Maximum Grid Command
                         </span>
-
                         <span class="metric-value"
                               id="gridCommand2">
                             --
                         </span>
                     </div>
 
+
                     <div class="metric-item">
                         <span class="metric-name">
                             Maximum EV Power
                         </span>
-
                         <span class="metric-value"
                               id="maxEvPower">
+                            --
+                        </span>
+                    </div>
+
+
+                    <div class="metric-item">
+                        <span class="metric-name">
+                            Solar ML Forecast
+                        </span>
+                        <span class="metric-value"
+                              id="solarMLStatus">
+                            --
+                        </span>
+                    </div>
+
+
+                    <div class="metric-item">
+                        <span class="metric-name">
+                            Load ML Forecast
+                        </span>
+                        <span class="metric-value"
+                              id="loadMLStatus">
+                            --
+                        </span>
+                    </div>
+
+
+                    <div class="metric-item">
+                        <span class="metric-name">
+                            Advanced Battery SOH
+                        </span>
+                        <span class="metric-value"
+                              id="soh2">
                             --
                         </span>
                     </div>
@@ -762,8 +1064,71 @@
             </div>
 
         </div>
-
     </div>
+
+
+    <!-- ================================================= -->
+    <!-- EXPLAINABLE DECISION -->
+    <!-- ================================================= -->
+
+    <div class="section">
+
+        <div class="section-head">
+            <h2 class="section-title">
+                Explainable Energy Decision
+            </h2>
+
+            <span class="section-subtitle">
+                Why the controller selected the current operating mode
+            </span>
+        </div>
+
+        <div class="card decision-box">
+
+            <div class="decision-main">
+
+                <div class="label">
+                    Current Decision
+                </div>
+
+                <div class="big"
+                     id="decisionLarge">
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="card mini-stat">
+
+                <div class="mini-label">
+                    Decision Code
+                </div>
+
+                <div class="mini-value"
+                     id="decisionCode">
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="card mini-stat">
+
+                <div class="mini-label">
+                    Severity
+                </div>
+
+                <div class="mini-value"
+                     id="severityLarge">
+                    --
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 
     <!-- ================================================= -->
     <!-- SCENARIO COMPARISON -->
@@ -771,190 +1136,170 @@
 
     <div class="section">
 
-        <h2 class="section-title">
-            Scenario Comparison
-        </h2>
+        <div class="section-head">
+            <h2 class="section-title">
+                Scenario Comparison
+            </h2>
 
-        <div class="table-wrapper">
-
-            <table>
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Scenario
-                        </th>
-
-                        <th>
-                            Final SOC
-                        </th>
-
-                        <th>
-                            Grid Energy
-                        </th>
-
-                        <th>
-                            Cost
-                        </th>
-
-                        <th>
-                            Peak
-                        </th>
-
-                        <th>
-                            CO₂
-                        </th>
-
-                        <th>
-                            Throughput
-                        </th>
-
-                        <th>
-                            Cycles
-                        </th>
-
-                        <th>
-                            Shedding
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="scenarioTable">
-
-                </tbody>
-
-            </table>
-
+            <span class="section-subtitle">
+                Automatic benchmark across five operating conditions
+            </span>
         </div>
 
-    </div>
+        <div class="card" style="padding:0">
 
-    <!-- ================================================= -->
-    <!-- DECISION INFORMATION -->
-    <!-- ================================================= -->
+            <div class="table-wrap">
 
-    <div class="section">
+                <table>
 
-        <h2 class="section-title">
-            Explainable Energy Decision
-        </h2>
+                    <thead>
+                        <tr>
+                            <th>Scenario</th>
+                            <th>Final SOC</th>
+                            <th>Grid Energy</th>
+                            <th>Cost</th>
+                            <th>Peak</th>
+                            <th>CO₂</th>
+                            <th>Throughput</th>
+                            <th>Cycles</th>
+                            <th>Shedding</th>
+                        </tr>
+                    </thead>
 
-        <div class="three-column">
+                    <tbody id="scenarioTable"></tbody>
 
-            <div class="card">
-
-                <div class="card-title">
-                    Decision
-                </div>
-
-                <div class="card-value"
-                     id="decisionLarge"
-                     style="font-size:20px;">
-                    --
-                </div>
-
-            </div>
-
-            <div class="card">
-
-                <div class="card-title">
-                    Decision Code
-                </div>
-
-                <div class="card-value"
-                     id="decisionCode"
-                     style="font-size:20px;">
-                    --
-                </div>
-
-            </div>
-
-            <div class="card">
-
-                <div class="card-title">
-                    Severity
-                </div>
-
-                <div class="card-value"
-                     id="severityLarge"
-                     style="font-size:20px;">
-                    --
-                </div>
+                </table>
 
             </div>
 
         </div>
-
     </div>
+
 
     <div class="footer">
-
         AI Intelligent Home Energy Management System
-        · MATLAB Simulink + Machine Learning + EV/V2H
-
+        · MATLAB Simulink
+        · Machine Learning
+        · EV/V2H
+        · Multi-Objective Optimization
+        · Cybersecurity
     </div>
 
 </div>
 
+
 <script>
 
+let dashboard = null;
+
+
 /* ========================================================
-   GLOBAL DATA
+   SCENARIO NAMES
    ======================================================== */
 
-let dashboard = null;
+const scenarioNames = {
+    1:"Normal Day",
+    2:"High Electricity Price",
+    3:"Low Solar / Cloud",
+    4:"Grid Outage",
+    5:"Dynamic Household Demand"
+};
 
 
 /* ========================================================
    SAFE NUMBER
    ======================================================== */
 
-function safeNumber(value, fallback = 0) {
+function safeNumber(value, fallback = 0){
 
     const n = Number(value);
 
-    if (Number.isFinite(n)) {
-        return n;
-    }
-
-    return fallback;
-
+    return Number.isFinite(n)
+        ? n
+        : fallback;
 }
 
 
 /* ========================================================
-   FORMAT
+   FORMAT NUMBER
    ======================================================== */
 
-function formatNumber(value, decimals = 2) {
+function formatNumber(value, decimals = 2){
 
     const n = Number(value);
 
-    if (!Number.isFinite(n)) {
+    if(!Number.isFinite(n)){
         return "--";
     }
 
     return n.toFixed(decimals);
-
 }
 
 
 /* ========================================================
-   LOAD DASHBOARD DATA
+   LAST VALUE
    ======================================================== */
 
-async function loadDashboard() {
+function lastValue(array, fallback = 0){
+
+    if(!Array.isArray(array) || array.length === 0){
+        return fallback;
+    }
+
+    return safeNumber(
+        array[array.length - 1],
+        fallback
+    );
+}
+
+
+/* ========================================================
+   PILL STYLE
+   ======================================================== */
+
+function setPill(element, severity){
+
+    if(!element){
+        return;
+    }
+
+    element.classList.remove(
+        "normal",
+        "info",
+        "warning",
+        "critical"
+    );
+
+    const value =
+        safeNumber(severity,0);
+
+    if(value >= 3){
+        element.classList.add("critical");
+    }
+    else if(value >= 2){
+        element.classList.add("warning");
+    }
+    else if(value >= 1){
+        element.classList.add("info");
+    }
+    else{
+        element.classList.add("normal");
+    }
+}
+
+
+/* ========================================================
+   LOAD DASHBOARD JSON
+   ======================================================== */
+
+async function loadDashboard(){
 
     const errorBox =
         document.getElementById("errorBox");
 
     errorBox.style.display = "none";
 
-    try {
+    try{
 
         const response =
             await fetch(
@@ -962,12 +1307,10 @@ async function loadDashboard() {
                 Date.now()
             );
 
-        if (!response.ok) {
-
+        if(!response.ok){
             throw new Error(
-                "HTTP error " + response.status
+                "HTTP " + response.status
             );
-
         }
 
         dashboard =
@@ -976,20 +1319,18 @@ async function loadDashboard() {
         updateDashboard();
 
     }
-
-    catch (error) {
+    catch(error){
 
         console.error(error);
 
         errorBox.textContent =
             "Could not load dashboard_data.json. " +
-            "Run the local HTTP server and make sure " +
-            "dashboard_data.json is in the same folder.";
+            "Make sure dashboard_data.json is in the same folder " +
+            "as this HTML file and the local server is running.";
 
         errorBox.style.display = "block";
 
     }
-
 }
 
 
@@ -997,42 +1338,68 @@ async function loadDashboard() {
    UPDATE DASHBOARD
    ======================================================== */
 
-function updateDashboard() {
+function updateDashboard(){
 
-    if (!dashboard) {
+    if(!dashboard){
         return;
     }
 
     const kpi =
         dashboard.kpi || {};
 
-    /* ----------------------------------------------------
-       KPI VALUES
-       ---------------------------------------------------- */
+    const solar =
+        dashboard.solar || [];
 
-    const finalSOC =
-        safeNumber(kpi.final_soc);
+    const solarForecast =
+        dashboard.solar_ml_forecast || [];
 
-    const finalSOH =
-        safeNumber(kpi.advanced_soh);
+    const loadActual =
+        dashboard.load_actual || [];
 
-    const evSOC =
-        safeNumber(kpi.ev_soc);
+    const loadForecast =
+        dashboard.load_ml_forecast || [];
+
+    const gridActual =
+        dashboard.grid_actual || [];
+
+    const gridCommand =
+        dashboard.grid_command || [];
+
+    const soc =
+        dashboard.soc || [];
+
+    const evSoc =
+        dashboard.ev_soc || [];
+
+    const evPower =
+        dashboard.ev_power || [];
+
+    const objective =
+        dashboard.objective_score || [];
+
+
+    /* ==================================================== */
+    /* KPI */
+    /* ==================================================== */
 
     document.getElementById("soc").textContent =
-        (finalSOC * 100).toFixed(2) + " %";
+        (safeNumber(kpi.final_soc) * 100).toFixed(2) +
+        " %";
 
     document.getElementById("soh").textContent =
-        (finalSOH * 100).toFixed(2) + " %";
+        (safeNumber(kpi.advanced_soh) * 100).toFixed(2) +
+        " %";
 
     document.getElementById("evSoc").textContent =
-        (evSOC * 100).toFixed(2) + " %";
+        (safeNumber(kpi.ev_soc) * 100).toFixed(2) +
+        " %";
 
     document.getElementById("gridEnergy").textContent =
         formatNumber(
             kpi.grid_energy_kwh,
             4
-        ) + " kWh";
+        ) +
+        " kWh";
 
     document.getElementById("cost").textContent =
         formatNumber(
@@ -1044,44 +1411,73 @@ function updateDashboard() {
         formatNumber(
             kpi.co2_kg,
             4
-        ) + " kg";
+        ) +
+        " kg";
 
     document.getElementById("peak").textContent =
         formatNumber(
             kpi.peak_kw,
             2
-        ) + " kW";
+        ) +
+        " kW";
 
     document.getElementById("shedding").textContent =
         formatNumber(
             kpi.load_shedding_seconds,
             0
-        ) + " s";
+        ) +
+        " s";
 
 
-    /* ----------------------------------------------------
-       SYSTEM STATUS
-       ---------------------------------------------------- */
+    /* ==================================================== */
+    /* SCENARIO */
+    /* ==================================================== */
+
+    const scenarioNumber =
+        safeNumber(
+            dashboard.scenario,
+            5
+        );
+
+    const scenarioName =
+        scenarioNames[scenarioNumber] ||
+        "Unknown Scenario";
 
     document.getElementById("scenario").textContent =
-        dashboard.scenario ?? "--";
+        scenarioNumber +
+        " — " +
+        scenarioName;
+
+    document.getElementById("scenarioBadge").textContent =
+        "Scenario " +
+        scenarioNumber +
+        " • " +
+        scenarioName;
+
+
+    /* ==================================================== */
+    /* DECISION */
+    /* ==================================================== */
+
+    const decisionText =
+        dashboard.decision_label ||
+        "Unknown";
+
+    const severityText =
+        dashboard.severity_label ||
+        "Unknown";
 
     document.getElementById("decision").textContent =
-        dashboard.decision_label || "Unknown";
+        decisionText;
 
     document.getElementById("decisionLarge").textContent =
-        dashboard.decision_label || "Unknown";
+        decisionText;
 
     document.getElementById("severity").textContent =
-        dashboard.severity_label || "Unknown";
+        severityText;
 
     document.getElementById("severityLarge").textContent =
-        dashboard.severity_label || "Unknown";
-
-
-    /* ----------------------------------------------------
-       DECISION CODE
-       ---------------------------------------------------- */
+        severityText;
 
     document.getElementById("decisionCode").textContent =
         formatNumber(
@@ -1089,10 +1485,20 @@ function updateDashboard() {
             0
         );
 
+    setPill(
+        document.getElementById("decision"),
+        kpi.decision_severity
+    );
 
-    /* ----------------------------------------------------
-       OBJECTIVE
-       ---------------------------------------------------- */
+    setPill(
+        document.getElementById("severity"),
+        kpi.decision_severity
+    );
+
+
+    /* ==================================================== */
+    /* AI OPTIMIZATION */
+    /* ==================================================== */
 
     document.getElementById("objectiveScore").textContent =
         formatNumber(
@@ -1106,89 +1512,160 @@ function updateDashboard() {
             4
         );
 
-
-    /* ----------------------------------------------------
-       GRID
-       ---------------------------------------------------- */
-
     document.getElementById("gridCommand").textContent =
         formatNumber(
             kpi.max_grid_command_kw,
             4
-        ) + " kW";
+        ) +
+        " kW";
 
     document.getElementById("gridCommand2").textContent =
         formatNumber(
             kpi.max_grid_command_kw,
             4
-        ) + " kW";
-
-
-    /* ----------------------------------------------------
-       EV
-       ---------------------------------------------------- */
-
-    const maxEVPower =
-        safeNumber(kpi.max_ev_power_kw);
-
-    const minEVPower =
-        safeNumber(kpi.min_ev_power_kw);
+        ) +
+        " kW";
 
     document.getElementById("evPower").textContent =
         formatNumber(
-            maxEVPower,
+            kpi.max_ev_power_kw,
             3
-        ) + " kW";
+        ) +
+        " kW";
 
     document.getElementById("maxEvPower").textContent =
         formatNumber(
-            maxEVPower,
+            kpi.max_ev_power_kw,
             3
-        ) + " kW";
-
-
-    /* ----------------------------------------------------
-       BATTERY
-       ---------------------------------------------------- */
+        ) +
+        " kW";
 
     document.getElementById("throughput").textContent =
         formatNumber(
             kpi.battery_throughput_kwh,
             4
-        ) + " kWh";
+        ) +
+        " kWh";
 
     document.getElementById("cycles").textContent =
         formatNumber(
-            kpi.battery_throughput_kwh / 20,
+            safeNumber(
+                kpi.battery_throughput_kwh
+            ) / 20,
             4
         );
 
+    document.getElementById("soh2").textContent =
+        formatNumber(
+            safeNumber(kpi.advanced_soh) * 100,
+            2
+        ) +
+        " %";
 
-    /* ----------------------------------------------------
-       CYBERSECURITY
-       ---------------------------------------------------- */
+    document.getElementById("solarMLStatus").textContent =
+        dashboard.system &&
+        dashboard.system.ml_solar_available
+            ? "Available"
+            : "Not logged";
+
+    document.getElementById("loadMLStatus").textContent =
+        dashboard.system &&
+        dashboard.system.ml_load_available
+            ? "Available"
+            : "Not logged";
+
+
+    /* ==================================================== */
+    /* CYBERSECURITY */
+    /* ==================================================== */
 
     updateCyberStatus();
 
 
-    /* ----------------------------------------------------
-       DECISION STYLE
-       ---------------------------------------------------- */
+    /* ==================================================== */
+    /* CURRENT ASSET VALUES */
+    /* ==================================================== */
 
-    updateStatusStyle(
-        document.getElementById("decision"),
-        kpi.decision_severity
-    );
+    const currentSolar =
+        lastValue(solar);
 
-    updateStatusStyle(
-        document.getElementById("severity"),
-        kpi.decision_severity
-    );
+    const currentGrid =
+        lastValue(gridActual);
+
+    const currentSOC =
+        lastValue(soc);
+
+    const currentEVPower =
+        lastValue(evPower);
+
+    const currentLoad =
+        lastValue(loadActual);
+
+    const currentObjective =
+        lastValue(objective);
+
+    document.getElementById("solarCurrent").textContent =
+        formatNumber(
+            currentSolar,
+            3
+        ) +
+        " kW";
+
+    document.getElementById("gridCurrent").textContent =
+        formatNumber(
+            currentGrid,
+            3
+        ) +
+        " kW";
+
+    document.getElementById("batteryCurrent").textContent =
+        (currentSOC * 100).toFixed(2) +
+        " %";
+
+    document.getElementById("evCurrent").textContent =
+        formatNumber(
+            currentEVPower,
+            3
+        ) +
+        " kW";
 
 
-    /* ----------------------------------------------------
-       CHARTS
-       ---------------------------------------------------- */
+    /* ==================================================== */
+    /* AI CONTROL FLOW */
+    /* ==================================================== */
+
+    document.getElementById("flowSolar").textContent =
+        formatNumber(
+            currentSolar,
+            3
+        ) +
+        " kW";
+
+    document.getElementById("flowDecision").textContent =
+        decisionText;
+
+    document.getElementById("flowLoad").textContent =
+        formatNumber(
+            currentLoad,
+            3
+        ) +
+        " kW";
+
+    document.getElementById("flowBattery").textContent =
+        (currentSOC * 100).toFixed(1) +
+        " % SOC";
+
+    document.getElementById("flowEV").textContent =
+        formatNumber(
+            currentEVPower,
+            3
+        ) +
+        " kW";
+
+
+    /* ==================================================== */
+    /* CHARTS */
+    /* ==================================================== */
 
     createPowerChart();
 
@@ -1198,55 +1675,16 @@ function updateDashboard() {
 
     createObjectiveChart();
 
+    createSolarForecastChart();
 
-    /* ----------------------------------------------------
-       TABLE
-       ---------------------------------------------------- */
+    createLoadForecastChart();
+
+
+    /* ==================================================== */
+    /* SCENARIO TABLE */
+    /* ==================================================== */
 
     createScenarioTable();
-
-}
-
-
-/* ========================================================
-   STATUS STYLE
-   ======================================================== */
-
-function updateStatusStyle(element, severity) {
-
-    element.classList.remove(
-        "normal",
-        "warning",
-        "critical",
-        "info"
-    );
-
-    const value =
-        safeNumber(severity);
-
-    if (value >= 3) {
-
-        element.classList.add("critical");
-
-    }
-
-    else if (value >= 2) {
-
-        element.classList.add("warning");
-
-    }
-
-    else if (value === 1) {
-
-        element.classList.add("info");
-
-    }
-
-    else {
-
-        element.classList.add("normal");
-
-    }
 
 }
 
@@ -1255,7 +1693,7 @@ function updateStatusStyle(element, severity) {
    CYBERSECURITY
    ======================================================== */
 
-function updateCyberStatus() {
+function updateCyberStatus(){
 
     const cyber =
         dashboard.cyber || {};
@@ -1266,14 +1704,16 @@ function updateCyberStatus() {
             0
         );
 
-    const secure =
+    const anomalyScore =
+        Number(
+            cyber.anomaly_score
+        );
+
+    const protectedGrid =
         safeNumber(
             cyber.secure_grid_status,
             1
         );
-
-    const score =
-        cyber.anomaly_score;
 
     const statusElement =
         document.getElementById(
@@ -1283,10 +1723,12 @@ function updateCyberStatus() {
     statusElement.classList.remove(
         "normal",
         "warning",
-        "critical"
+        "critical",
+        "info"
     );
 
-    if (anomaly > 0.5) {
+
+    if(anomaly > 0.5){
 
         statusElement.textContent =
             "ANOMALY DETECTED";
@@ -1295,9 +1737,15 @@ function updateCyberStatus() {
             "critical"
         );
 
-    }
+        document.getElementById(
+            "protectedGrid"
+        ).textContent =
+            protectedGrid > 0.5
+                ? "Protected / Isolated"
+                : "Protection Active";
 
-    else {
+    }
+    else{
 
         statusElement.textContent =
             "Secure";
@@ -1306,41 +1754,45 @@ function updateCyberStatus() {
             "normal"
         );
 
+        document.getElementById(
+            "protectedGrid"
+        ).textContent =
+            protectedGrid > 0.5
+                ? "Protected / Available"
+                : "Protection Active";
+
     }
+
 
     document.getElementById(
         "anomalyScore"
     ).textContent =
-        formatNumber(
-            score,
-            3
-        );
-
-    document.getElementById(
-        "protectedGrid"
-    ).textContent =
-        secure > 0.5
-            ? "Protected / Available"
-            : "Protected / Isolated";
+        Number.isFinite(anomalyScore)
+            ? anomalyScore.toFixed(3)
+            : "Not logged";
 
 }
 
 
 /* ========================================================
-   GENERIC LINE CHART
+   CHART ENGINE
    ======================================================== */
 
 function drawLineChart(
     canvasId,
     datasets,
     labels,
-    yUnit = ""
-) {
+    unit = ""
+){
 
     const canvas =
         document.getElementById(
             canvasId
         );
+
+    if(!canvas){
+        return;
+    }
 
     const ctx =
         canvas.getContext("2d");
@@ -1351,10 +1803,11 @@ function drawLineChart(
     const width =
         Math.max(
             rect.width,
-            750
+            780
         );
 
-    const height = 340;
+    const height =
+        360;
 
     const dpr =
         window.devicePixelRatio || 1;
@@ -1384,16 +1837,23 @@ function drawLineChart(
         height
     );
 
-    const allValues =
-        datasets
-            .flat()
-            .filter(
-                Number.isFinite
-            );
 
-    if (
-        allValues.length === 0
-    ) {
+    const validDatasets =
+        datasets.map(
+            data =>
+                Array.isArray(data)
+                    ? data.map(Number)
+                    : []
+        );
+
+
+    const allValues =
+        validDatasets
+            .flat()
+            .filter(Number.isFinite);
+
+
+    if(allValues.length === 0){
 
         ctx.fillStyle =
             "#94a3b8";
@@ -1408,64 +1868,72 @@ function drawLineChart(
         );
 
         return;
-
     }
 
+
     let min =
-        Math.min(...allValues);
+        Math.min(
+            ...allValues
+        );
 
     let max =
-        Math.max(...allValues);
+        Math.max(
+            ...allValues
+        );
 
-    if (min === max) {
+
+    if(min === max){
 
         min -= 1;
         max += 1;
 
     }
 
-    const paddingLeft = 60;
-    const paddingRight = 25;
-    const paddingTop = 45;
-    const paddingBottom = 45;
-
-    const plotWidth =
-        width -
-        paddingLeft -
-        paddingRight;
-
-    const plotHeight =
-        height -
-        paddingTop -
-        paddingBottom;
 
     const range =
         max - min;
 
+    const left = 65;
+    const right = 25;
+    const top = 48;
+    const bottom = 46;
 
-    /* ----------------------------------------------------
-       GRID
-       ---------------------------------------------------- */
+    const plotWidth =
+        width -
+        left -
+        right;
 
-    ctx.lineWidth = 1;
+    const plotHeight =
+        height -
+        top -
+        bottom;
+
+
+    /* ==================================================== */
+    /* GRID */
+    /* ==================================================== */
 
     ctx.strokeStyle =
-        "#334155";
+        "#26374e";
 
     ctx.fillStyle =
-        "#94a3b8";
+        "#7f93ad";
+
+    ctx.lineWidth =
+        1;
 
     ctx.font =
-        "12px Arial";
+        "11px Arial";
 
-    for (
+
+    for(
         let i = 0;
         i <= 5;
         i++
-    ) {
+    ){
 
         const y =
-            paddingTop +
+            top +
             i *
             plotHeight /
             5;
@@ -1473,17 +1941,17 @@ function drawLineChart(
         ctx.beginPath();
 
         ctx.moveTo(
-            paddingLeft,
+            left,
             y
         );
 
         ctx.lineTo(
-            width -
-            paddingRight,
+            width - right,
             y
         );
 
         ctx.stroke();
+
 
         const value =
             max -
@@ -1494,45 +1962,42 @@ function drawLineChart(
         ctx.fillText(
             value.toFixed(2) +
             (
-                yUnit
-                    ? " " + yUnit
+                unit
+                    ? " " + unit
                     : ""
             ),
-            8,
+            7,
             y + 4
         );
 
     }
 
 
-    /* ----------------------------------------------------
-       X AXIS
-       ---------------------------------------------------- */
+    /* ==================================================== */
+    /* X AXIS */
+    /* ==================================================== */
 
     ctx.strokeStyle =
-        "#64748b";
+        "#4b607a";
 
     ctx.beginPath();
 
     ctx.moveTo(
-        paddingLeft,
-        height -
-        paddingBottom
+        left,
+        height - bottom
     );
 
     ctx.lineTo(
-        width -
-        paddingRight,
-        height -
-        paddingBottom
+        width - right,
+        height - bottom
     );
 
     ctx.stroke();
 
 
-    /* ----------------------------------------------------
-       DATA LINES
-       ---------------------------------------------------- */
+    /* ==================================================== */
+    /* LINES */
+    /* ==================================================== */
 
     const lineColors = [
         "#38bdf8",
@@ -1542,38 +2007,38 @@ function drawLineChart(
         "#a78bfa"
     ];
 
-    datasets.forEach(
-        (data, index) => {
 
-            if (
+    validDatasets.forEach(
+        (data,index) => {
+
+            if(
                 !data ||
                 data.length < 2
-            ) {
-
+            ){
                 return;
-
             }
+
 
             ctx.beginPath();
 
-            let firstPoint =
-                true;
+            let started = false;
+
 
             data.forEach(
-                (value, i) => {
+                (rawValue,i) => {
 
-                    if (
-                        !Number.isFinite(
-                            value
-                        )
-                    ) {
+                    const value =
+                        Number(rawValue);
 
+                    if(
+                        !Number.isFinite(value)
+                    ){
                         return;
-
                     }
 
+
                     const x =
-                        paddingLeft +
+                        left +
                         i *
                         plotWidth /
                         Math.max(
@@ -1582,7 +2047,7 @@ function drawLineChart(
                         );
 
                     const y =
-                        paddingTop +
+                        top +
                         (
                             max -
                             value
@@ -1590,21 +2055,18 @@ function drawLineChart(
                         plotHeight /
                         range;
 
-                    if (
-                        firstPoint
-                    ) {
+
+                    if(!started){
 
                         ctx.moveTo(
                             x,
                             y
                         );
 
-                        firstPoint =
-                            false;
+                        started = true;
 
                     }
-
-                    else {
+                    else{
 
                         ctx.lineTo(
                             x,
@@ -1616,13 +2078,15 @@ function drawLineChart(
                 }
             );
 
+
             ctx.strokeStyle =
                 lineColors[
                     index %
                     lineColors.length
                 ];
 
-            ctx.lineWidth = 2;
+            ctx.lineWidth =
+                2.2;
 
             ctx.stroke();
 
@@ -1630,16 +2094,17 @@ function drawLineChart(
     );
 
 
-    /* ----------------------------------------------------
-       LEGEND
-       ---------------------------------------------------- */
+    /* ==================================================== */
+    /* LEGEND */
+    /* ==================================================== */
 
     labels.forEach(
-        (label, index) => {
+        (label,index) => {
 
             const x =
-                paddingLeft +
-                index * 170;
+                left +
+                index *
+                190;
 
             ctx.fillStyle =
                 lineColors[
@@ -1649,8 +2114,8 @@ function drawLineChart(
 
             ctx.fillRect(
                 x,
-                17,
-                25,
+                18,
+                26,
                 4
             );
 
@@ -1658,12 +2123,64 @@ function drawLineChart(
                 "#cbd5e1";
 
             ctx.font =
-                "13px Arial";
+                "12px Arial";
 
             ctx.fillText(
                 label,
-                x + 33,
-                21
+                x + 34,
+                22
+            );
+
+        }
+    );
+
+
+    /* ==================================================== */
+    /* X LABELS */
+    /* ==================================================== */
+
+    const timeArray =
+        dashboard.time || [];
+
+    const lastTime =
+        timeArray.length
+            ? safeNumber(
+                timeArray[
+                    timeArray.length - 1
+                ],
+                3600
+              )
+            : 3600;
+
+    const xLabels = [
+        "0 s",
+        Math.round(lastTime * .25) + " s",
+        Math.round(lastTime * .50) + " s",
+        Math.round(lastTime * .75) + " s",
+        Math.round(lastTime) + " s"
+    ];
+
+
+    ctx.fillStyle =
+        "#6e829c";
+
+    ctx.font =
+        "11px Arial";
+
+
+    xLabels.forEach(
+        (label,index) => {
+
+            const x =
+                left +
+                index *
+                plotWidth /
+                4;
+
+            ctx.fillText(
+                label,
+                x - 15,
+                height - 15
             );
 
         }
@@ -1673,10 +2190,10 @@ function drawLineChart(
 
 
 /* ========================================================
-   POWER CHART
+   POWER FLOW
    ======================================================== */
 
-function createPowerChart() {
+function createPowerChart(){
 
     drawLineChart(
         "powerChart",
@@ -1697,10 +2214,10 @@ function createPowerChart() {
 
 
 /* ========================================================
-   BATTERY CHART
+   BATTERY / EV SOC
    ======================================================== */
 
-function createBatteryChart() {
+function createBatteryChart(){
 
     const battery =
         (dashboard.soc || [])
@@ -1715,6 +2232,7 @@ function createBatteryChart() {
                 value =>
                     safeNumber(value) * 100
             );
+
 
     drawLineChart(
         "batteryChart",
@@ -1733,10 +2251,10 @@ function createBatteryChart() {
 
 
 /* ========================================================
-   EV POWER CHART
+   EV POWER
    ======================================================== */
 
-function createEVPowerChart() {
+function createEVPowerChart(){
 
     drawLineChart(
         "evPowerChart",
@@ -1753,13 +2271,25 @@ function createEVPowerChart() {
 
 
 /* ========================================================
-   OBJECTIVE CHART
+   OBJECTIVE SCORE
    ======================================================== */
 
-function createObjectiveChart() {
+function createObjectiveChart(){
 
     drawLineChart(
         "objectiveChart",
+        [
+            dashboard.objective_score || []
+        ],
+        [
+            "Objective Score"
+        ],
+        ""
+    );
+
+
+    drawLineChart(
+        "objectiveChart2",
         [
             dashboard.objective_score || []
         ],
@@ -1773,10 +2303,68 @@ function createObjectiveChart() {
 
 
 /* ========================================================
+   SOLAR ML FORECAST
+   ======================================================== */
+
+function createSolarForecastChart(){
+
+    const actual =
+        dashboard.solar || [];
+
+    const forecast =
+        dashboard.solar_ml_forecast || [];
+
+
+    drawLineChart(
+        "solarForecastChart",
+        [
+            actual,
+            forecast
+        ],
+        [
+            "Solar Actual",
+            "Solar ML Forecast"
+        ],
+        "kW"
+    );
+
+}
+
+
+/* ========================================================
+   LOAD ML FORECAST
+   ======================================================== */
+
+function createLoadForecastChart(){
+
+    const actual =
+        dashboard.load_actual || [];
+
+    const forecast =
+        dashboard.load_ml_forecast || [];
+
+
+    drawLineChart(
+        "loadForecastChart",
+        [
+            actual,
+            forecast
+        ],
+        [
+            "Load Actual",
+            "Load ML Forecast"
+        ],
+        "kW"
+    );
+
+}
+
+
+/* ========================================================
    SCENARIO TABLE
    ======================================================== */
 
-function createScenarioTable() {
+function createScenarioTable(){
 
     const tbody =
         document.getElementById(
@@ -1785,21 +2373,24 @@ function createScenarioTable() {
 
     tbody.innerHTML = "";
 
+
     const rows =
         dashboard.scenario_comparison;
 
-    if (
+
+    if(
         !rows ||
-        !Array.isArray(rows)
-    ) {
+        !Array.isArray(rows) ||
+        rows.length === 0
+    ){
 
         const tr =
-            document.createElement(
-                "tr"
-            );
+            document.createElement("tr");
 
         tr.innerHTML =
-            '<td colspan="9">No scenario comparison data available.</td>';
+            '<td colspan="9">' +
+            'No scenario comparison data available.' +
+            '</td>';
 
         tbody.appendChild(tr);
 
@@ -1807,17 +2398,38 @@ function createScenarioTable() {
 
     }
 
+
+    const activeScenario =
+        safeNumber(
+            dashboard.scenario,
+            5
+        );
+
+
     rows.forEach(
         row => {
 
             const tr =
-                document.createElement(
-                    "tr"
+                document.createElement("tr");
+
+
+            if(
+                Number(row.Scenario) ===
+                activeScenario
+            ){
+
+                tr.classList.add(
+                    "active"
                 );
+
+            }
+
 
             tr.innerHTML = `
                 <td>
-                    ${row.Scenario}
+                    <strong>
+                        ${row.Scenario}
+                    </strong>
                     — ${row.Scenario_Name}
                 </td>
 
@@ -1878,6 +2490,7 @@ function createScenarioTable() {
                 </td>
             `;
 
+
             tbody.appendChild(tr);
 
         }
@@ -1895,5 +2508,4 @@ loadDashboard();
 </script>
 
 </body>
-
-</html>
+</html> 
