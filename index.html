@@ -5,472 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#07110f">
-<meta name="description" content="Intelligent Home Energy Management System — MATLAB and Simulink simulation dashboard.">
+<meta name="description" content="Intelligent Home Energy Management System using MATLAB and Simulink.">
 <title>HEMS | Intelligence in Every Watt</title>
-
-<style>
-:root {
-  --bg:#07110f;
-  --panel:#0d1d19;
-  --panel2:#12271f;
-  --border:#28453a;
-  --text:#edf5ec;
-  --muted:#9bb0a4;
-  --lime:#c5f783;
-  --mint:#77e3bd;
-  --cyan:#7bdded;
-  --amber:#f3c879;
-  --red:#f18e91;
-  --radius:20px;
-}
-* {box-sizing:border-box}
-html {scroll-behavior:smooth;scroll-padding-top:90px}
-body {
-  margin:0;background:var(--bg);color:var(--text);
-  font:15px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
-  overflow-x:hidden;
-}
-button,input,select {font:inherit}
-button,a { -webkit-tap-highlight-color:transparent }
-button {color:inherit}
-a {color:inherit;text-decoration:none}
-img {max-width:100%}
-::selection {background:var(--lime);color:var(--bg)}
-.wrap {width:min(1280px,calc(100% - 44px));margin:auto}
-.muted {color:var(--muted)}
-.mono {font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-.eyebrow {
-  display:flex;align-items:center;gap:10px;
-  color:var(--lime);font-size:10px;font-weight:800;
-  letter-spacing:.2em;text-transform:uppercase;
-}
-.eyebrow:before {content:"";width:22px;height:1px;background:currentColor}
-.section {padding:100px 0;position:relative}
-.section-head {
-  display:flex;justify-content:space-between;align-items:end;
-  gap:28px;margin-bottom:32px;
-}
-.section-head h2 {
-  font-size:clamp(35px,5.5vw,70px);
-  letter-spacing:-.065em;line-height:1;
-  margin:13px 0 0;font-weight:650;
-}
-.section-head p {max-width:410px;color:var(--muted);font-size:13px;margin:0}
-.btn {
-  display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  min-height:43px;padding:0 17px;border:1px solid #41624f;
-  border-radius:50px;background:#13281f;color:var(--text);
-  font-size:11px;font-weight:800;cursor:pointer;transition:.25s;
-}
-.btn:hover {transform:translateY(-2px);border-color:var(--lime)}
-.btn-primary {background:var(--lime);color:#07110f;border-color:var(--lime)}
-.btn-primary:hover {background:#ddffa8}
-.tag {
-  display:inline-block;border:1px solid #385445;
-  border-radius:40px;padding:4px 9px;color:#c1d6c5;
-  font-size:9px;white-space:nowrap;
-}
-.panel {
-  min-width:0;padding:23px;border:1px solid var(--border);
-  border-radius:var(--radius);
-  background:linear-gradient(145deg,#10231d,#0b1915);
-}
-.panel-head {
-  display:flex;justify-content:space-between;align-items:start;
-  gap:12px;margin-bottom:18px;
-}
-.panel-head h3 {font-size:14px;margin:0}
-.panel-head p {font-size:10px;color:var(--muted);margin:5px 0 0}
-.reveal {opacity:0;transform:translateY(20px);transition:.7s ease}
-.reveal.in {opacity:1;transform:none}
-[hidden] {display:none!important}
-
-/* NAVIGATION */
-.topbar {
-  position:fixed;z-index:30;top:0;left:0;right:0;
-  border-bottom:1px solid transparent;transition:.3s;
-}
-.topbar.scrolled {
-  background:#07110fee;border-color:var(--border);backdrop-filter:blur(16px);
-}
-.progress {height:2px;position:absolute;bottom:-1px;left:0;width:0;background:var(--lime)}
-.nav {height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
-.brand {display:flex;align-items:center;gap:10px;flex-shrink:0}
-.brand-mark {
-  height:36px;width:36px;border:1px solid #61846c;border-radius:11px;
-  display:grid;place-items:center;color:var(--lime);font-size:24px;
-  background:linear-gradient(135deg,#c5f78322,#77e3bd08);
-}
-.brand b {display:block;font-size:12px;letter-spacing:.13em}
-.brand small {display:block;font-size:9px;color:var(--muted);letter-spacing:.12em}
-.navlinks {display:flex;align-items:center;gap:20px}
-.navlinks a {font-size:10px;color:#b3c6ba;transition:color .2s}
-.navlinks a:hover,.navlinks a.active {color:var(--lime)}
-.status {
-  display:flex;align-items:center;gap:8px;padding:7px 10px;
-  border:1px solid var(--border);border-radius:30px;
-  font-size:9px;color:#c9dccd;white-space:nowrap;
-}
-.dot {width:7px;height:7px;background:var(--lime);border-radius:50%;display:inline-block}
-.menu-btn {display:none;border:1px solid var(--border);border-radius:10px;background:transparent;padding:7px 10px}
-
-/* HERO */
-.hero {
-  min-height:max(720px,100svh);position:relative;overflow:hidden;
-  display:flex;align-items:center;padding:120px 0 70px;
-  background:radial-gradient(ellipse at 77% 46%,#1b3b2c 0%,#0e241c 25%,transparent 54%),
-  radial-gradient(ellipse at 14% 6%,#b8eb7810,transparent 34%),
-  linear-gradient(180deg,#07110f,#0a1712 76%,#07110f);
-}
-.hero-grid {
-  position:absolute;inset:0;opacity:.4;
-  background-image:linear-gradient(#b5dbb009 1px,transparent 1px),
-  linear-gradient(90deg,#b5dbb009 1px,transparent 1px);
-  background-size:58px 58px;
-  mask-image:linear-gradient(black,transparent 90%);
-}
-.hero-inner {
-  display:grid;grid-template-columns:1fr 1fr;align-items:center;
-  gap:20px;position:relative;z-index:2;
-}
-.hero-copy .eyebrow {margin-bottom:28px}
-.hero h1 {
-  font-size:clamp(65px,9vw,125px);line-height:.83;
-  letter-spacing:-.09em;font-weight:650;margin:0 0 28px;
-}
-.hero h1 span {display:block}
-.hero h1 .accent {color:var(--lime);font-style:italic;font-weight:500}
-.hero-desc {max-width:465px;color:#b4c8bb;font-size:14px;line-height:1.9;margin-bottom:25px}
-.actions {display:flex;flex-wrap:wrap;gap:10px}
-.hero-stats {display:flex;flex-wrap:wrap;gap:24px;margin-top:40px}
-.hero-stat {border-left:1px solid #45624d;padding-left:12px}
-.hero-stat strong {display:block;font-size:14px}
-.hero-stat small {
-  display:block;color:var(--muted);font-size:9px;
-  letter-spacing:.1em;text-transform:uppercase;margin-top:4px;
-}
-.hero-art {min-height:450px;display:grid;place-items:center;position:relative}
-.planet {
-  width:min(35vw,410px);aspect-ratio:1;position:relative;
-  display:grid;place-items:center;
-}
-.planet:before {
-  content:"";position:absolute;inset:-14%;border:1px solid #b2e7a02c;
-  border-radius:50%;box-shadow:0 0 0 30px #b2e7a009,0 0 0 70px #b2e7a006;
-  animation:rotate 60s linear infinite;
-}
-.planet-sphere {
-  position:absolute;inset:9%;border-radius:50%;overflow:hidden;
-  border:1px solid #b6ecab4b;
-  background:radial-gradient(circle at 35% 26%,#a9e99629,transparent 29%),
-  radial-gradient(circle at 72% 71%,#62e5ba24,transparent 42%),
-  linear-gradient(145deg,#244c35,#0a1a15 68%);
-  box-shadow:inset -35px -25px 65px #020805,inset 8px 0 35px #a8eaa40c;
-}
-.planet-sphere:before {
-  content:"";position:absolute;inset:-15%;opacity:.65;
-  background:repeating-linear-gradient(0deg,transparent 0 20px,#d0ffa016 21px 22px),
-  repeating-linear-gradient(90deg,transparent 0 20px,#d0ffa016 21px 22px);
-  transform:rotate(-20deg);mask-image:radial-gradient(circle,black,transparent 72%);
-}
-.planet-core {
-  position:relative;width:34%;aspect-ratio:1;border:1px solid #d7ff9b80;
-  border-radius:50%;display:grid;place-items:center;
-  background:radial-gradient(circle at 36% 27%,#d5ff9b55,#26482d 65%,#101e16);
-  box-shadow:0 0 45px #c5f78323,inset 0 0 27px #c5f78324;
-  color:var(--lime);font-size:55px;
-}
-.orbit {
-  position:absolute;inset:-1%;border:1px solid #a5dbb52c;border-radius:50%;
-  transform:rotateX(65deg) rotate(-25deg);animation:orbit 19s linear infinite;
-}
-.orbit.two {
-  inset:-10%;transform:rotateX(66deg) rotate(35deg);
-  animation-direction:reverse;animation-duration:27s;border-style:dashed;
-}
-.satellite {
-  position:absolute;top:9%;right:14%;width:10px;height:10px;border-radius:50%;
-  background:var(--lime);box-shadow:0 0 22px 5px #c5f78375;
-}
-.satellite.two {
-  top:auto;right:auto;bottom:13%;left:12%;width:7px;height:7px;
-  background:var(--cyan);box-shadow:0 0 20px #7bdded90;
-}
-.float-label {
-  position:absolute;z-index:4;padding:10px 13px;background:#0a1d17db;
-  backdrop-filter:blur(12px);border:1px solid #365947;
-  border-radius:13px;box-shadow:0 10px 34px #0003;
-}
-.float-label small {
-  display:block;font-size:8px;color:#9bb2a3;
-  letter-spacing:.14em;text-transform:uppercase;
-}
-.float-label strong {display:block;font-size:16px;margin-top:2px}
-.label-one {left:0;top:16%}
-.label-two {right:-2%;top:44%}
-.label-three {left:7%;bottom:12%}
-.hero-bottom {
-  position:absolute;bottom:22px;left:0;right:0;display:flex;
-  justify-content:space-between;gap:15px;color:#769084;
-  font-size:9px;letter-spacing:.12em;text-transform:uppercase;
-}
-.ticker {overflow:hidden;border-block:1px solid var(--border);background:#0a1713}
-.ticker-track {display:flex;width:max-content;animation:marquee 35s linear infinite}
-.ticker span {
-  padding:16px 28px;color:#adc5b3;font-size:10px;
-  letter-spacing:.15em;text-transform:uppercase;white-space:nowrap;
-}
-.ticker b {color:var(--lime);margin-right:10px}
-
-/* KPIs */
-.kpis {display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
-.kpi {
-  min-width:0;background:linear-gradient(145deg,#12261f,#0b1915);
-  border:1px solid var(--border);border-radius:18px;padding:21px;
-  transition:.3s;
-}
-.kpi:hover {border-color:#67885d;transform:translateY(-4px)}
-.kpi-top {display:flex;justify-content:space-between;gap:10px;align-items:center}
-.kpi-label {font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.kpi-icon {
-  width:32px;height:32px;border:1px solid #3a5d46;border-radius:10px;
-  display:grid;place-items:center;color:var(--lime);flex-shrink:0;
-}
-.kpi-value {font-size:clamp(22px,3vw,37px);font-weight:650;letter-spacing:-.05em;margin:10px 0 4px;overflow-wrap:anywhere}
-.kpi-note {font-size:10px;color:#91a99a}
-
-/* ENERGY MAP */
-.flow-layout {display:grid;grid-template-columns:1.25fr .75fr;gap:15px}
-.flow-scene {
-  min-height:340px;overflow:hidden;position:relative;border:1px solid #284a3c;
-  border-radius:16px;
-  background:radial-gradient(ellipse at 50% 50%,#1b382a,transparent 65%),#0a1713;
-}
-.flow-scene:before {
-  content:"";position:absolute;inset:0;opacity:.35;
-  background-image:linear-gradient(#a8d5a207 1px,transparent 1px),
-  linear-gradient(90deg,#a8d5a207 1px,transparent 1px);
-  background-size:35px 35px;
-}
-.flow-grid {
-  position:relative;z-index:2;padding:26px 12px;min-height:340px;
-  display:grid;grid-template-columns:1fr 1fr 1fr;
-  align-items:center;justify-items:center;gap:8px;
-}
-.flow-node {
-  min-width:0;width:100%;max-width:140px;min-height:95px;padding:9px 4px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
-  border:1px solid #385b46;border-radius:13px;background:#12271f;
-  cursor:pointer;transition:.25s;
-}
-.flow-node:hover,.flow-node.selected {
-  border-color:var(--lime);background:#1b3626;transform:translateY(-2px);
-  box-shadow:0 0 25px #c5f78312;
-}
-.flow-icon {font-size:24px;color:var(--lime)}
-.flow-node strong {font-size:10px}
-.flow-node small {font-size:8px;color:var(--muted);text-align:center}
-.flow-wire {height:2px;width:100%;background:#48674f;position:relative;opacity:.85}
-.flow-wire:after {
-  content:"";position:absolute;right:0;top:-3px;width:7px;height:7px;
-  border-top:2px solid var(--lime);border-right:2px solid var(--lime);transform:rotate(45deg);
-}
-.flow-wire.active {background:var(--lime);box-shadow:0 0 10px #c5f78375}
-.flow-caption {display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:9px;padding-top:13px}
-.inspect-value {font-size:34px;font-weight:650;letter-spacing:-.05em;margin:12px 0}
-.inspect-rows {border-top:1px solid var(--border);margin-top:20px}
-.inspect-row {
-  display:flex;justify-content:space-between;gap:12px;padding:11px 0;
-  border-bottom:1px solid #20372e;font-size:10px;
-}
-.inspect-row span {color:var(--muted)}
-.inspect-row b {text-align:right;overflow-wrap:anywhere}
-input[type=range] {width:100%;accent-color:var(--lime);cursor:pointer}
-
-/* CHARTS */
-.charts-grid {display:grid;grid-template-columns:1.3fr 1fr;gap:15px}
-.chart-wrap {width:100%;height:230px;position:relative}
-canvas.chart {display:block;width:100%;height:100%}
-.legend {display:flex;flex-wrap:wrap;gap:15px;margin-top:12px;font-size:10px;color:var(--muted)}
-.legend span {display:flex;align-items:center;gap:7px}
-.legend i {height:7px;width:7px;border-radius:50%;display:inline-block}
-
-/* WHAT-IF LAB */
-.lab-layout {display:grid;grid-template-columns:.8fr 1.2fr;gap:15px}
-.controls {display:grid;gap:17px}
-.control label {display:flex;justify-content:space-between;gap:10px;font-size:10px;margin-bottom:8px}
-.control output {color:var(--lime);font-weight:750}
-.select-control {
-  width:100%;padding:10px;background:#0b1a14;color:var(--text);
-  border:1px solid #355343;border-radius:10px;
-}
-.checkbox-line {display:flex;align-items:center;gap:9px;font-size:10px;color:var(--muted)}
-.checkbox-line input {accent-color:var(--lime)}
-.lab-results {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.result {padding:15px;background:#0a1913;border:1px solid #274338;border-radius:14px;min-width:0}
-.result small {display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.1em}
-.result strong {display:block;font-size:clamp(20px,3vw,31px);letter-spacing:-.04em;margin-top:7px;overflow-wrap:anywhere}
-.recommendation {
-  grid-column:1/-1;border:1px solid #435c3b;background:#c5f7830a;
-  border-radius:14px;padding:16px;
-}
-.recommendation h4 {font-size:12px;color:var(--lime);margin:0 0 6px}
-.recommendation p {font-size:10px;color:#b0c3b6;margin:0}
-.bar-compare {grid-column:1/-1;padding:5px 0}
-.bar-item {
-  display:grid;grid-template-columns:115px 1fr 65px;
-  align-items:center;gap:10px;margin:13px 0;
-  font-size:9px;color:var(--muted);
-}
-.bar {height:8px;background:#1e3329;border-radius:9px;overflow:hidden}
-.bar i {display:block;height:100%;width:20%;background:var(--mint);transition:width .35s}
-.bar-item:last-of-type .bar i {background:var(--lime)}
-.disclaimer {
-  font-size:10px;color:#9eb3a4;line-height:1.7;padding:12px;
-  border-left:2px solid var(--amber);background:#f3c87908;
-  border-radius:0 10px 10px 0;margin-top:14px;
-}
-
-/* SCENARIO TABLE */
-.table-wrap {overflow:auto;border:1px solid var(--border);border-radius:16px}
-table {width:100%;border-collapse:collapse;white-space:nowrap;font-size:10px}
-th,td {text-align:right;padding:14px 15px;border-bottom:1px solid #233b30}
-th {background:#12271f;color:#afc7b4;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
-th:first-child,td:first-child {text-align:left}
-tbody tr:hover {background:#1a3025}
-tbody tr:last-child td {border-bottom:0}
-.table-note {font-size:10px;color:var(--muted);margin-top:12px}
-
-/* SCOPE GALLERY */
-.scope-filters {display:flex;flex-wrap:wrap;gap:9px;margin-bottom:22px}
-.scope-filter {
-  padding:9px 15px;border:1px solid var(--border);border-radius:30px;
-  color:#c4d5c9;background:#0d1d19;cursor:pointer;font-size:10px;transition:.2s;
-}
-.scope-filter.active,.scope-filter:hover {color:#07110f;background:var(--lime);border-color:var(--lime)}
-.scope-gallery {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-.scope-card {
-  min-width:0;overflow:hidden;border:1px solid var(--border);border-radius:17px;
-  background:linear-gradient(145deg,#12261f,#0b1915);transition:.25s;
-}
-.scope-card:hover {transform:translateY(-4px);border-color:#8bac6a}
-.scope-card button {
-  display:block;width:100%;padding:0;border:0;background:transparent;
-  color:inherit;text-align:left;cursor:zoom-in;
-}
-.scope-card img {
-  display:block;width:100%;height:205px;padding:12px;
-  object-fit:contain;background:#080e0c;
-}
-.scope-card figcaption {padding:14px 15px 16px;border-top:1px solid var(--border)}
-.scope-card h3 {font-size:12px;margin:0}
-.scope-card p {font-size:10px;color:var(--muted);margin:5px 0 0}
-.scope-modal {
-  width:min(1100px,94vw);max-height:92vh;padding:18px;
-  color:var(--text);background:#07110f;border:1px solid #46664d;border-radius:17px;
-}
-.scope-modal::backdrop {background:#000c;backdrop-filter:blur(8px)}
-.scope-modal img {
-  display:block;max-width:100%;max-height:72vh;object-fit:contain;margin:16px auto;
-}
-.scope-modal button {
-  padding:8px 13px;border:1px solid #46664d;border-radius:30px;
-  background:#10231d;color:var(--lime);cursor:pointer;
-}
-.scope-modal h3 {font-size:15px}
-.image-error {color:var(--amber);font-size:10px;padding:10px}
-
-/* ARCHITECTURE + FOOTER */
-.story-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-.story-card {
-  padding:23px;min-height:190px;border:1px solid var(--border);
-  border-radius:18px;background:linear-gradient(145deg,#14271f,#0a1712);transition:.25s;
-}
-.story-card:hover {transform:translateY(-4px);border-color:#597c4e}
-.story-number {color:var(--lime);font-size:10px;letter-spacing:.12em}
-.story-symbol {font-size:27px;margin:18px 0 10px;color:var(--lime)}
-.story-card h3 {font-size:17px;margin:0 0 7px}
-.story-card p {font-size:11px;color:var(--muted);margin:0}
-.arch {display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:28px}
-.arch-node {padding:13px 16px;border:1px solid #385745;background:#10241b;border-radius:12px;text-align:center}
-.arch-node b {display:block;font-size:10px}
-.arch-node small {display:block;color:var(--muted);font-size:9px;margin-top:4px}
-.arch-arrow {color:var(--lime)}
-.footer {padding:30px 0;border-top:1px solid var(--border);font-size:10px;color:var(--muted)}
-.footer-inner {display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
-.toast {
-  position:fixed;z-index:60;bottom:20px;left:50%;opacity:0;
-  transform:translate(-50%,15px);pointer-events:none;
-  background:var(--lime);color:#07110f;padding:11px 16px;
-  border-radius:30px;font-size:10px;font-weight:800;transition:.25s;
-}
-.toast.show {opacity:1;transform:translate(-50%,0)}
-
-@keyframes rotate {to{transform:rotate(360deg)}}
-@keyframes orbit {to{transform:rotateX(65deg) rotate(335deg)}}
-@keyframes marquee {to{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce) {
-  *,*:before,*:after {animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
-}
-@media(max-width:1000px) {
-  .navlinks {gap:12px}
-  .hero h1 {font-size:clamp(60px,8vw,95px)}
-  .kpis {grid-template-columns:repeat(2,minmax(0,1fr))}
-  .flow-layout,.lab-layout {grid-template-columns:1fr}
-  .scope-gallery {grid-template-columns:repeat(2,minmax(0,1fr))}
-}
-@media(max-width:680px) {
-  .wrap {width:calc(100% - 30px)}
-  .section {padding:72px 0}
-  .section-head {display:block;margin-bottom:24px}
-  .section-head p {margin-top:14px}
-  .nav {height:64px}
-  .navlinks {
-    display:none;position:absolute;top:64px;left:0;right:0;padding:20px 24px;
-    background:#091711f7;border-bottom:1px solid var(--border);
-    flex-direction:column;align-items:flex-start;
-  }
-  .navlinks.open {display:flex}
-  .menu-btn {display:block}
-  .status {display:none}
-  .hero {min-height:auto;padding:108px 0 55px}
-  .hero-inner {grid-template-columns:1fr}
-  .hero h1 {font-size:clamp(63px,15.5vw,100px)}
-  .hero-desc {font-size:13px}
-  .hero-art {min-height:330px}
-  .planet {width:min(70vw,320px)}
-  .float-label {padding:8px 9px}
-  .float-label strong {font-size:13px}
-  .label-one {left:0;top:8%}
-  .label-two {right:0;top:40%}
-  .label-three {left:1%;bottom:5%}
-  .hero-bottom {position:relative;bottom:auto;margin-top:25px;font-size:8px}
-  .hero-bottom .right {display:none}
-  .kpi {padding:15px}
-  .kpi-value {font-size:26px}
-  .charts-grid {grid-template-columns:1fr}
-  .chart-wrap {height:210px}
-  .panel {padding:17px}
-  .flow-scene,.flow-grid {min-height:315px}
-  .flow-grid {padding:22px 6px;gap:5px}
-  .flow-node {min-height:78px;padding:5px 2px}
-  .flow-node strong {font-size:9px}
-  .flow-node small {font-size:7px}
-  .flow-icon {font-size:19px}
-  .inspect-value {font-size:30px}
-  .scope-gallery {grid-template-columns:1fr}
-  .scope-card img {height:225px}
-  .lab-results {gap:8px}
-  .result {padding:12px}
-  .bar-item {grid-template-columns:94px 1fr 57px;gap:7px}
-  .story-grid {grid-template-columns:1fr}
-  .arch {gap:7px}
-  .arch-node {padding:10px}
-}
-</style>
-
 <link rel="stylesheet" href="./style.css">
-
 </head>
 
 <body>
@@ -480,6 +17,7 @@ tbody tr:last-child td {border-bottom:0}
       <span class="brand-mark">ϟ</span>
       <span><b>H E M S</b><small>ENERGY INTELLIGENCE</small></span>
     </a>
+
     <nav class="navlinks" id="navlinks">
       <a href="#overview">Overview</a>
       <a href="#system">Energy system</a>
@@ -488,8 +26,12 @@ tbody tr:last-child td {border-bottom:0}
       <a href="#scopes">Scope gallery</a>
       <a href="#scenarios">Scenarios</a>
     </nav>
+
     <div style="display:flex;align-items:center;gap:10px">
-      <div class="status"><span class="dot"></span><span id="headerStatus">LOADING DATA</span></div>
+      <div class="status">
+        <span class="dot"></span>
+        <span id="headerStatus">LOADING DATA</span>
+      </div>
       <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">☰</button>
     </div>
   </div>
@@ -500,207 +42,417 @@ tbody tr:last-child td {border-bottom:0}
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-grid"></div>
+
   <div class="wrap hero-inner">
     <div class="hero-copy">
       <div class="eyebrow">Intelligent home energy management</div>
-      <h1><span>Energy.</span><span class="accent">Reimagined.</span></h1>
+
+      <h1>
+        <span>Energy.</span>
+        <span class="accent">Reimagined.</span>
+      </h1>
+
       <p class="hero-desc">
         One intelligent ecosystem connecting solar generation, battery storage,
-        the utility grid and electric mobility. Explore the recorded results of
-        the MATLAB/Simulink energy management model.
+        the utility grid and electric mobility. Explore the recorded results
+        of the MATLAB/Simulink energy management model.
       </p>
+
       <div class="actions">
         <a class="btn btn-primary" href="#system">Explore the system ↘</a>
         <a class="btn" href="#scopes">Explore Scope graphs →</a>
       </div>
+
       <div class="hero-stats">
-        <div class="hero-stat"><strong id="heroSamples">—</strong><small>Recorded samples</small></div>
-        <div class="hero-stat"><strong id="heroScenarios">—</strong><small>Saved scenarios</small></div>
-        <div class="hero-stat"><strong>MATLAB / Simulink</strong><small>Simulation platform</small></div>
+        <div class="hero-stat">
+          <strong id="heroSamples">—</strong>
+          <small>Recorded samples</small>
+        </div>
+        <div class="hero-stat">
+          <strong id="heroScenarios">—</strong>
+          <small>Saved scenarios</small>
+        </div>
+        <div class="hero-stat">
+          <strong>MATLAB / Simulink</strong>
+          <small>Simulation platform</small>
+        </div>
       </div>
     </div>
-    <div class="hero-art">
+
+    <div class="hero-art" aria-label="Animated energy planet illustration">
       <div class="planet">
         <div class="planet-sphere"></div>
         <div class="planet-core">ϟ</div>
-        <div class="orbit"></div><div class="orbit two"></div>
-        <div class="satellite"></div><div class="satellite two"></div>
+        <div class="orbit"></div>
+        <div class="orbit two"></div>
+        <div class="satellite"></div>
+        <div class="satellite two"></div>
       </div>
-      <div class="float-label label-one"><small>Final battery SOC</small><strong id="heroSoc">—</strong></div>
-      <div class="float-label label-two"><small>Recorded grid energy</small><strong id="heroGrid">—</strong></div>
-      <div class="float-label label-three"><small>Solar signal maximum</small><strong id="heroSolar">—</strong></div>
+
+      <div class="float-label label-one">
+        <small>Final battery SOC</small>
+        <strong id="heroSoc">—</strong>
+      </div>
+      <div class="float-label label-two">
+        <small>Recorded grid energy</small>
+        <strong id="heroGrid">—</strong>
+      </div>
+      <div class="float-label label-three">
+        <small>Solar signal maximum</small>
+        <strong id="heroSolar">—</strong>
+      </div>
     </div>
   </div>
+
   <div class="wrap hero-bottom">
     <div>ENGINEERED FOR A SMARTER HOME</div>
     <div>RECORDED SIMULATION · NOT LIVE HARDWARE</div>
   </div>
 </section>
 
-<div class="ticker" aria-hidden="true"><div class="ticker-track">
-  <span><b>✳</b> Solar generation</span><span><b>✳</b> Intelligent control</span>
-  <span><b>✳</b> Battery storage</span><span><b>✳</b> Grid optimisation</span>
-  <span><b>✳</b> EV integration</span><span><b>✳</b> Data-driven decisions</span>
-  <span><b>✳</b> Solar generation</span><span><b>✳</b> Intelligent control</span>
-  <span><b>✳</b> Battery storage</span><span><b>✳</b> Grid optimisation</span>
-  <span><b>✳</b> EV integration</span><span><b>✳</b> Data-driven decisions</span>
-</div></div>
+<!-- MOVING BANNER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span><b>✳</b> Solar generation</span>
+    <span><b>✳</b> Intelligent control</span>
+    <span><b>✳</b> Battery storage</span>
+    <span><b>✳</b> Grid optimisation</span>
+    <span><b>✳</b> EV integration</span>
+    <span><b>✳</b> Data-driven decisions</span>
+    <span><b>✳</b> Solar generation</span>
+    <span><b>✳</b> Intelligent control</span>
+    <span><b>✳</b> Battery storage</span>
+    <span><b>✳</b> Grid optimisation</span>
+    <span><b>✳</b> EV integration</span>
+    <span><b>✳</b> Data-driven decisions</span>
+  </div>
+</div>
 
-<!-- OVERVIEW KPIs -->
+<!-- KPI OVERVIEW -->
 <section class="section" id="overview">
   <div class="wrap">
     <div class="section-head reveal">
-      <div><div class="eyebrow">Simulation overview</div><h2>Every watt<br>has a purpose.</h2></div>
-      <p>Reported values from the supplied simulation summary. Values and units are read from the JSON export where available.</p>
+      <div>
+        <div class="eyebrow">Simulation overview</div>
+        <h2>Every watt<br>has a purpose.</h2>
+      </div>
+      <p>
+        Recorded KPI values from your simulation export. Measurements are
+        shown only when the source values are available.
+      </p>
     </div>
+
     <div class="kpis">
       <article class="kpi reveal">
-        <div class="kpi-top"><span class="kpi-label">Final battery SOC</span><span class="kpi-icon">ϟ</span></div>
-        <div class="kpi-value" id="kpiSoc">—</div><div class="kpi-note">Recorded simulation KPI</div>
+        <div class="kpi-top">
+          <span class="kpi-label">Final battery SOC</span>
+          <span class="kpi-icon">ϟ</span>
+        </div>
+        <div class="kpi-value" id="kpiSoc">—</div>
+        <div class="kpi-note">Recorded simulation KPI</div>
       </article>
+
       <article class="kpi reveal">
-        <div class="kpi-top"><span class="kpi-label">Grid energy</span><span class="kpi-icon">⌁</span></div>
-        <div class="kpi-value" id="kpiGrid">—</div><div class="kpi-note">Reported energy KPI</div>
+        <div class="kpi-top">
+          <span class="kpi-label">Grid energy</span>
+          <span class="kpi-icon">⌁</span>
+        </div>
+        <div class="kpi-value" id="kpiGrid">—</div>
+        <div class="kpi-note">Reported energy KPI</div>
       </article>
+
       <article class="kpi reveal">
-        <div class="kpi-top"><span class="kpi-label">Intelligent cost</span><span class="kpi-icon">₹</span></div>
-        <div class="kpi-value" id="kpiCost">—</div><div class="kpi-note">Source value; see model units</div>
+        <div class="kpi-top">
+          <span class="kpi-label">Intelligent cost</span>
+          <span class="kpi-icon">₹</span>
+        </div>
+        <div class="kpi-value" id="kpiCost">—</div>
+        <div class="kpi-note">Verify currency and units</div>
       </article>
+
       <article class="kpi reveal">
-        <div class="kpi-top"><span class="kpi-label">CO₂ emissions</span><span class="kpi-icon">◌</span></div>
-        <div class="kpi-value" id="kpiCo2">—</div><div class="kpi-note">Reported emissions KPI</div>
+        <div class="kpi-top">
+          <span class="kpi-label">CO₂ emissions</span>
+          <span class="kpi-icon">◌</span>
+        </div>
+        <div class="kpi-value" id="kpiCo2">—</div>
+        <div class="kpi-note">Reported emissions KPI</div>
       </article>
     </div>
   </div>
 </section>
 
-<!-- INTERACTIVE ENERGY SYSTEM -->
+<!-- INTERACTIVE ENERGY MAP -->
 <section class="section" id="system">
   <div class="wrap">
     <div class="section-head reveal">
-      <div><div class="eyebrow">Explore the architecture</div><h2>One home.<br>Connected intelligence.</h2></div>
-      <p>Select a component to inspect signals in the exported JSON. This graphic describes system relationships, not measured live power flow.</p>
+      <div>
+        <div class="eyebrow">Explore the architecture</div>
+        <h2>One home.<br>Connected intelligence.</h2>
+      </div>
+      <p>
+        Select a component to inspect its recorded signal. The graphic describes
+        system relationships; it does not measure live power flow.
+      </p>
     </div>
+
     <div class="flow-layout reveal">
       <div class="panel">
-        <div class="panel-head"><div><h3>Interactive energy map</h3><p>Select a component</p></div><span class="tag">EXPLORE</span></div>
+        <div class="panel-head">
+          <div>
+            <h3>Interactive energy map</h3>
+            <p>Select a component</p>
+          </div>
+          <span class="tag">EXPLORE</span>
+        </div>
+
         <div class="flow-scene">
           <div class="flow-grid">
-            <button class="flow-node" data-node="solar"><span class="flow-icon">☀</span><strong>Solar</strong><small>PV generation</small></button>
+            <button class="flow-node" data-node="solar">
+              <span class="flow-icon">☀</span>
+              <strong>Solar</strong>
+              <small>PV generation</small>
+            </button>
             <div class="flow-wire" id="wireSolar"></div>
-            <button class="flow-node" data-node="grid"><span class="flow-icon">ϟ</span><strong>Utility grid</strong><small>Grid exchange</small></button>
+
+            <button class="flow-node" data-node="grid">
+              <span class="flow-icon">ϟ</span>
+              <strong>Utility grid</strong>
+              <small>Grid exchange</small>
+            </button>
+
             <div class="flow-wire" id="wireBattery"></div>
-            <button class="flow-node" data-node="battery"><span class="flow-icon">▰</span><strong>Battery</strong><small>Energy storage</small></button>
+            <button class="flow-node" data-node="battery">
+              <span class="flow-icon">▰</span>
+              <strong>Battery</strong>
+              <small>Energy storage</small>
+            </button>
+
             <div class="flow-wire" id="wireHome"></div>
-            <button class="flow-node center selected" data-node="home"><span class="flow-icon">⌂</span><strong>Smart home</strong><small>Load management</small></button>
+            <button class="flow-node center selected" data-node="home">
+              <span class="flow-icon">⌂</span>
+              <strong>Smart home</strong>
+              <small>Load management</small>
+            </button>
+
             <div class="flow-wire" id="wireEV"></div>
-            <button class="flow-node" data-node="ev"><span class="flow-icon">↯</span><strong>EV</strong><small>Vehicle signal</small></button>
+            <button class="flow-node" data-node="ev">
+              <span class="flow-icon">↯</span>
+              <strong>EV</strong>
+              <small>Vehicle signal</small>
+            </button>
           </div>
         </div>
-        <div class="flow-caption"><span>Conceptual system relationships</span><span id="flowSample" class="mono">SAMPLE 1</span></div>
+
+        <div class="flow-caption">
+          <span>Conceptual system relationships</span>
+          <span id="flowSample" class="mono">SAMPLE 1</span>
+        </div>
       </div>
+
       <aside class="panel">
         <div class="eyebrow" id="inspectEyebrow">System component</div>
         <h3 id="inspectTitle" style="font-size:24px;margin:12px 0">Smart home</h3>
         <span class="tag" id="inspectTag">OVERVIEW</span>
         <div class="inspect-value mono" id="inspectValue">—</div>
-        <p class="muted" style="font-size:11px" id="inspectDescription">Choose a component to inspect its available values.</p>
+        <p class="muted" style="font-size:13px" id="inspectDescription">
+          Choose a component to inspect its available values.
+        </p>
         <div class="inspect-rows" id="inspectRows"></div>
+
         <div style="padding-top:14px">
-          <label for="sampleSlider" style="display:flex;justify-content:space-between;gap:10px;font-size:10px;margin-bottom:9px">
-            <span class="muted">Recorded time point</span><b class="mono" id="sampleLabel">1 / —</b>
+          <label for="sampleSlider"
+            style="display:flex;justify-content:space-between;gap:10px;font-size:12px;margin-bottom:9px">
+            <span class="muted">Recorded time point</span>
+            <b class="mono" id="sampleLabel">1 / —</b>
           </label>
           <input id="sampleSlider" type="range" min="0" max="1" value="0">
-          <div style="display:flex;justify-content:space-between;font-size:9px;color:var(--muted)"><span>Start</span><span>End</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted)">
+            <span>Start</span><span>End</span>
+          </div>
         </div>
       </aside>
     </div>
   </div>
 </section>
 
-<!-- RECORDED CHARTS -->
+<!-- RECORDED TELEMETRY -->
 <section class="section" id="telemetry">
   <div class="wrap">
     <div class="section-head reveal">
-      <div><div class="eyebrow">Recorded telemetry</div><h2>Inside the signal.</h2></div>
-      <p>These interactive charts use numerical time series from dashboard_data.json. Missing signals remain unavailable.</p>
+      <div>
+        <div class="eyebrow">Recorded telemetry</div>
+        <h2>Inside the signal.</h2>
+      </div>
+      <p>
+        These charts plot numerical arrays exported in dashboard_data.json.
+        Fraction-form SOC values are converted to percentages for display.
+      </p>
     </div>
+
     <div class="charts-grid">
       <article class="panel reveal">
-        <div class="panel-head"><div><h3>Battery & EV state of charge</h3><p>Recorded time series</p></div><span class="tag">SOC</span></div>
+        <div class="panel-head">
+          <div><h3>Battery & EV state of charge</h3><p>Percentage of charge</p></div>
+          <span class="tag">SOC</span>
+        </div>
         <div class="chart-wrap"><canvas class="chart" id="chartSoc"></canvas></div>
         <div class="legend" id="legendSoc"></div>
       </article>
+
       <article class="panel reveal">
-        <div class="panel-head"><div><h3>Grid power</h3><p>Command and actual signals</p></div><span class="tag">GRID</span></div>
+        <div class="panel-head">
+          <div><h3>Grid power</h3><p>Command and actual signals</p></div>
+          <span class="tag">GRID</span>
+        </div>
         <div class="chart-wrap"><canvas class="chart" id="chartGrid"></canvas></div>
         <div class="legend" id="legendGrid"></div>
       </article>
+
       <article class="panel reveal">
-        <div class="panel-head"><div><h3>Solar generation</h3><p>Recorded generation signal</p></div><span class="tag">SOLAR</span></div>
+        <div class="panel-head">
+          <div><h3>Solar generation vs forecast</h3><p>Actual solar and forecast when exported</p></div>
+          <span class="tag">SOLAR</span>
+        </div>
         <div class="chart-wrap"><canvas class="chart" id="chartSolar"></canvas></div>
         <div class="legend" id="legendSolar"></div>
+        <p class="chart-note warning" id="solarForecastNote" role="status">
+          Checking for numerical solar forecast data…
+        </p>
       </article>
+
       <article class="panel reveal">
-        <div class="panel-head"><div><h3>Cost & emissions</h3><p>Recorded exported traces</p></div><span class="tag">IMPACT</span></div>
+        <div class="panel-head">
+          <div><h3>Cost & emissions</h3><p>Recorded exported traces</p></div>
+          <span class="tag">IMPACT</span>
+        </div>
         <div class="chart-wrap"><canvas class="chart" id="chartCost"></canvas></div>
         <div class="legend" id="legendCost"></div>
       </article>
     </div>
-    <p class="muted" style="font-size:10px;margin-top:16px" id="dataStatus" role="status">Loading dashboard_data.json…</p>
+
+    <p class="muted" style="font-size:12px;margin-top:16px" id="dataStatus" role="status">
+      Loading dashboard_data.json…
+    </p>
   </div>
 </section>
 
-<!-- WHAT-IF -->
+<!-- WHAT-IF LAB -->
 <section class="section" id="lab">
   <div class="wrap">
     <div class="section-head reveal">
-      <div><div class="eyebrow">Explore alternative conditions</div><h2>What if you<br>changed the rules?</h2></div>
-      <p>Change assumptions to explore a simplified illustrative rule. These outputs are not results from a new MATLAB/Simulink run.</p>
+      <div>
+        <div class="eyebrow">Explore alternative conditions</div>
+        <h2>What if you<br>changed the rules?</h2>
+      </div>
+      <p>
+        Adjust assumptions to explore a simplified illustrative rule.
+        These outputs are not results from a new MATLAB/Simulink run.
+      </p>
     </div>
+
     <div class="lab-layout reveal">
       <div class="panel">
-        <div class="panel-head"><div><h3>Scenario controls</h3><p>Adjust assumptions</p></div><span class="tag">WHAT-IF</span></div>
+        <div class="panel-head">
+          <div><h3>Scenario controls</h3><p>Adjust assumptions</p></div>
+          <span class="tag">WHAT-IF</span>
+        </div>
+
         <div class="controls">
-          <div class="control"><label for="solarIn"><span>Solar availability</span><output id="solarOut">3 kW</output></label><input id="solarIn" type="range" min="0" max="8" step=".5" value="3"></div>
-          <div class="control"><label for="loadIn"><span>Home demand</span><output id="loadOut">4 kW</output></label><input id="loadIn" type="range" min=".5" max="10" step=".5" value="4"></div>
-          <div class="control"><label for="priceIn"><span>Electricity price index</span><output id="priceOut">0.40</output></label><input id="priceIn" type="range" min=".05" max=".8" step=".05" value=".4"></div>
-          <div class="control"><label for="tariffIn"><span>Illustrative tariff</span><output id="tariffOut">₹8/kWh</output></label><input id="tariffIn" type="range" min="2" max="20" step=".5" value="8"></div>
-          <div class="control"><label for="evSocIn"><span>EV state of charge</span><output id="evSocOut">60%</output></label><input id="evSocIn" type="range" min="10" max="100" step="5" value="60"></div>
-          <div class="control"><label for="gridIn"><span>Grid availability</span></label><select id="gridIn" class="select-control"><option value="available">Grid available</option><option value="outage">Grid outage</option></select></div>
-          <label class="checkbox-line"><input type="checkbox" id="evConnected" checked> EV connected and available to illustrative rule</label>
+          <div class="control">
+            <label for="solarIn"><span>Solar availability</span><output id="solarOut">3 kW</output></label>
+            <input id="solarIn" type="range" min="0" max="8" step=".5" value="3">
+          </div>
+
+          <div class="control">
+            <label for="loadIn"><span>Home demand</span><output id="loadOut">4 kW</output></label>
+            <input id="loadIn" type="range" min=".5" max="10" step=".5" value="4">
+          </div>
+
+          <div class="control">
+            <label for="priceIn"><span>Electricity price index</span><output id="priceOut">0.40</output></label>
+            <input id="priceIn" type="range" min=".05" max=".8" step=".05" value=".4">
+          </div>
+
+          <div class="control">
+            <label for="tariffIn"><span>Illustrative tariff</span><output id="tariffOut">₹8/kWh</output></label>
+            <input id="tariffIn" type="range" min="2" max="20" step=".5" value="8">
+          </div>
+
+          <div class="control">
+            <label for="evSocIn"><span>EV state of charge</span><output id="evSocOut">60%</output></label>
+            <input id="evSocIn" type="range" min="10" max="100" step="5" value="60">
+          </div>
+
+          <div class="control">
+            <label for="gridIn"><span>Grid availability</span></label>
+            <select id="gridIn" class="select-control">
+              <option value="available">Grid available</option>
+              <option value="outage">Grid outage</option>
+            </select>
+          </div>
+
+          <label class="checkbox-line">
+            <input type="checkbox" id="evConnected" checked>
+            EV connected and available to illustrative rule
+          </label>
+
           <div style="display:flex;gap:9px;flex-wrap:wrap">
             <button class="btn btn-primary" id="runLab">Apply scenario ↗</button>
             <button class="btn" id="resetLab">Reset values</button>
           </div>
         </div>
       </div>
+
       <div class="panel">
-        <div class="panel-head"><div><h3>Illustrative scenario output</h3><p>Calculated from the chosen assumptions</p></div><span class="tag">NOT SIMULINK OUTPUT</span></div>
+        <div class="panel-head">
+          <div><h3>Illustrative scenario output</h3><p>Calculated from selected assumptions</p></div>
+          <span class="tag">NOT SIMULINK OUTPUT</span>
+        </div>
+
         <div class="lab-results">
           <div class="result"><small>EV power request</small><strong id="labCmd">—</strong></div>
           <div class="result"><small>Estimated grid import</small><strong id="labGrid">—</strong></div>
           <div class="result"><small>Illustrative energy cost</small><strong id="labCost">—</strong></div>
           <div class="result"><small>Unserved load</small><strong id="labUnserved">—</strong></div>
-          <div class="recommendation"><h4 id="recTitle">Evaluating assumptions</h4><p id="recText">Adjust the controls to see the illustrative response.</p></div>
+
+          <div class="recommendation">
+            <h4 id="recTitle">Evaluating assumptions</h4>
+            <p id="recText">Adjust the controls to see the illustrative response.</p>
+          </div>
+
           <div class="bar-compare">
-            <div class="bar-item"><span id="baseLabel">Baseline</span><div class="bar"><i id="baseBar"></i></div><b class="mono" id="baseVal">—</b></div>
-            <div class="bar-item"><span id="managedLabel">Scenario</span><div class="bar"><i id="managedBar"></i></div><b class="mono" id="managedVal">—</b></div>
-            <p class="muted" style="font-size:10px" id="comparisonNote"></p>
+            <div class="bar-item">
+              <span id="baseLabel">Baseline</span>
+              <div class="bar"><i id="baseBar"></i></div>
+              <b class="mono" id="baseVal">—</b>
+            </div>
+            <div class="bar-item">
+              <span id="managedLabel">Scenario</span>
+              <div class="bar"><i id="managedBar"></i></div>
+              <b class="mono" id="managedVal">—</b>
+            </div>
+            <p class="muted" style="font-size:11px" id="comparisonNote"></p>
           </div>
         </div>
-        <div class="disclaimer">The lab uses a simplified assumed one-hour rule. It does not rerun Simulink, forecast real conditions, or control physical hardware. The EV sign convention and system constraints must be verified before interpreting these example commands as real control actions.</div>
+
+        <div class="disclaimer">
+          Simplified assumed one-hour rule. It does not rerun Simulink, forecast
+          real conditions or control physical hardware. The EV sign convention
+          and system constraints must be verified before interpreting example
+          commands as real control actions.
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SCOPE IMAGE GALLERY -->
+<!-- SCOPE GALLERY -->
 <section class="section" id="scopes">
   <div class="wrap">
     <div class="section-head reveal">
       <div><div class="eyebrow">MATLAB / Simulink evidence</div><h2>Inside the<br>simulation.</h2></div>
-      <p>Explore the original Scope screenshots exported from your model. Filter by topic and select any graph to inspect it at a larger size.</p>
+      <p>Inspect the original Scope screenshots exported from your model. Filter by topic and click a graph to enlarge it.</p>
     </div>
 
     <div class="scope-filters">
@@ -712,179 +464,233 @@ tbody tr:last-child td {border-bottom:0}
       <button class="scope-filter" data-filter="control">Control</button>
     </div>
 
-    <div class="scope-gallery" id="scopeGallery">
+    <div class="scope-gallery">
       <figure class="scope-card" data-category="energy">
         <button type="button" onclick="openScope(this)">
           <img src="./Actual Grid Power.png" alt="Actual Grid Power" loading="lazy">
           <figcaption><h3>Actual Grid Power</h3><p>Actual grid signal</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="battery">
         <button type="button" onclick="openScope(this)">
           <img src="./Available Battery Capacity.png" alt="Available Battery Capacity" loading="lazy">
           <figcaption><h3>Available Battery Capacity</h3><p>Battery capacity</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="economics">
         <button type="button" onclick="openScope(this)">
           <img src="./Baseline CO₂ Emissions.png" alt="Baseline CO₂ Emissions" loading="lazy">
           <figcaption><h3>Baseline CO₂ Emissions</h3><p>Reference emissions</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="economics">
         <button type="button" onclick="openScope(this)">
           <img src="./Baseline Energy Cost.png" alt="Baseline Energy Cost" loading="lazy">
           <figcaption><h3>Baseline Energy Cost</h3><p>Reference operating cost</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="energy">
         <button type="button" onclick="openScope(this)">
           <img src="./Baseline Peak Demand.png" alt="Baseline Peak Demand" loading="lazy">
           <figcaption><h3>Baseline Peak Demand</h3><p>Reference peak demand</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="battery">
         <button type="button" onclick="openScope(this)">
           <img src="./Battery Command.png" alt="Battery Command" loading="lazy">
-          <figcaption><h3>Battery Command</h3><p>Battery controller signal</p></figcaption>
+          <figcaption><h3>Battery Command</h3><p>Controller signal</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="battery">
         <button type="button" onclick="openScope(this)">
           <img src="./Battery Power.png" alt="Battery Power" loading="lazy">
           <figcaption><h3>Battery Power</h3><p>Battery power signal</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="battery">
         <button type="button" onclick="openScope(this)">
           <img src="./Battery State of Charge.png" alt="Battery State of Charge" loading="lazy">
           <figcaption><h3>Battery State of Charge</h3><p>Battery SOC</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="battery">
         <button type="button" onclick="openScope(this)">
           <img src="./Battery State of Health.png" alt="Battery State of Health" loading="lazy">
           <figcaption><h3>Battery State of Health</h3><p>Battery SOH</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="control">
         <button type="button" onclick="openScope(this)">
           <img src="./Controller Decision Code.png" alt="Controller Decision Code" loading="lazy">
           <figcaption><h3>Controller Decision Code</h3><p>Decision signal</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="control">
         <button type="button" onclick="openScope(this)">
           <img src="./Decision Severity.png" alt="Decision Severity" loading="lazy">
-          <figcaption><h3>Decision Severity</h3><p>Decision severity signal</p></figcaption>
+          <figcaption><h3>Decision Severity</h3><p>Severity signal</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="energy">
         <button type="button" onclick="openScope(this)">
           <img src="./EV State of Charge.png" alt="EV State of Charge" loading="lazy">
           <figcaption><h3>EV State of Charge</h3><p>EV battery SOC</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="economics">
         <button type="button" onclick="openScope(this)">
           <img src="./Intelligent Energy Cost.png" alt="Intelligent Energy Cost" loading="lazy">
           <figcaption><h3>Intelligent Energy Cost</h3><p>Managed operating cost</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="energy">
         <button type="button" onclick="openScope(this)">
           <img src="./Intelligent Peak Demand.png" alt="Intelligent Peak Demand" loading="lazy">
           <figcaption><h3>Intelligent Peak Demand</h3><p>Managed peak demand</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="control">
         <button type="button" onclick="openScope(this)">
           <img src="./Load Shedding.png" alt="Load Shedding" loading="lazy">
           <figcaption><h3>Load Shedding</h3><p>Load management signal</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="control">
         <button type="button" onclick="openScope(this)">
           <img src="./Optimisation Score.png" alt="Optimisation Score" loading="lazy">
           <figcaption><h3>Optimisation Score</h3><p>Controller score</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="energy">
         <button type="button" onclick="openScope(this)">
           <img src="./Peak Reduction Percentage.png" alt="Peak Reduction Percentage" loading="lazy">
           <figcaption><h3>Peak Reduction Percentage</h3><p>Peak demand reduction</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="solar">
         <button type="button" onclick="openScope(this)">
           <img src="./Solar Forecast.png" alt="Solar Forecast" loading="lazy">
-          <figcaption><h3>Solar Forecast</h3><p>Predicted solar signal</p></figcaption>
+          <figcaption><h3>Solar Forecast Scope</h3><p>Exported Scope screenshot</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="solar">
         <button type="button" onclick="openScope(this)">
           <img src="./Solar Generation.png" alt="Solar Generation" loading="lazy">
-          <figcaption><h3>Solar Generation</h3><p>Solar PV output</p></figcaption>
+          <figcaption><h3>Solar Generation Scope</h3><p>Exported solar signal screenshot</p></figcaption>
         </button>
       </figure>
+
       <figure class="scope-card" data-category="economics">
         <button type="button" onclick="openScope(this)">
           <img src="./Total CO₂ Emissions.png" alt="Total CO₂ Emissions" loading="lazy">
-          <figcaption><h3>Total CO₂ Emissions</h3><p>Recorded emissions signal</p></figcaption>
+          <figcaption><h3>Total CO₂ Emissions</h3><p>Recorded emissions</p></figcaption>
         </button>
       </figure>
     </div>
-    <p class="table-note">These are Scope images, not interactive numerical traces. The separate telemetry charts above use the exported JSON arrays.</p>
+
+    <p class="table-note">
+      The gallery displays Scope screenshots. Numerical telemetry charts above
+      use JSON arrays rather than reading data from images.
+    </p>
   </div>
 </section>
 
-<!-- SCENARIO COMPARISON -->
+<!-- SCENARIO TABLE -->
 <section class="section" id="scenarios">
   <div class="wrap">
     <div class="section-head reveal">
       <div><div class="eyebrow">Compare the saved runs</div><h2>Different conditions.<br>Different outcomes.</h2></div>
-      <p>Scenario data below is read from scenario_comparison in your JSON. The page does not recalculate those saved results.</p>
+      <p>Scenario values are loaded from scenario_comparison. Different operating scenarios are not treated as proof of baseline-controller savings.</p>
     </div>
+
     <div class="panel reveal">
       <div class="panel-head">
-        <div><h3>Simulation scenario comparison</h3><p>Recorded summary values</p></div>
+        <div><h3>Simulation scenario comparison</h3><p>Recorded summary metrics</p></div>
         <button class="btn" id="refreshBtn">↻ Reload data</button>
       </div>
+
       <div class="table-wrap">
         <table>
           <thead>
             <tr>
-              <th>Scenario</th><th>Final SOC</th><th>Grid energy</th>
-              <th>Cost</th><th>Peak demand</th><th>CO₂</th>
-              <th>Battery throughput</th><th>Load shed</th>
+              <th>Scenario</th>
+              <th>Final SOC</th>
+              <th>Grid energy</th>
+              <th>Cost</th>
+              <th>Peak demand</th>
+              <th>CO₂</th>
+              <th>Battery throughput</th>
+              <th>Load shed</th>
             </tr>
           </thead>
-          <tbody id="scenarioRows"><tr><td colspan="8">Loading scenario data…</td></tr></tbody>
+          <tbody id="scenarioRows">
+            <tr><td colspan="8">Loading scenario data…</td></tr>
+          </tbody>
         </table>
       </div>
-      <div class="table-note" id="scenarioMeta">Values will be read from dashboard_data.json.</div>
+
+      <div class="table-note" id="scenarioMeta">Loading saved scenarios…</div>
+      <div class="disclaimer" id="metricWarning">
+        Verify the peak-demand export: the currently supplied summary reports the same
+        1 kW peak value for each of the five scenarios.
+      </div>
     </div>
   </div>
 </section>
 
-<!-- PROJECT ARCHITECTURE -->
+<!-- ARCHITECTURE -->
 <section class="section" id="architecture">
   <div class="wrap">
     <div class="section-head reveal">
       <div><div class="eyebrow">Project architecture</div><h2>From model<br>to insight.</h2></div>
-      <p>The website is the visualisation layer over your exported simulation. It is separate from the MATLAB/Simulink controller.</p>
+      <p>The website visualises exported simulation results. It does not replace or rerun the MATLAB/Simulink controller.</p>
     </div>
+
     <div class="story-grid">
-      <article class="story-card reveal"><div class="story-number">01 / MODEL</div><div class="story-symbol">⌘</div><h3>Simulate</h3><p>Represent the household energy system and controller signals in MATLAB/Simulink.</p></article>
-      <article class="story-card reveal"><div class="story-number">02 / EXPORT</div><div class="story-symbol">↗</div><h3>Capture signals</h3><p>Export selected timeseries and summary metrics into dashboard_data.json and Scope images.</p></article>
-      <article class="story-card reveal"><div class="story-number">03 / EXPLORE</div><div class="story-symbol">ϟ</div><h3>Understand results</h3><p>Browse recorded telemetry, compare scenarios, and inspect original Scope graphs.</p></article>
+      <article class="story-card reveal">
+        <div class="story-number">01 / MODEL</div>
+        <div class="story-symbol">⌘</div>
+        <h3>Simulate</h3>
+        <p>Model household energy components and controller signals in MATLAB/Simulink.</p>
+      </article>
+      <article class="story-card reveal">
+        <div class="story-number">02 / EXPORT</div>
+        <div class="story-symbol">↗</div>
+        <h3>Capture signals</h3>
+        <p>Export numerical timeseries and KPI summaries to JSON alongside original Scope images.</p>
+      </article>
+      <article class="story-card reveal">
+        <div class="story-number">03 / EXPLORE</div>
+        <div class="story-symbol">ϟ</div>
+        <h3>Understand results</h3>
+        <p>Inspect telemetry, compare scenarios and review saved Scope outputs.</p>
+      </article>
     </div>
+
     <div class="arch reveal">
       <div class="arch-node"><b>MATLAB / Simulink</b><small>Simulation model</small></div>
       <span class="arch-arrow">→</span>
       <div class="arch-node"><b>JSON + Scope PNGs</b><small>Exported results</small></div>
       <span class="arch-arrow">→</span>
-      <div class="arch-node"><b>HEMS Website</b><small>Visualisation layer</small></div>
+      <div class="arch-node"><b>HEMS website</b><small>Visualisation layer</small></div>
     </div>
   </div>
 </section>
@@ -893,7 +699,7 @@ tbody tr:last-child td {border-bottom:0}
 <footer class="footer">
   <div class="wrap footer-inner">
     <div>HEMS · INTELLIGENCE IN EVERY WATT</div>
-    <div>MATLAB / Simulink student engineering project</div>
+    <div>MATLAB / Simulink engineering project</div>
     <div id="footerData">Waiting for recorded data</div>
   </div>
 </footer>
@@ -903,6 +709,7 @@ tbody tr:last-child td {border-bottom:0}
   <h3 id="scopeModalTitle">Scope graph</h3>
   <img id="scopeModalImage" src="" alt="Expanded Scope graph">
 </dialog>
+
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -911,79 +718,106 @@ tbody tr:last-child td {border-bottom:0}
 const $ = id => document.getElementById(id);
 let data = null;
 let activeNode = "home";
-let toastTimer;
+let toastTimer = null;
 
 const palette = {
-  lime:"#c5f783",mint:"#77e3bd",cyan:"#7bdded",
-  amber:"#f3c879",red:"#f18e91",blue:"#88aafa"
+  lime:"#c5f783",
+  mint:"#77e3bd",
+  cyan:"#7bdded",
+  amber:"#f3c879",
+  red:"#f18e91",
+  blue:"#88aafa"
 };
 
 const fmt = (v,d=2) => {
   if (v === null || v === undefined || v === "" || !Number.isFinite(Number(v))) {
     return "Unavailable";
   }
-  return Number(v).toLocaleString("en-IN",{
-    maximumFractionDigits:d
-  });
+  return Number(v).toLocaleString("en-IN", {maximumFractionDigits:d});
 };
-
-const pct = v => v == null || !Number.isFinite(Number(v))
-  ? "Unavailable" : fmt(v,1)+"%";
-
-const arr = key => data && Array.isArray(data[key]) ? data[key] : [];
-const at = (key,i) => {
-  const a = arr(key);
-  return i < a.length && a[i] != null && Number.isFinite(Number(a[i]))
-    ? Number(a[i]) : null;
-};
-
-const esc = value => String(value ?? "").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[c]));
 
 function put(id,value) {
-  const element = $(id);
-  if (element) element.textContent = value;
+  if ($(id)) $(id).textContent = value;
+}
+
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  }[c]));
+}
+
+/*
+  In the supplied JSON, SOC values are fractions:
+  0.4299 represents about 43%, not 0.4299%.
+  Convert fractional SOC and SOH into percent for display.
+*/
+function ratioToPercent(value) {
+  if (value === null || value === undefined || value === "") return null;
+  const n = Number(value);
+  if (!Number.isFinite(n)) return null;
+  return n >= 0 && n <= 1 ? n * 100 : n;
+}
+
+function pct(value,d=1) {
+  const n = ratioToPercent(value);
+  return n === null ? "Unavailable" : fmt(n,d) + "%";
+}
+
+function arr(key) {
+  return data && Array.isArray(data[key]) ? data[key] : [];
+}
+
+/* Return the first candidate that has an exported numeric array. */
+function getArray(keys) {
+  for (const key of keys) {
+    const values = arr(key);
+    if (values.length && values.some(v => v !== null && Number.isFinite(Number(v)))) {
+      return {key,values};
+    }
+  }
+  return {key:null,values:[]};
+}
+
+function at(key,index) {
+  const values=arr(key);
+  if(index<0 || index>=values.length || values[index]==null) return null;
+  const n=Number(values[index]);
+  return Number.isFinite(n) ? n : null;
 }
 
 function getRange(key) {
-  const values = arr(key).map(Number).filter(Number.isFinite);
-  return values.length ? {
-    min:Math.min(...values),max:Math.max(...values)
-  } : null;
+  const values=arr(key).map(Number).filter(Number.isFinite);
+  return values.length ? {min:Math.min(...values),max:Math.max(...values)} : null;
 }
 
 function sampleCount() {
   return Math.max(0,...[
-    "time","soc","grid_actual","grid_command","solar","cost",
-    "co2","ev_soc","ev_power","battery_throughput","load_shed",
-    "objective_score","decision_code","decision_severity","advanced_soh"
-  ].map(key=>arr(key).length));
+    "time","soc","grid_actual","grid_command","solar","cost","co2","ev_soc","ev_power"
+  ].map(k=>arr(k).length));
 }
 
 function toast(message) {
   put("toast",message);
   $("toast").classList.add("show");
   clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2400);
+  toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2300);
 }
 
-/* LOAD RECORDED SUMMARY VALUES */
+/* KPI cards and hero labels */
 function renderKpis() {
-  const k = data.kpi || {};
-  const rSolar = getRange("solar");
-  const count = sampleCount();
-  const scenarios = Array.isArray(data.scenario_comparison)
-    ? data.scenario_comparison : [];
+  const k=data.kpi || {};
+  const count=sampleCount();
+  const scenarios=Array.isArray(data.scenario_comparison) ? data.scenario_comparison : [];
+  const solarRange=getRange("solar");
 
   put("kpiSoc",pct(k.final_soc));
-  put("kpiGrid",k.grid_energy_kwh == null ? "Unavailable" : fmt(k.grid_energy_kwh)+" kWh");
-  put("kpiCost",k.cost == null ? "Unavailable" : fmt(k.cost));
-  put("kpiCo2",k.co2_kg == null ? "Unavailable" : fmt(k.co2_kg)+" kg");
+  put("kpiGrid",k.grid_energy_kwh==null ? "Unavailable" : fmt(k.grid_energy_kwh,3)+" kWh");
+  put("kpiCost",k.cost==null ? "Unavailable" : fmt(k.cost,4));
+  put("kpiCo2",k.co2_kg==null ? "Unavailable" : fmt(k.co2_kg,3)+" kg");
 
   put("heroSoc",pct(k.final_soc));
-  put("heroGrid",k.grid_energy_kwh == null ? "Unavailable" : fmt(k.grid_energy_kwh)+" kWh");
-  put("heroSolar",rSolar ? fmt(rSolar.max)+" max" : "Unavailable");
+  put("heroGrid",k.grid_energy_kwh==null ? "Unavailable" : fmt(k.grid_energy_kwh,3)+" kWh");
+  put("heroSolar",solarRange ? fmt(solarRange.max,2)+" max" : "Unavailable");
 
   put("heroSamples",count.toLocaleString("en-IN"));
   put("heroScenarios",String(scenarios.length).padStart(2,"0"));
@@ -996,56 +830,56 @@ function renderKpis() {
   put("sampleLabel","1 / "+count.toLocaleString("en-IN"));
 }
 
-/* INTERACTIVE COMPONENT INSPECTOR */
+/* Interactive system inspector */
 const nodeInfo = {
   solar:{
     eyebrow:"Renewable generation",title:"Solar generation",tag:"SOLAR",
     value:i=>fmt(at("solar",i),3),
-    desc:"Solar value from the exported time series at the selected sample.",
+    desc:"Solar value from the exported timeseries at the selected sample.",
     rows:()=>[
-      ["Recorded maximum",getRange("solar")?fmt(getRange("solar").max,3):"Unavailable"],
-      ["Recorded minimum",getRange("solar")?fmt(getRange("solar").min,3):"Unavailable"],
-      ["Samples",arr("solar").length.toLocaleString("en-IN")]
+      ["Recorded maximum",getRange("solar") ? fmt(getRange("solar").max,3) : "Unavailable"],
+      ["Recorded minimum",getRange("solar") ? fmt(getRange("solar").min,3) : "Unavailable"],
+      ["Available samples",arr("solar").length.toLocaleString("en-IN")]
     ]
   },
   battery:{
     eyebrow:"Energy storage",title:"Home battery",tag:"BATTERY",
     value:i=>pct(at("soc",i)),
-    desc:"Recorded battery state of charge at the selected sample.",
+    desc:"Recorded battery state of charge converted from fraction to percent.",
     rows:()=>[
-      ["Final SOC KPI",pct(data.kpi?.final_soc)],
-      ["Battery throughput",data.kpi?.battery_throughput_kwh == null ? "Unavailable" : fmt(data.kpi.battery_throughput_kwh,3)+" kWh"],
-      ["Advanced SOH",data.kpi?.advanced_soh == null ? "Unavailable" : fmt(data.kpi.advanced_soh,3)]
+      ["Final SOC",pct(data.kpi?.final_soc)],
+      ["Battery throughput",data.kpi?.battery_throughput_kwh==null ? "Unavailable" : fmt(data.kpi.battery_throughput_kwh,3)+" kWh"],
+      ["Advanced SOH",pct(data.kpi?.advanced_soh)]
     ]
   },
   grid:{
     eyebrow:"Utility exchange",title:"Utility grid",tag:"GRID",
     value:i=>fmt(at("grid_actual",i),3),
-    desc:"Recorded actual grid signal. The command signal is listed separately.",
+    desc:"Actual grid signal at this sample. The command series is shown separately.",
     rows:()=>[
-      ["Grid energy KPI",data.kpi?.grid_energy_kwh == null ? "Unavailable" : fmt(data.kpi.grid_energy_kwh,3)+" kWh"],
-      ["Peak demand KPI",data.kpi?.peak_kw == null ? "Unavailable" : fmt(data.kpi.peak_kw,3)+" kW"],
+      ["Grid energy",data.kpi?.grid_energy_kwh==null ? "Unavailable" : fmt(data.kpi.grid_energy_kwh,3)+" kWh"],
+      ["Peak demand",data.kpi?.peak_kw==null ? "Unavailable" : fmt(data.kpi.peak_kw,3)+" kW"],
       ["Command at sample",fmt(at("grid_command",sampleIndex()),3)]
     ]
   },
   ev:{
     eyebrow:"Electric mobility",title:"EV signals",tag:"EV",
     value:i=>fmt(at("ev_power",i),3),
-    desc:"Recorded EV power at the selected sample. Its sign is preserved; interpretation depends on the model's sign convention.",
+    desc:"Recorded EV power. The sign is preserved; its interpretation depends on the model's sign convention.",
     rows:()=>[
       ["EV state of charge",pct(at("ev_soc",sampleIndex()))],
-      ["Recorded power range",getRange("ev_power")?fmt(getRange("ev_power").min,3)+" to "+fmt(getRange("ev_power").max,3):"Unavailable"],
-      ["Max EV power KPI",data.kpi?.max_ev_power_kw == null ? "Unavailable" : fmt(data.kpi.max_ev_power_kw,3)+" kW"]
+      ["Recorded power range",getRange("ev_power") ? fmt(getRange("ev_power").min,3)+" to "+fmt(getRange("ev_power").max,3) : "Unavailable"],
+      ["Maximum EV power KPI",data.kpi?.max_ev_power_kw==null ? "Unavailable" : fmt(data.kpi.max_ev_power_kw,3)+" kW"]
     ]
   },
   home:{
     eyebrow:"System overview",title:"Smart home",tag:"OVERVIEW",
     value:()=>"Load not exported",
-    desc:"A dedicated household-load time series was not provided to this page. This inspector does not invent a direct load measurement.",
+    desc:"A dedicated household-load timeseries was not identified in the exported JSON, so this panel does not invent a load measurement.",
     rows:()=>[
       ["Direct load series","Not exported"],
-      ["Grid energy KPI",data.kpi?.grid_energy_kwh == null ? "Unavailable" : fmt(data.kpi.grid_energy_kwh,3)+" kWh"],
-      ["Load-shed duration",data.kpi?.load_shedding_seconds == null ? "Unavailable" : fmt(data.kpi.load_shedding_seconds,2)+" s"]
+      ["Grid energy",data.kpi?.grid_energy_kwh==null ? "Unavailable" : fmt(data.kpi.grid_energy_kwh,3)+" kWh"],
+      ["Load-shed duration",data.kpi?.load_shedding_seconds==null ? "Unavailable" : fmt(data.kpi.load_shedding_seconds,2)+" s"]
     ]
   }
 };
@@ -1055,49 +889,49 @@ function sampleIndex() {
 }
 
 function selectNode(key) {
-  if (!data) return;
+  if(!data) return;
   activeNode=key;
-  document.querySelectorAll(".flow-node").forEach(n=>{
-    n.classList.toggle("selected",n.dataset.node===key);
+  document.querySelectorAll(".flow-node").forEach(node=>{
+    node.classList.toggle("selected",node.dataset.node===key);
   });
 
-  const o=nodeInfo[key] || nodeInfo.home;
-  put("inspectEyebrow",o.eyebrow);
-  put("inspectTitle",o.title);
-  put("inspectTag",o.tag);
-  put("inspectValue",o.value(sampleIndex()));
-  put("inspectDescription",o.desc);
+  const info=nodeInfo[key] || nodeInfo.home;
+  put("inspectEyebrow",info.eyebrow);
+  put("inspectTitle",info.title);
+  put("inspectTag",info.tag);
+  put("inspectValue",info.value(sampleIndex()));
+  put("inspectDescription",info.desc);
 
-  $("inspectRows").innerHTML=o.rows().map(r=>
-    '<div class="inspect-row"><span>'+esc(r[0])+
-    '</span><b>'+esc(r[1])+'</b></div>'
+  $("inspectRows").innerHTML=info.rows().map(row=>
+    '<div class="inspect-row"><span>'+esc(row[0])+'</span><b>'+esc(row[1])+'</b></div>'
   ).join("");
 
-  const wires={
+  const wireMap={
     solar:["wireSolar"],
     grid:[],
     battery:["wireBattery","wireHome"],
     home:["wireSolar","wireHome","wireEV"],
     ev:["wireEV"]
   };
-  document.querySelectorAll(".flow-wire").forEach(w=>{
-    w.classList.toggle("active",(wires[key]||[]).includes(w.id));
+
+  document.querySelectorAll(".flow-wire").forEach(wire=>{
+    wire.classList.toggle("active",(wireMap[key]||[]).includes(wire.id));
   });
 }
 
-function updateSample(i) {
+function updateSample(index) {
   const count=sampleCount();
-  put("sampleLabel",(i+1).toLocaleString("en-IN")+" / "+count.toLocaleString("en-IN"));
-  put("flowSample","SAMPLE "+(i+1).toLocaleString("en-IN"));
+  put("sampleLabel",(index+1).toLocaleString("en-IN")+" / "+count.toLocaleString("en-IN"));
+  put("flowSample","SAMPLE "+(index+1).toLocaleString("en-IN"));
   selectNode(activeNode);
 }
 
-/* CANVAS CHARTS */
-function drawChart(id,legendId,series) {
-  const canvas=$(id);
-  if (!canvas) return;
+/* Generic chart drawing function */
+function drawChart(canvasId,legendId,series) {
+  const canvas=$(canvasId);
+  if(!canvas) return;
   const rect=canvas.getBoundingClientRect();
-  if (rect.width<1) return;
+  if(rect.width<1) return;
 
   const ctx=canvas.getContext("2d");
   const dpr=window.devicePixelRatio||1;
@@ -1105,69 +939,117 @@ function drawChart(id,legendId,series) {
   canvas.height=Math.round(rect.height*dpr);
   ctx.setTransform(dpr,0,0,dpr,0,0);
 
-  const w=rect.width,h=rect.height;
-  const left=39,right=9,top=12,bottom=24;
-  const pw=w-left-right,ph=h-top-bottom;
-  ctx.clearRect(0,0,w,h);
+  const width=rect.width;
+  const height=rect.height;
+  const left=48,right=10,top=13,bottom=27;
+  const plotWidth=width-left-right;
+  const plotHeight=height-top-bottom;
 
-  const valid=series.map(s=>({
-    ...s,values:s.values.map(v=>v==null||!Number.isFinite(Number(v))?null:Number(v))
+  ctx.clearRect(0,0,width,height);
+
+  const cleaned=series.map(item=>({
+    ...item,
+    values:item.values.map(v=>{
+      if(v===null || v===undefined || v==="" || !Number.isFinite(Number(v))) return null;
+      return Number(v);
+    })
   }));
-  const all=valid.flatMap(s=>s.values.filter(v=>v!==null));
 
-  if (!all.length) {
-    ctx.fillStyle="#9bb0a4";ctx.font="12px system-ui";
-    ctx.fillText("Data unavailable",left,top+24);
+  const allValues=cleaned.flatMap(item=>item.values.filter(v=>v!==null));
+
+  if(!allValues.length) {
+    ctx.fillStyle="#b3c4b8";
+    ctx.font="13px system-ui";
+    ctx.fillText("Data unavailable",left,top+25);
     $(legendId).innerHTML="";
     return;
   }
 
-  let min=Math.min(...all),max=Math.max(...all);
-  if(min===max){min-=1;max+=1}
-  const pad=(max-min)*.09;
-  min-=pad;max+=pad;
+  let min=Math.min(...allValues);
+  let max=Math.max(...allValues);
 
-  ctx.font="10px system-ui";
-  for(let g=0;g<=4;g++){
-    const y=top+ph*g/4;
-    const v=max-(max-min)*g/4;
-    ctx.strokeStyle="#294237";ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(w-right,y);ctx.stroke();
-    ctx.fillStyle="#91a99a";ctx.textAlign="left";
-    ctx.fillText(fmt(v,2),2,y+3);
+  if(min===max) { min-=1; max+=1; }
+
+  const padding=(max-min)*.09;
+  min-=padding;
+  max+=padding;
+
+  ctx.font="11px system-ui";
+
+  for(let g=0;g<=4;g++) {
+    const y=top+plotHeight*g/4;
+    const value=max-(max-min)*g/4;
+
+    ctx.strokeStyle="#294237";
+    ctx.lineWidth=1;
+    ctx.beginPath();
+    ctx.moveTo(left,y);
+    ctx.lineTo(width-right,y);
+    ctx.stroke();
+
+    ctx.fillStyle="#b3c4b8";
+    ctx.textAlign="left";
+    ctx.fillText(fmt(value,2),2,y+4);
   }
 
-  ctx.fillStyle="#91a99a";ctx.textAlign="left";ctx.fillText("Start",left,h-5);
-  ctx.textAlign="right";ctx.fillText("End",w-right,h-5);
+  ctx.fillStyle="#b3c4b8";
+  ctx.textAlign="left";
+  ctx.fillText("Start",left,height-5);
+  ctx.textAlign="right";
+  ctx.fillText("End",width-right,height-5);
 
-  valid.forEach(s=>{
-    const n=s.values.length;
-    if(!n)return;
-    ctx.beginPath();ctx.strokeStyle=s.color;ctx.lineWidth=2;
-    ctx.lineJoin="round";ctx.lineCap="round";
+  cleaned.forEach(item=>{
+    const n=item.values.length;
+    if(!n) return;
+
+    ctx.beginPath();
+    ctx.strokeStyle=item.color;
+    ctx.lineWidth=2.2;
+    ctx.lineJoin="round";
+    ctx.lineCap="round";
+
     let started=false;
-    for(let i=0;i<n;i++){
-      const v=s.values[i];
-      if(v===null){started=false;continue}
-      const x=left+(n===1?0:i/(n-1))*pw;
-      const y=top+(max-v)/(max-min)*ph;
-      if(!started){ctx.moveTo(x,y);started=true}
-      else ctx.lineTo(x,y);
+
+    for(let i=0;i<n;i++) {
+      const value=item.values[i];
+
+      if(value===null) {
+        started=false;
+        continue;
+      }
+
+      const x=left+(n===1?0:i/(n-1))*plotWidth;
+      const y=top+(max-value)/(max-min)*plotHeight;
+
+      if(!started) {
+        ctx.moveTo(x,y);
+        started=true;
+      } else {
+        ctx.lineTo(x,y);
+      }
     }
+
     ctx.stroke();
   });
 
-  $(legendId).innerHTML=valid.map(s=>
-    '<span><i style="background:'+s.color+'"></i>'+esc(s.label)+'</span>'
-  ).join("");
+  $(legendId).innerHTML=cleaned
+    .filter(item=>item.values.length)
+    .map(item=>'<span><i style="background:'+item.color+'"></i>'+esc(item.label)+'</span>')
+    .join("");
 }
 
+/* SOC chart input conversion */
+function socSeries(key) {
+  return arr(key).map(value=>ratioToPercent(value));
+}
+
+/* Charts */
 function renderCharts() {
-  if(!data)return;
+  if(!data) return;
 
   drawChart("chartSoc","legendSoc",[
-    {label:"Battery SOC",values:arr("soc"),color:palette.cyan},
-    {label:"EV SOC",values:arr("ev_soc"),color:palette.mint}
+    {label:"Battery SOC",values:socSeries("soc"),color:palette.cyan},
+    {label:"EV SOC",values:socSeries("ev_soc"),color:palette.mint}
   ]);
 
   drawChart("chartGrid","legendGrid",[
@@ -1175,9 +1057,45 @@ function renderCharts() {
     {label:"Grid actual",values:arr("grid_actual"),color:palette.amber}
   ]);
 
-  drawChart("chartSolar","legendSolar",[
-    {label:"Solar",values:arr("solar"),color:palette.amber}
+  /*
+    Solar chart:
+    1. The amber line is the recorded solar signal.
+    2. The cyan line is plotted only from an exported numerical forecast array.
+    3. Scope PNG files cannot supply numerical points to this chart.
+  */
+  const forecast=getArray([
+    "solar_forecast",
+    "P_solar_pred",
+    "solar_pred",
+    "solar_ml_forecast",
+    "selected_solar_forecast"
   ]);
+
+  const solarSeries=[
+    {label:"Actual solar",values:arr("solar"),color:palette.amber}
+  ];
+
+  if(forecast.values.length) {
+    solarSeries.push({
+      label:"Solar forecast",
+      values:forecast.values,
+      color:palette.cyan
+    });
+
+    put(
+      "solarForecastNote",
+      "Showing actual solar and numerical forecast data from the JSON field \""+forecast.key+"\"."
+    );
+    $("solarForecastNote").classList.remove("warning");
+  } else {
+    put(
+      "solarForecastNote",
+      "Forecast data unavailable: the JSON currently exposes the actual solar series but no numerical forecast array. The cyan forecast line will appear after you export the actual forecast values from Simulink."
+    );
+    $("solarForecastNote").classList.add("warning");
+  }
+
+  drawChart("chartSolar","legendSolar",solarSeries);
 
   drawChart("chartCost","legendCost",[
     {label:"Cost",values:arr("cost"),color:palette.cyan},
@@ -1185,35 +1103,56 @@ function renderCharts() {
   ]);
 }
 
-/* SCENARIO TABLE */
+/* Render the five saved scenario rows */
 function renderScenarioTable() {
-  const rows=Array.isArray(data.scenario_comparison)?data.scenario_comparison:[];
+  const rows=Array.isArray(data.scenario_comparison) ? data.scenario_comparison : [];
+
   if(!rows.length) {
     $("scenarioRows").innerHTML='<tr><td colspan="8">No scenario_comparison rows found.</td></tr>';
-    put("scenarioMeta","No saved scenario comparison is available in the JSON.");
+    put("scenarioMeta","No saved scenario comparison is available.");
     return;
   }
 
   const fields=[
-    "Scenario_Name","Final_SOC_Percent","Grid_Energy_kWh","Intelligent_Cost",
-    "Peak_Demand_kW","CO2_kg","Battery_Throughput_kWh","Load_Shed_Duration_s"
+    "Scenario_Name",
+    "Final_SOC_Percent",
+    "Grid_Energy_kWh",
+    "Intelligent_Cost",
+    "Peak_Demand_kW",
+    "CO2_kg",
+    "Battery_Throughput_kWh",
+    "Load_Shed_Duration_s"
   ];
 
   $("scenarioRows").innerHTML=rows.map((row,index)=>{
     const cells=fields.map((field,j)=>{
       let value=row[field];
-      if(value==null && field==="Scenario_Name") value=row.Scenario ?? ("Scenario "+(index+1));
-      if(value==null)return "<td>Unavailable</td>";
-      if(j===0)return "<td>"+esc(value)+"</td>";
-      return "<td>"+(Number.isFinite(Number(value))?fmt(value,3):esc(value))+"</td>";
+
+      if(value==null && field==="Scenario_Name") {
+        value=row.Scenario ?? ("Scenario "+(index+1));
+      }
+
+      if(value==null) return "<td>Unavailable</td>";
+
+      if(j===0) return "<td>"+esc(value)+"</td>";
+
+      if(field==="Final_SOC_Percent") {
+        return "<td>"+fmt(value,2)+"%</td>";
+      }
+
+      return "<td>"+(Number.isFinite(Number(value)) ? fmt(value,4) : esc(value))+"</td>";
     });
+
     return "<tr>"+cells.join("")+"</tr>";
   }).join("");
 
-  put("scenarioMeta","Loaded "+rows.length+" saved scenario rows from dashboard_data.json.");
+  put(
+    "scenarioMeta",
+    "Loaded "+rows.length+" saved scenarios. Confirm the units of Intelligent_Cost before describing it as a currency."
+  );
 }
 
-/* ILLUSTRATIVE WHAT-IF LAB */
+/* Clearly illustrative What-If lab */
 function calculateLab() {
   const solar=+$("solarIn").value;
   const load=+$("loadIn").value;
@@ -1228,12 +1167,12 @@ function calculateLab() {
 
   if(!connected) {
     mode="EV disconnected";
-    reason="The EV is unavailable, so the illustrative rule leaves EV power at zero.";
+    reason="The EV is unavailable, so this illustrative rule leaves EV power at zero.";
   } else if(!grid) {
     if(net>0 && soc>.2) {
       cmd=Math.min(net,7);
       mode="Illustrative EV support";
-      reason="A grid outage and load deficit are assumed. The rule requests EV support up to 7 kW while SOC is above 20%.";
+      reason="A grid outage and load deficit are assumed. This rule requests EV support up to 7 kW while SOC is above 20%.";
     } else if(net>0) {
       mode="SOC guardrail";
       reason="Demand exceeds solar, but EV SOC is at or below the assumed lower threshold.";
@@ -1245,7 +1184,7 @@ function calculateLab() {
     if(soc<.9) {
       cmd=-Math.min(-net,7);
       mode="Illustrative solar charging";
-      reason="Solar exceeds demand. Under this assumed convention, the rule requests EV charging from surplus up to 7 kW.";
+      reason="Solar exceeds demand. Under this assumed convention, the rule requests EV charging from the surplus.";
     } else {
       mode="SOC upper limit";
       reason="EV SOC is at or above the assumed 90% upper threshold.";
@@ -1254,36 +1193,37 @@ function calculateLab() {
     if(soc>.2) {
       cmd=Math.min(net,7);
       mode="Illustrative peak support";
-      reason="The price index is at least 0.35 and demand exceeds solar. The rule requests support up to 7 kW.";
+      reason="The price index is high and demand exceeds solar. This illustrative rule requests EV support up to 7 kW.";
     } else {
       mode="SOC guardrail";
-      reason="Demand exceeds solar but the selected EV SOC is too low for this illustrative rule.";
+      reason="EV SOC is too low for this illustrative support rule.";
     }
   } else if(net>0) {
     mode="Grid supplies deficit";
     reason="Demand exceeds solar, but the price index is below 0.35, so this rule does not request EV support.";
   } else {
     mode="Balanced";
-    reason="Solar and demand are balanced; no EV power command is required.";
+    reason="Solar and demand are balanced; no EV power request is needed.";
   }
 
   const charge=Math.max(0,-cmd);
   const discharge=Math.max(0,cmd);
   const netGrid=load+charge-solar-discharge;
-  const gridImport=grid?Math.max(0,netGrid):0;
-  const unserved=grid?0:Math.max(0,netGrid);
-  const baseline=grid?Math.max(0,load-solar):0;
-  const baselineUnserved=grid?0:Math.max(0,load-solar);
+  const gridImport=grid ? Math.max(0,netGrid) : 0;
+  const unserved=grid ? 0 : Math.max(0,netGrid);
+  const baseline=grid ? Math.max(0,load-solar) : 0;
+  const baselineUnserved=grid ? 0 : Math.max(0,load-solar);
 
   return {
     solar,load,price,tariff,soc,grid,connected,cmd,mode,reason,
-    gridImport,unserved,cost:gridImport*tariff,baseline,baselineUnserved,
-    baselineCost:baseline*tariff
+    gridImport,unserved,cost:gridImport*tariff,
+    baseline,baselineUnserved,baselineCost:baseline*tariff
   };
 }
 
 function updateLab() {
   const s=calculateLab();
+
   put("solarOut",fmt(s.solar,1)+" kW");
   put("loadOut",fmt(s.load,1)+" kW");
   put("priceOut",fmt(s.price,2));
@@ -1293,35 +1233,39 @@ function updateLab() {
   put("labGrid",fmt(s.gridImport,2)+" kW");
   put("labCost","₹"+fmt(s.cost,2));
   put("labUnserved",fmt(s.unserved,2)+" kW");
-  put("recTitle",s.cmd>0?"EV support requested":s.cmd<0?"EV charging requested":s.mode);
+  put("recTitle",s.mode);
   put("recText",s.reason);
 
-  const base=s.grid?s.baseline:s.baselineUnserved;
-  const managed=s.grid?s.gridImport:s.unserved;
-  const max=Math.max(base,managed,.1);
+  const baseline=s.grid ? s.baseline : s.baselineUnserved;
+  const scenario=s.grid ? s.gridImport : s.unserved;
+  const maximum=Math.max(baseline,scenario,.1);
 
   put("baseLabel",s.grid?"Grid-only baseline":"Baseline unserved load");
   put("managedLabel",s.grid?"Illustrative scenario":"Scenario unserved load");
-  put("baseVal",fmt(base,2)+" kW");
-  put("managedVal",fmt(managed,2)+" kW");
-  $("baseBar").style.width=(base/max*100)+"%";
-  $("managedBar").style.width=(managed/max*100)+"%";
+  put("baseVal",fmt(baseline,2)+" kW");
+  put("managedVal",fmt(scenario,2)+" kW");
+
+  $("baseBar").style.width=(baseline/maximum*100)+"%";
+  $("managedBar").style.width=(scenario/maximum*100)+"%";
 
   put("comparisonNote",s.grid
-    ?"Illustrative one-hour estimate: baseline cost ₹"+fmt(s.baselineCost,2)+
-      "; scenario cost ₹"+fmt(s.cost,2)+". These are lab assumptions, not saved simulation results."
-    :"Grid import and cost are zero by assumption during an outage. Baseline unserved load: "+
-      fmt(s.baselineUnserved,2)+" kW; illustrative scenario unserved load: "+fmt(s.unserved,2)+" kW.");
+    ? "One-hour illustrative estimate: baseline cost ₹"+fmt(s.baselineCost,2)+
+      ", scenario cost ₹"+fmt(s.cost,2)+". These are lab assumptions, not recorded simulation results."
+    : "During the assumed outage, grid import and cost are zero by assumption. Baseline unserved load: "+
+      fmt(s.baselineUnserved,2)+" kW; scenario unserved load: "+fmt(s.unserved,2)+" kW."
+  );
 }
 
-/* SCOPE GALLERY */
+/* Scope image modal */
 function openScope(button) {
   const img=button.querySelector("img");
-  if(!img)return;
+  if(!img) return;
+
   const modal=$("scopeModal");
-  $("scopeModalTitle").textContent=img.alt||"Scope graph";
+  $("scopeModalTitle").textContent=img.alt || "Scope graph";
   $("scopeModalImage").src=img.src;
   $("scopeModalImage").alt=img.alt;
+
   if(typeof modal.showModal==="function") modal.showModal();
   else window.open(img.src,"_blank","noopener");
 }
@@ -1330,9 +1274,11 @@ function setupScopeGallery() {
   document.querySelectorAll(".scope-filter").forEach(button=>{
     button.addEventListener("click",()=>{
       const filter=button.dataset.filter;
-      document.querySelectorAll(".scope-filter").forEach(b=>{
-        b.classList.toggle("active",b===button);
+
+      document.querySelectorAll(".scope-filter").forEach(item=>{
+        item.classList.toggle("active",item===button);
       });
+
       document.querySelectorAll(".scope-card").forEach(card=>{
         card.hidden=filter!=="all" && card.dataset.category!==filter;
       });
@@ -1352,20 +1298,22 @@ function setupScopeGallery() {
   });
 
   $("closeScope").addEventListener("click",()=>$("scopeModal").close());
+
   $("scopeModal").addEventListener("click",event=>{
     if(event.target===$("scopeModal")) $("scopeModal").close();
   });
 }
 
-/* LOAD JSON */
+/* Load the existing exported JSON */
 async function loadData() {
   put("dataStatus","Loading dashboard_data.json…");
 
   try {
     const response=await fetch("./dashboard_data.json",{cache:"no-store"});
-    if(!response.ok)throw new Error("HTTP "+response.status);
+    if(!response.ok) throw new Error("HTTP "+response.status);
 
     data=await response.json();
+
     renderKpis();
     renderScenarioTable();
     renderCharts();
@@ -1373,22 +1321,32 @@ async function loadData() {
     updateLab();
   } catch(error) {
     console.error("HEMS data loading error:",error);
+
     put("headerStatus","DATA UNAVAILABLE");
-    put("dataStatus","Could not load dashboard_data.json. Keep it beside index.html and serve the site through GitHub Pages or a local web server.");
+    put(
+      "dataStatus",
+      "Could not load dashboard_data.json. Keep it beside index.html and use Live Server or GitHub Pages."
+    );
     put("scenarioMeta","Scenario data unavailable: "+error.message);
-    $("scenarioRows").innerHTML='<tr><td colspan="8">Could not load dashboard_data.json. Check the file path and browser console.</td></tr>';
+
+    $("scenarioRows").innerHTML=
+      '<tr><td colspan="8">Could not load dashboard_data.json. Check the file path and browser console.</td></tr>';
+    put(
+      "solarForecastNote",
+      "The chart cannot load because dashboard_data.json is unavailable."
+    );
   }
 }
 
-/* NAVIGATION AND EVENT HANDLERS */
+/* Event handling */
 function bindEvents() {
   $("menuBtn").addEventListener("click",()=>{
     const open=$("navlinks").classList.toggle("open");
     $("menuBtn").setAttribute("aria-expanded",String(open));
   });
 
-  document.querySelectorAll(".navlinks a").forEach(a=>{
-    a.addEventListener("click",()=>{
+  document.querySelectorAll(".navlinks a").forEach(link=>{
+    link.addEventListener("click",()=>{
       $("navlinks").classList.remove("open");
       $("menuBtn").setAttribute("aria-expanded","false");
     });
@@ -1400,13 +1358,17 @@ function bindEvents() {
 
   $("sampleSlider").addEventListener("input",()=>updateSample(sampleIndex()));
 
-  ["solarIn","loadIn","priceIn","tariffIn","evSocIn","gridIn","evConnected"].forEach(id=>{
+  [
+    "solarIn","loadIn","priceIn","tariffIn",
+    "evSocIn","gridIn","evConnected"
+  ].forEach(id=>{
     $(id).addEventListener("input",updateLab);
     $(id).addEventListener("change",updateLab);
   });
 
   $("runLab").addEventListener("click",()=>{
-    updateLab();toast("Illustrative scenario recalculated");
+    updateLab();
+    toast("Illustrative scenario recalculated");
   });
 
   $("resetLab").addEventListener("click",()=>{
@@ -1431,23 +1393,27 @@ function bindEvents() {
 
   window.addEventListener("scroll",()=>{
     const max=document.documentElement.scrollHeight-innerHeight;
-    $("progress").style.width=(max>0?scrollY/max*100:0)+"%";
+    $("progress").style.width=(max>0 ? scrollY/max*100 : 0)+"%";
     $("topbar").classList.toggle("scrolled",scrollY>20);
+
     let active="overview";
     document.querySelectorAll("main section[id]").forEach(section=>{
-      if(section.getBoundingClientRect().top<150)active=section.id;
+      if(section.getBoundingClientRect().top<150) active=section.id;
     });
-    document.querySelectorAll(".navlinks a").forEach(a=>{
-      a.classList.toggle("active",a.getAttribute("href")==="#"+active);
+
+    document.querySelectorAll(".navlinks a").forEach(link=>{
+      link.classList.toggle("active",link.getAttribute("href")==="#"+active);
     });
   },{passive:true});
 }
 
+/* Reveal sections when they enter the viewport */
 function setupReveal() {
   if(!("IntersectionObserver" in window)) {
     document.querySelectorAll(".reveal").forEach(el=>el.classList.add("in"));
     return;
   }
+
   const observer=new IntersectionObserver(entries=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting) {
@@ -1456,6 +1422,7 @@ function setupReveal() {
       }
     });
   },{threshold:.08});
+
   document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
 }
 
@@ -1467,3 +1434,4 @@ loadData();
 </script>
 </body>
 </html>
+  
